@@ -40,7 +40,7 @@ function Dropdown() {
   };
   return (
     <div class="flex flex-col mt-5">
-      <div class="max-w-xs w-full md:w-1/2 flex flex-col items-center h-64">
+      <div class="max-w-xs w-full md:w-1/2 flex flex-col items-center">
         <div class="w-full">
           <div class="flex flex-col items-center relative">
             <div class="absolute shadow bg-white top-100 z-40 w-full lef-0 rounded max-h-select overflow-y-auto svelte-5uyqqj">
@@ -64,7 +64,7 @@ function Dropdown() {
                     value={postTarget.name}
                   />
                   <div
-                    class="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200"
+                    className="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200"
                     onClick={() => setToggleDropdown((cur) => !cur)}
                   >
                     <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
@@ -77,7 +77,7 @@ function Dropdown() {
               {/* Lists */}
               {toggleDropdown && (
                 <>
-                  <div className="flex flex-col w-full">
+                  <div className="flex flex-col w-full max-h-64 overflow-y-scroll">
                     <div className="cursor-pointer w-full border-gray-100 rounded-t border-b hover:bg-teal-100">
                       <div className="flex justify-between  items-center mt-2 ml-5">
                         <div className="text-xs font-bold text-gray-500">

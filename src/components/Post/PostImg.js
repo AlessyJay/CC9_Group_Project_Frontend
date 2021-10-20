@@ -1,13 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Dropdown from './Dropdown';
-
+import { FaFileAlt } from 'react-icons/fa';
+import { ImImages } from 'react-icons/im';
+import 'react-quill/dist/quill.snow.css';
+import ReactQuill from 'react-quill';
+import EditorToolbar, { modules, formats } from './EditorToolbar';
 function PostImg() {
+  const [postContent, setPostContent] = useState({
+    title: '',
+    type: '',
+    content: '',
+  });
+  const [titleLength, setTitleLength] = useState(0);
+  const handleChangePostContent = (e) => {
+    if (e.target.name === 'title') {
+      setTitleLength(e.target.value.length);
+      setPostContent((cur) => ({ ...cur, title: e.target.value }));
+    } else {
+      setPostContent((cur) => ({ ...cur, [e.target.name]: e.target.value }));
+    }
+  };
+
+  const [userInfo, setuserInfo] = useState({
+    title: '',
+    description: '',
+    information: '',
+  });
+  const onChangeValue = (e) => {
+    setuserInfo({
+      ...userInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const ondescription = (value) => {
+    setuserInfo({ ...userInfo, description: value });
+  };
   return (
     <div className="overflow-x-hidden bg-gray-100">
       <div className="px-6 py-8">
         <div className="container flex justify-between mx-auto">
-          <div className="w-full lg:w-8/12 mx-auto content-center">
+          <div className="w-full lg:w-8/12 mx-auto content-center ">
             {/* Header Create */}
             <div className=" max-w-3xl flex items-center justify-between  border-b-2 border-gray-300 pb-2 ">
               <h1 className="text-xl font-bold text-gray-700 md:text-2xl">
@@ -29,47 +62,94 @@ function PostImg() {
             <Dropdown />
 
             {/* Main  */}
-            <div className="mt-6">
-              <div className="max-w-4xl px-10 py-6 mx-auto bg-white rounded-lg shadow-md">
-                <div className="flex items-center justify-between">
-                  <span className="font-light text-gray-600">Jun 1, 2020</span>
-                  <a
-                    href="#"
-                    className="px-2 py-1 font-bold text-gray-100 bg-gray-600 rounded hover:bg-gray-500"
-                  >
-                    Laravel
-                  </a>
+            <div className="mt-12 max-w-3xl flex flex-col">
+              <div class="grid grid-cols-2 ">
+                {/* <!-- Active: "ring-2 ring-indigo-500" --> */}
+                <label className="group relative border rounded-tl-lg py-3 px-4 flex items-center justify-center text-sm font-medium  hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="size-choice"
+                    value="XXS"
+                    class="sr-only"
+                    aria-labelledby="size-choice-0-label"
+                  />
+                  <FaFileAlt className="text-blue-600 mr-2" />
+                  <p id="size-choice-0-label">Post</p>
+
+                  {/* <!--
+                          Active: "border", Not Active: "border-2"
+                          Checked: "border-indigo-500", Not Checked: "border-transparent"
+                        --> */}
+                  <div
+                    class="absolute -inset-px  pointer-events-none"
+                    aria-hidden="true"
+                  ></div>
+                </label>
+
+                {/* <!-- Active: "ring-2 ring-indigo-500" --> */}
+                <label class="group relative border rounded-tr-lg py-3 px-4 flex items-center justify-center text-sm font-medium  hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="size-choice"
+                    value="XS"
+                    class="sr-only"
+                    aria-labelledby="size-choice-1-label"
+                  />
+
+                  <ImImages className="text-blue-600 mr-2 text-base" />
+                  <p id="size-choice-1-label">Image &amp; Video</p>
+
+                  {/* <!--
+                          Active: "border", Not Active: "border-2"
+                          Checked: "border-indigo-500", Not Checked: "border-transparent"
+                        --> */}
+                  <div
+                    class="absolute -inset-px rounded-md pointer-events-none"
+                    aria-hidden="true"
+                  ></div>
+                </label>
+              </div>
+
+              <div className="flex justify-center bg-white py-3 relative ">
+                <input
+                  className="overflow-ellipsis overflow-hidden py-1 pl-5 pr-16 border-black border  w-11/12 shadow-sm sm:text-sm rounded place-content-center align-middle"
+                  type="text"
+                  name="title"
+                  placeholder="title"
+                  autocomplete="address-level1"
+                  value={postContent.title}
+                  onChange={handleChangePostContent}
+                  maxLength="100"
+                />
+                <div
+                  className={`absolute right-0 mr-10 text-xs top-4 pt-0.5  ${
+                    titleLength === 100 ? 'text-red-600' : ''
+                  }`}
+                >{`${titleLength} / 100 `}</div>
+              </div>
+
+              <div className="bg-white w-full">
+                <div className="w-11/12 mx-auto bg-gray-50">
+                  <EditorToolbar toolbarId={'t1'} />
+                  <ReactQuill
+                    theme="snow"
+                    value={userInfo.description}
+                    onChange={ondescription}
+                    placeholder={'Write something awesome...'}
+                    modules={modules('t1')}
+                    formats={formats}
+                  />
                 </div>
-                <div className="mt-2">
-                  <a
-                    href="#"
-                    className="text-2xl font-bold text-gray-700 hover:underline"
-                  >
-                    Build Your New Idea with Laravel Freamwork.
-                  </a>
-                  <p className="mt-2 text-gray-600">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Tempora expedita dicta totam aspernatur doloremque.
-                    Excepturi iste iusto eos enim reprehenderit nisi, accusamus
-                    delectus nihil quis facere in modi ratione libero!
-                  </p>
-                </div>
-                <div className="flex items-center justify-between mt-4">
-                  <a href="#" className="text-blue-500 hover:underline">
-                    Read more
-                  </a>
-                  <div>
-                    <a href="#" class="flex items-center">
-                      <img
-                        src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=731&amp;q=80"
-                        alt="avatar"
-                        className="hidden object-cover w-10 h-10 mx-4 rounded-full sm:block"
-                      />
-                      <h1 className="font-bold text-gray-700 hover:underline">
-                        Alex John
-                      </h1>
-                    </a>
-                  </div>
+              </div>
+
+              <div className="bg-white w-full">
+                <div className="w-11/12 mx-auto flex justify-end ">
+                  <button className="border-2 border-blue-500 rounded-full font-semibold my-5 text-blue-500 px-4  transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white mr-6 ">
+                    Save Draft
+                  </button>
+                  <button className="bg-blue-500 rounded-full font-semibold my-5 text-white px-4 py-1 transition duration-300 ease-in-out ">
+                    Post
+                  </button>
                 </div>
               </div>
             </div>
