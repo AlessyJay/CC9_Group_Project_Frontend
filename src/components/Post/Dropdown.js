@@ -41,7 +41,7 @@ function Dropdown() {
   return (
     <div class="flex flex-col mt-5">
       <div class="max-w-xs w-full md:w-1/2 flex flex-col items-center h-64">
-        <div class="w-full px-4">
+        <div class="w-full">
           <div class="flex flex-col items-center relative">
             <div class="absolute shadow bg-white top-100 z-40 w-full lef-0 rounded max-h-select overflow-y-auto svelte-5uyqqj">
               {/* Input */}

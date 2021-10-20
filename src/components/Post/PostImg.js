@@ -9,7 +9,7 @@ function PostImg() {
         <div className="container flex justify-between mx-auto">
           <div className="w-full lg:w-8/12 mx-auto content-center">
             {/* Header Create */}
-            <div className=" max-w-4xl flex items-center justify-between  border-b-2 border-gray-300 pb-2 ">
+            <div className=" max-w-3xl flex items-center justify-between  border-b-2 border-gray-300 pb-2 ">
               <h1 className="text-xl font-bold text-gray-700 md:text-2xl">
                 Create Post
               </h1>
@@ -27,6 +27,7 @@ function PostImg() {
             </div>
             {/* Dropdown on click */}
             <Dropdown />
+
             {/* Main  */}
             <div className="mt-6">
               <div className="max-w-4xl px-10 py-6 mx-auto bg-white rounded-lg shadow-md">
