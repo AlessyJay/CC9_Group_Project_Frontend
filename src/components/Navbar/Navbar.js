@@ -1,34 +1,52 @@
 import React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from 'react-router-dom';
+
 function Navbar() {
   return (
-    <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
+    <nav className="px-6 py-4 bg-white shadow">
+      <div className="container flex flex-col mx-auto md:flex-row md:items-center md:justify-between">
+        <div className="flex items-center justify-between">
+          <div>
+            <Link
+              to={'/'}
+              className="text-xl font-bold text-gray-800 md:text-2xl"
             >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              News
-            </Typography>
-            <Button color="inherit">Login</Button>
-          </Toolbar>
-        </AppBar>
-      </Box>
-    </>
+              Brand
+            </Link>
+          </div>
+          <div>
+            <button
+              type="button"
+              className="block text-gray-800 hover:text-gray-600 focus:text-gray-600 focus:outline-none md:hidden"
+            >
+              <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
+                <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div className="flex-col hidden md:flex md:flex-row md:-mx-4">
+          <Link
+            to={'/'}
+            className="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0"
+          >
+            Home
+          </Link>
+          <Link
+            to={'/'}
+            className="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0"
+          >
+            Blog
+          </Link>
+          <Link
+            to={'/'}
+            className="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0"
+          >
+            About us
+          </Link>
+        </div>
+      </div>
+    </nav>
   );
 }
 
