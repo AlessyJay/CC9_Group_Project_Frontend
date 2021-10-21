@@ -36,7 +36,14 @@ function FeedBox() {
             src="https://images.pexels.com/photos/4587991/pexels-photo-4587991.jpeg?cs=srgb&dl=pexels-anna-shvets-4587991.jpg&fm=jpg"
             style={{ border: "double 2px black" }}
           />
-          <h4 className="username">John</h4>
+          <h4 className="username">
+            John{" "}
+            <span
+              style={{ opacity: "0.5", fontSize: "12px", marginLeft: "3%" }}
+            >
+              Posted by: John TIME
+            </span>
+          </h4>
 
           {/* Title */}
           <h3 className="title">This community is good!</h3>
@@ -51,7 +58,6 @@ function FeedBox() {
           {/* Comment, share, save, and more button start here */}
           <div className="functionBtn" style={{ margin: "1%" }}>
             <Button startIcon={<MessageIcon />}>0 Comments</Button>
-            <Button startIcon={<ShareIcon />}>Share</Button>
             <Button startIcon={<TurnedInNotIcon />}>Save</Button>
             <Button startIcon={<MoreHorizIcon />}></Button>
           </div>

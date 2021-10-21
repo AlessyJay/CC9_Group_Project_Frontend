@@ -1,9 +1,9 @@
-import Navbar from "./components/Navbar/Navbar";
-import FeedBox from "./components/newsFeed/FeedBox";
-import Popular from "./components/newsFeed/Popular";
-import SideCard from "./components/newsFeed/SideCard";
-import CreatePostAndCommunity from "./components/newsFeed/CreatePostAndCommunity";
-import Footer from "./components/Footer/Footer";
+import Navbar from "../../Navbar/Navbar";
+import FeedBox from "../../newsFeed/FeedBox";
+import Popular from "../../newsFeed/Popular";
+import SideCard from "../../newsFeed/SideCard";
+import CreatePostAndCommunity from "../../newsFeed/CreatePostAndCommunity";
+import Footer from "../../Footer/Footer";
 
 function Main() {
   return (
