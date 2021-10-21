@@ -3,12 +3,13 @@ import PostImg from './components/Post/PostImg';
 import PostText from './components/Post/PostText';
 import Header from './components/Header';
 import Login from './components/Login';
+import LoginFacebook from './components/LoginFacebook';
 function App() {
   return (
     <BrowserRouter>
       <Header />
       <Switch>
-        <Route path="login" component={Login} />
+        <Route path="/login" component={Login} />
         <Route path="/5" component={PostImg} />
         <Route path="/" component={PostText} />
       </Switch>

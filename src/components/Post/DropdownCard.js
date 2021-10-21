@@ -1,13 +1,18 @@
 import React from 'react';
 
-function DropdownCard({ item, handleSelectTargetPost }) {
-  const { name, members, imgUrl } = item;
+function DropdownCard({ item, handleSelectTargetPost, setPostContent }) {
+  const { name, members, imgUrl, id } = item;
 
   return (
     <div
       className="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative   hover:bg-gray-100"
       onClick={() => {
         handleSelectTargetPost(imgUrl, name);
+        setPostContent((cur) => ({
+          ...cur,
+          communityId: id,
+          postTarget: true,
+        }));
       }}
     >
       <div className="w-6 flex flex-col items-center mx-3">

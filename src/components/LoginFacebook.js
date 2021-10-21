@@ -1,36 +1,36 @@
-import React, { useState } from "react";
-import FacebookLogin from "react-facebook-login";
-import { FaFacebookF } from "react-icons/fa";
-import { IconContext } from "react-icons";
+import React, { useState } from 'react';
+import FacebookLogin from 'react-facebook-login';
+import { FaFacebookF } from 'react-icons/fa';
+import { IconContext } from 'react-icons';
 
 function LoginFacebook() {
-  const clientId = "864275854266130";
+  const clientId = '864275854266130';
   const [isLogged, setIsLogged] = useState(false);
   const [user, setUser] = useState({
-    name: "",
-    email: "",
-    picture: "",
+    name: '',
+    email: '',
+    picture: '',
   });
-  const responseFacebook = res => {
-    console.log("Login", res);
+  const responseFacebook = (res) => {
+    console.log('Login', res);
     setIsLogged(true);
-    setUser(cur => ({
+    setUser((cur) => ({
       ...cur,
       name: res.name,
       email: res.email,
       picture: res.picture?.data?.url,
     }));
   };
-  const onLoginSuccess = res => {
+  const onLoginSuccess = (res) => {
     console.log(res);
   };
-  const onLogoutSuccess = res => {
+  const onLogoutSuccess = (res) => {
     setIsLogged(false);
   };
 
   const fa = (
     <div className="p-2.5 mr-2.5">
-      <FaFacebookF style={{ fontSize: "18px" }} />
+      <FaFacebookF style={{ fontSize: '18px' }} />
     </div>
   );
 
@@ -39,7 +39,7 @@ function LoginFacebook() {
       {!isLogged ? (
         <FacebookLogin
           appId={clientId}
-          autoLoad={true}
+          // autoLoad={true}
           fields="name,email,picture"
           callback={responseFacebook}
           onClick={onLoginSuccess}
@@ -51,11 +51,11 @@ function LoginFacebook() {
         <>
           <div
             style={{
-              margin: "10px 0",
-              display: "flex",
-              backgroundColor: "lightgray",
-              padding: "10px 40px",
-              borderRadius: "10px",
+              margin: '10px 0',
+              display: 'flex',
+              backgroundColor: 'lightgray',
+              padding: '10px 40px',
+              borderRadius: '10px',
             }}
           >
             <p>{user.name}</p>
@@ -64,13 +64,13 @@ function LoginFacebook() {
               src={user?.picture}
               alt="user-img"
               style={{
-                borderRadius: "50%",
-                border: "1px solid gray",
-                marginLeft: "5px",
+                borderRadius: '50%',
+                border: '1px solid gray',
+                marginLeft: '5px',
               }}
             />
           </div>
-          <div style={{ cursor: "pointer" }} onClick={onLogoutSuccess}>
+          <div style={{ cursor: 'pointer' }} onClick={onLogoutSuccess}>
             Sign Out
           </div>
         </>
