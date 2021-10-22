@@ -2,7 +2,6 @@ const timeDiff = (value) => {
   const newTime = new Date().getTime();
   const diff = newTime - new Date(value).getTime();
   if (diff > 1000 * 60 * 60 * 24 * 7) {
-    // console.log('week', diff / (1000 * 60 * 60 * 24 * 7));
     const time = diff / (1000 * 60 * 60 * 24 * 7);
     const x = Math.round(time);
     return `${x} week`;

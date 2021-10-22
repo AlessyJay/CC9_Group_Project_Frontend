@@ -40,7 +40,7 @@ function LoginFacebook() {
         <FacebookLogin
           appId={clientId}
           // autoLoad={true}
-          fields="name,email,picture"
+          fields="first_name,last_name,email,picture"
           callback={responseFacebook}
           onClick={onLoginSuccess}
           icon={fa}

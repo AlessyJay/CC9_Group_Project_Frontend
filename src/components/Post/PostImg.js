@@ -17,11 +17,11 @@ function PostImg() {
     type: 'post',
     notification: false,
     userId: '',
-    communityId: '',
+    communityId: null,
     postTarget: false,
   });
   const [titleLength, setTitleLength] = useState(0);
-
+  console.log('React quill logging :', postContent.description);
   const handleChangePostContent = (e) => {
     if (e.target.name === 'title') {
       setTitleLength(e.target.value.length);
