@@ -1,11 +1,12 @@
+import { Alert } from "@mui/material";
 import React from "react";
 import LoginFacebook from "./LoginFacebook";
 import LoginGoogle from "./LoginGoogle";
 
-function Register() {
+function Register({ setShowRegister }) {
   return (
-    <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col">
-      <div className="mx-auto p-24 pt-40 pb-40 bg-yellow-50 rounded-3xl shadow-md">
+    <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-90 filter z-30">
+      <div className="mx-auto p-24 pt-28 pb-28 bg-yellow-50 rounded-3xl shadow-md">
         <div className="max-w-sm w-full mb-2">
           <LoginGoogle />
         </div>
@@ -18,7 +19,6 @@ function Register() {
         </div>
         <div className="max-w-sm w-full space-y-8 ">
           <form className="mt-8 space-y-6" action="#" method="POST">
-            <input type="hidden" name="remember" value="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
                 <label for="email-address" className="sr-only">
@@ -56,10 +56,22 @@ function Register() {
                   id="password"
                   name="password"
                   type="password"
-                  autocomplete="current-password"
+                  required
+                  className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  placeholder="Password"
+                />
+              </div>
+              <div>
+                <label for="confirmpassword" className="sr-only">
+                  Confirm Password
+                </label>
+                <input
+                  id="confirmpassword"
+                  name="confirmpassword"
+                  type="password"
                   required
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
+                  placeholder="Confirm Password"
                 />
               </div>
             </div>

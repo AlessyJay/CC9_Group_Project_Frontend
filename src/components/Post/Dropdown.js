@@ -1,42 +1,42 @@
-import React, { useState } from 'react';
-import { HiChevronDown, HiOutlineUserCircle } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
-import DropdownCard from './DropdownCard';
+import React, { useState } from "react";
+import { HiChevronDown, HiOutlineUserCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
+import DropdownCard from "./DropdownCard";
 
 const MOCK_DATA = [
   {
-    name: ' r/javascript',
-    members: '10,000',
-    imgUrl: 'https://randomuser.me/api/portraits/men/85.jpg',
+    name: " r/javascript",
+    members: "10,000",
+    imgUrl: "https://randomuser.me/api/portraits/men/85.jpg",
   },
   {
-    name: ' r/dota2',
-    members: '100,000',
-    imgUrl: 'https://randomuser.me/api/portraits/men/65.jpg',
+    name: " r/dota2",
+    members: "100,000",
+    imgUrl: "https://randomuser.me/api/portraits/men/65.jpg",
   },
   {
-    name: ' r/css',
-    members: '9,000',
-    imgUrl: 'https://randomuser.me/api/portraits/men/60.jpg',
+    name: " r/css",
+    members: "9,000",
+    imgUrl: "https://randomuser.me/api/portraits/men/60.jpg",
   },
   {
-    name: ' r/tailwind',
-    members: '12,000',
-    imgUrl: 'https://randomuser.me/api/portraits/men/50.jpg',
+    name: " r/tailwind",
+    members: "12,000",
+    imgUrl: "https://randomuser.me/api/portraits/men/50.jpg",
   },
   {
-    name: ' r/tailwind',
-    members: '12,000',
-    imgUrl: 'https://randomuser.me/api/portraits/men/20.jpg',
+    name: " r/tailwind",
+    members: "12,000",
+    imgUrl: "https://randomuser.me/api/portraits/men/20.jpg",
   },
 ];
 function Dropdown() {
   const [toggleDropdown, setToggleDropdown] = useState(false);
-  const [postTarget, setPostTarget] = useState({ img: '', name: '' });
+  const [postTarget, setPostTarget] = useState({ img: "", name: "" });
 
   const handleSelectTargetPost = (url, name) => {
-    setPostTarget((cur) => ({ ...cur, img: url, name }));
-    setToggleDropdown((cur) => !cur);
+    setPostTarget(cur => ({ ...cur, img: url, name }));
+    setToggleDropdown(cur => !cur);
   };
   return (
     <div class="flex flex-col mt-5">
@@ -49,11 +49,7 @@ function Dropdown() {
                 <div class="p-0.5 bg-white flex border border-gray-200 rounded">
                   <div class="flex flex-auto flex-wrap justify-center items-center">
                     {postTarget.img ? (
-                      <img
-                        className="rounded-full w-6 h-6 mx-2"
-                        alt="A"
-                        src={postTarget.img}
-                      />
+                      <img className="rounded-full w-6 h-6 mx-2" alt="A" src={postTarget.img} />
                     ) : (
                       <HiOutlineUserCircle fontSize="1.5em" />
                     )}
@@ -65,7 +61,7 @@ function Dropdown() {
                   />
                   <div
                     class="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200"
-                    onClick={() => setToggleDropdown((cur) => !cur)}
+                    onClick={() => setToggleDropdown(cur => !cur)}
                   >
                     <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
                       <HiChevronDown />
@@ -80,17 +76,15 @@ function Dropdown() {
                   <div className="flex flex-col w-full">
                     <div className="cursor-pointer w-full border-gray-100 rounded-t border-b hover:bg-teal-100">
                       <div className="flex justify-between  items-center mt-2 ml-5">
-                        <div className="text-xs font-bold text-gray-500">
-                          My Profile
-                        </div>
+                        <div className="text-xs font-bold text-gray-500">My Profile</div>
                       </div>
 
                       <div
                         className="flex w-full items-center p-2 pl-2 border-transparent border-b border-gray-300 relative hover:bg-gray-100"
                         onClick={() =>
                           handleSelectTargetPost(
-                            'https://randomuser.me/api/portraits/men/62.jpg',
-                            'u/Content_Avatar007'
+                            "https://randomuser.me/api/portraits/men/62.jpg",
+                            "u/Content_Avatar007"
                           )
                         }
                       >
@@ -111,22 +105,16 @@ function Dropdown() {
                       </div>
 
                       <div className="flex justify-between  items-center mb-2 ml-5 mt-2">
-                        <div className="text-xs font-bold text-gray-500">
-                          MY COMMUNITIES
-                        </div>
+                        <div className="text-xs font-bold text-gray-500">MY COMMUNITIES</div>
                         <Link
-                          to={'/'}
+                          to={"/"}
                           className="rounded-full text-xs font-bold  text-blue-500  px-4 py-1   transition duration-300 ease-in-out hover:bg-gray-300 "
                         >
                           Create New
                         </Link>
                       </div>
                       {MOCK_DATA.map((item, idx) => (
-                        <DropdownCard
-                          key={idx}
-                          item={item}
-                          handleSelectTargetPost={handleSelectTargetPost}
-                        />
+                        <DropdownCard key={idx} item={item} handleSelectTargetPost={handleSelectTargetPost} />
                       ))}
                     </div>
                   </div>

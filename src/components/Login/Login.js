@@ -2,10 +2,10 @@ import React from "react";
 import LoginFacebook from "./LoginFacebook";
 import LoginGoogle from "./LoginGoogle";
 
-function Login() {
+function Login({ setShowLogin }) {
   return (
-    <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col">
-      <div className="mx-auto p-24 pt-40 pb-40 bg-yellow-50 rounded-3xl shadow-md">
+    <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col  items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-90 filter z-30">
+      <div className="mx-auto p-24 pt-28 pb-28 bg-yellow-50 rounded-3xl shadow-md">
         <div className="max-w-sm w-full mb-2">
           <LoginGoogle />
         </div>

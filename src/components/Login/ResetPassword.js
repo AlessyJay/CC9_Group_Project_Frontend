@@ -3,7 +3,7 @@ import React from "react";
 function ResetPassword() {
   return (
     <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col">
-      <div className="mx-auto p-24 pt-40 pb-40 bg-yellow-50 rounded-3xl shadow-md">
+      <div className="mx-auto p-24 py-28 bg-yellow-50 rounded-3xl shadow-md">
         <div className="mb-3 text-left text-xl">Reset your password</div>
         <div className=" max-w-sm w-full text-left font-extralight text-gray-900 text-sm">
           Tell us the username and email address

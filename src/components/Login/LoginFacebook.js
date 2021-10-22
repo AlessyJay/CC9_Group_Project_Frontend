@@ -22,6 +22,8 @@ function LoginFacebook() {
     }));
   };
   const onLoginSuccess = res => {
+    console.log("xxxxxxxxx");
+
     console.log(res);
   };
   const onLogoutSuccess = res => {
@@ -39,10 +41,9 @@ function LoginFacebook() {
       {!isLogged ? (
         <FacebookLogin
           appId={clientId}
-          autoLoad={true}
           fields="name,email,picture"
           callback={responseFacebook}
-          onClick={onLoginSuccess}
+          onClick={() => onLoginSuccess()}
           icon={fa}
           textButton="Sign in with Facbook"
           cssClass="flex items-center justify-center h-11 w-52 text-white max-w-md w-full rounded-sm bg-blue-500 hover:bg-blue-600 text-sm p-2"
@@ -58,9 +59,9 @@ function LoginFacebook() {
               borderRadius: "10px",
             }}
           >
-            <p>{user.name}</p>
+            {/* <p>{user.name}</p> */}
             {/* <p>{user.email}</p> */}
-            <img
+            {/* <img
               src={user?.picture}
               alt="user-img"
               style={{
@@ -68,7 +69,7 @@ function LoginFacebook() {
                 border: "1px solid gray",
                 marginLeft: "5px",
               }}
-            />
+            /> */}
           </div>
           <div style={{ cursor: "pointer" }} onClick={onLogoutSuccess}>
             Sign Out
