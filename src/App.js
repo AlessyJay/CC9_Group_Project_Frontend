@@ -6,6 +6,7 @@ import CommunityHeader from "./components/CommunityHeader";
 import Login from "./components/Login/Login";
 import ResetPassword from "./components/Login/ResetPassword";
 import Register from "./components/Login/Register";
+import ConfiremResetPassword from "./components/Login/ConfiremResetPassword";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             </form>
           </div>
         </div> */}
+        <ConfiremResetPassword />
       </Switch>
     </BrowserRouter>
   );
