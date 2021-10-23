@@ -1,6 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 
 function ResetPassword() {
+  const [resetObj, setResetObj] = useState({
+    email: "",
+    username: "",
+    password: "",
+    confirmpassword: "",
+  });
+
+  const handleChangeInput = e => {
+    setResetObj(cur => ({ ...cur, [e.target.name]: e.target.value }));
+  };
+
+  const submitResetform = e => {
+    e.preventDefault();
+
+    try {
+    } catch (err) {
+      console.log(err);
+      console.dir(err);
+    }
+  };
   return (
     <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col">
       <div className="mx-auto p-24 py-28 bg-yellow-50 rounded-3xl shadow-md">
@@ -24,6 +44,7 @@ function ResetPassword() {
                   type="email"
                   autocomplete="email"
                   required
+                  onChange={handleChangeInput}
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
@@ -38,6 +59,7 @@ function ResetPassword() {
                   type="text"
                   autocomplete="username"
                   required
+                  onChange={handleChangeInput}
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Username"
                 />

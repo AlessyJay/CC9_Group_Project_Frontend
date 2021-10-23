@@ -1,6 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 
 function ConfiremResetPassword() {
+  const [confirmResetObj, setConfirmResetObj] = useState({
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChangeInput = e => {
+    setConfirmResetObj(cur => ({ ...cur, [e.target.name]: e.target.value }));
+  };
+
+  const submitLoginform = e => {
+    e.preventDefault();
+
+    try {
+    } catch (err) {
+      console.log(err);
+      console.dir(err);
+    }
+  };
   return (
     <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col">
       <div className="mx-auto p-24 py-28 bg-yellow-50 rounded-3xl shadow-md">
@@ -18,10 +36,11 @@ function ConfiremResetPassword() {
                   New Password
                 </label>
                 <input
-                  id="newpassword"
-                  name="newpassword"
+                  id="password"
+                  name="password"
                   type="password"
                   required
+                  onChange={handleChangeInput}
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="New Password"
                 />
@@ -31,10 +50,11 @@ function ConfiremResetPassword() {
                   Confirm New Password
                 </label>
                 <input
-                  id="confirmnewpassword"
-                  name="confirmnewpassword"
+                  id="confirmPassword"
+                  name="confirmPassword"
                   type="password"
                   required
+                  onChange={handleChangeInput}
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Confirm New Password"
                 />

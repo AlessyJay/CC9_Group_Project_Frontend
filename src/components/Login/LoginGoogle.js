@@ -26,22 +26,16 @@ function LoginGoogle() {
   };
   return (
     <div>
-      {showloginButton ? (
-        <GoogleLogin
-          clientId={clientId}
-          buttonText="Sign in with Google"
-          onSuccess={onLoginSuccess}
-          onFailure={onLoginFailure}
-          cookiePolicy={"single_host_origin"}
-          isSignedIn={true}
-          className="shadow-md flex items-center justify-center h-11 max-w-xs w-full rounded-sm "
-          style={{ fontSize: "16px" }}
-        />
-      ) : null}
-
-      {showlogoutButton ? (
-        <GoogleLogout clientId={clientId} buttonText="Sign Out" onLogoutSuccess={onSignoutSuccess}></GoogleLogout>
-      ) : null}
+      <GoogleLogin
+        clientId={clientId}
+        buttonText="Sign in with Google"
+        onSuccess={onLoginSuccess}
+        onFailure={onLoginFailure}
+        cookiePolicy={"single_host_origin"}
+        isSignedIn={true}
+        className="shadow-md flex items-center justify-center h-11 max-w-xs w-full rounded-sm "
+        style={{ fontSize: "16px" }}
+      />
     </div>
   );
 }

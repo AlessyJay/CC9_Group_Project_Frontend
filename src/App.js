@@ -31,7 +31,7 @@ function App() {
             </form>
           </div>
         </div> */}
-        <ConfiremResetPassword />
+        <Login />
       </Switch>
     </BrowserRouter>
   );

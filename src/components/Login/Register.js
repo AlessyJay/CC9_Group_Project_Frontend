@@ -1,9 +1,28 @@
-import { Alert } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import LoginFacebook from "./LoginFacebook";
 import LoginGoogle from "./LoginGoogle";
 
 function Register({ setShowRegister }) {
+  const [registerObj, setRegisterObj] = useState({
+    email: "",
+    username: "",
+    password: "",
+    confirmpassword: "",
+  });
+
+  const handleChangeInput = e => {
+    setRegisterObj(cur => ({ ...cur, [e.target.name]: e.target.value }));
+  };
+
+  const submitRegisterform = e => {
+    e.preventDefault();
+
+    try {
+    } catch (err) {
+      console.log(err);
+      console.dir(err);
+    }
+  };
   return (
     <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-90 filter z-30">
       <div className="mx-auto p-24 pt-28 pb-28 bg-yellow-50 rounded-3xl shadow-md">
@@ -30,6 +49,7 @@ function Register({ setShowRegister }) {
                   type="email"
                   autocomplete="email"
                   required
+                  onChange={handleChangeInput}
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
@@ -44,6 +64,7 @@ function Register({ setShowRegister }) {
                   type="text"
                   autocomplete="username"
                   required
+                  onChange={handleChangeInput}
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Username"
                 />
@@ -57,6 +78,7 @@ function Register({ setShowRegister }) {
                   name="password"
                   type="password"
                   required
+                  onChange={handleChangeInput}
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
                 />
@@ -70,6 +92,7 @@ function Register({ setShowRegister }) {
                   name="confirmpassword"
                   type="password"
                   required
+                  onChange={handleChangeInput}
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Confirm Password"
                 />
