@@ -178,11 +178,39 @@ html {
   flex-direction: row;
 }
 /* Comment section */
-.postBox {
-  display: flex;
-  flex-direction: column;
+.ql-editor {
+  min-height: 15rem;
+  font-size: 24px;
+  width: 100%;
+  resize: none;
+}
+.ql-blank {
   width: 100%;
 }
-.postBox textarea {
-  border-radius: 12px;
+.ql-toolbar.ql-snow {
+  width: 80%;
+}
+.ql-container.ql-snow {
+  width: 80%;
+  max-width: 80%;
+}
+.comment {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3%;
+  background: red;
+  width: 100%;
+}
+.quill {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.dropdown {
+  margin-left: 10%;
+  margin-top: 3%;
+}
+.message {
+  width: 80%;
 }

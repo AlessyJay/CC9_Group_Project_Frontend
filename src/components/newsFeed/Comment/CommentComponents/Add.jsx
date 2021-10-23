@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import ReactQuill from "react-quill";
-import EditorToolbar, { modules, formats } from "./EditorToolbar";
+import EditorToolbar, { modules, formats } from "./EditorToolBar";
 import "react-quill/dist/quill.snow.css";
-import "./TextEditor.css";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 
