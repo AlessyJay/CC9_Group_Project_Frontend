@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FacebookLogin from 'react-facebook-login';
 import { FaFacebookF } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
-
+import axios from '../config/axios';
 function LoginFacebook() {
   const clientId = '864275854266130';
   const [isLogged, setIsLogged] = useState(false);
@@ -11,14 +11,26 @@ function LoginFacebook() {
     email: '',
     picture: '',
   });
-  const responseFacebook = (res) => {
-    console.log('Login', res);
+  const responseFacebook = async (response) => {
+    console.log('Login', response);
+    const { email, first_name, last_name, id, picture } = response;
+    const dataObj = {
+      email: email,
+      firstname: first_name,
+      lastname: last_name,
+      facebookId: id,
+      imageUrl: picture.data.url,
+    };
+
+    const res = await axios.post('/users/facebookauth', dataObj);
+    console.log(res.data);
+
     setIsLogged(true);
     setUser((cur) => ({
       ...cur,
-      name: res.name,
-      email: res.email,
-      picture: res.picture?.data?.url,
+      name: response.name,
+      email: response.email,
+      picture: response.picture?.data?.url,
     }));
   };
   const onLoginSuccess = (res) => {
@@ -40,7 +52,7 @@ function LoginFacebook() {
         <FacebookLogin
           appId={clientId}
           // autoLoad={true}
-          fields="first_name,last_name,email,picture"
+          fields="first_name,last_name,email,picture,name"
           callback={responseFacebook}
           onClick={onLoginSuccess}
           icon={fa}
