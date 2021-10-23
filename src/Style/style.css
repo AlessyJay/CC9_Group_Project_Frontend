@@ -79,7 +79,7 @@ html {
 .functionBtn {
   display: flex;
   flex-direction: row;
-  width: fit-content;
+  width: 100%;
 }
 
 /* Popular Bar */
@@ -176,4 +176,13 @@ html {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+}
+/* Comment section */
+.postBox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.postBox textarea {
+  border-radius: 12px;
 }

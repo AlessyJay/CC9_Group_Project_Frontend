@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 // Import like and dislike icon.
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -8,7 +9,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import MessageIcon from "@mui/icons-material/Message";
-import ShareIcon from "@mui/icons-material/Share";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
@@ -57,7 +57,9 @@ function FeedBox() {
 
           {/* Comment, share, save, and more button start here */}
           <div className="functionBtn" style={{ margin: "1%" }}>
-            <Button startIcon={<MessageIcon />}>0 Comments</Button>
+            <Link to="/comment">
+              <Button startIcon={<MessageIcon />}>0 Comments</Button>
+            </Link>
             <Button startIcon={<TurnedInNotIcon />}>Save</Button>
             <Button startIcon={<MoreHorizIcon />}></Button>
           </div>
