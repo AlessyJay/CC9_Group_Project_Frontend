@@ -35,7 +35,7 @@ function Login({ setShowLogin }) {
           <div class="w-full bg-gray-200 mt-3" style={{ height: "1px" }}></div>
         </div>
         <div className="max-w-sm w-full space-y-8 ">
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form className="mt-8 space-y-6" onSubmit={submitLoginform}>
             <input type="hidden" name="remember" value="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
@@ -61,7 +61,8 @@ function Login({ setShowLogin }) {
                   id="password"
                   name="password"
                   type="password"
-                  autocomplete="current-password"
+                  value={loginObj.password}
+                  onChange={handleChangeInput}
                   required
                   onChange={handleChangeInput}
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"

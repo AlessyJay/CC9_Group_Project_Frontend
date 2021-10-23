@@ -54,7 +54,7 @@ function NotificationHead() {
               </button>
             </div>
 
-            <div className=" hidden group-hover:block origin-top-right absolute right-0 w-60 rounded-sm shadow-lg bg-white ">
+            <div className="z-50 hidden group-hover:block origin-top-right absolute right-0 w-60 rounded-sm shadow-lg bg-white ">
               <div className="py-1 " role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                 <div className="flex justify-between  items-center mt-2 ml-5">
                   <div className="text-xs font-bold text-gray-500">Notifications</div>

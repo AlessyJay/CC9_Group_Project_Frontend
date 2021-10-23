@@ -1,301 +1,324 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Dropdown from './Dropdown';
+import React, { useState } from "react";
+import Dropdown from "./Dropdown";
+import { FaFileAlt } from "react-icons/fa";
+import { ImImages } from "react-icons/im";
+import { HiXCircle } from "react-icons/hi";
+import "react-quill/dist/quill.snow.css";
+import "./TextEditor.css";
+import ReactQuill from "react-quill";
+import EditorToolbar, { modules, formats } from "./EditorToolbar";
+import DraftModel from "./DraftModel";
+import { MOCK_DRAFT } from "../../services/timeDifferent";
+import { Button } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function PostImg() {
+  const [ToggleModel, setToggleModel] = useState(false);
+  const [ToggleSaveDraft, setToggleSaveDraft] = useState(false);
+  const [postContent, setPostContent] = useState({
+    id: 2,
+    title: "",
+    description: "",
+    type: "post",
+    notification: false,
+    userId: "",
+    communityId: null,
+    postTarget: false,
+    target: "u/Content_Avatar001",
+    updatedAt: "2021-10-17 16:38:39",
+  });
+  const [draftLists, setDraftLists] = useState(MOCK_DRAFT);
+  const [titleLength, setTitleLength] = useState(0);
+  const [selectFiles, setSelectFiles] = useState([]);
+  const [url1, setUrl1] = useState([]);
+
+  console.log(url1);
+  console.log(selectFiles);
+
+  console.log("React quill logging :", postContent.description);
+  const handleChangePostContent = e => {
+    if (e.target.name === "title") {
+      setTitleLength(e.target.value.length);
+      setPostContent(cur => ({ ...cur, title: e.target.value }));
+    } else if (e.target.name === "notification") {
+      setPostContent(cur => ({
+        ...cur,
+        notification: !postContent.notification,
+      }));
+    } else {
+      setPostContent(cur => ({ ...cur, [e.target.name]: e.target.value }));
+    }
+  };
+  const hanldeChangeContent = value => {
+    setPostContent({ ...postContent, description: value });
+  };
+
+  const handleSubmitPostContent = async e => {
+    try {
+      console.log(postContent);
+    } catch (err) {
+      console.log("Create Post:", err);
+      console.dir(err);
+    }
+  };
+
+  const handleSaveDraftList = () => {
+    const newDraft = [...draftLists];
+    newDraft.push(postContent);
+    setDraftLists(newDraft);
+    setPostContent({
+      id: 2,
+      title: "",
+      description: "",
+      type: "post",
+      notification: false,
+      userId: "",
+      communityId: null,
+      postTarget: false,
+      target: "u/Content_Avatar001",
+      updatedAt: "2021-10-17 16:38:39",
+    });
+  };
+  console.log(draftLists);
+
+  const handleEditPost = id => {
+    const idx = draftLists.findIndex(item => item.id === id);
+    setPostContent(cur => ({ ...cur, ...draftLists[idx] }));
+    setToggleModel(false);
+    setToggleSaveDraft(true);
+  };
+
+  const handleSaveEdit = id => {
+    const newEdit = draftLists.map(item => (item.id === id ? { ...item, ...postContent } : item));
+    setDraftLists(newEdit);
+    setToggleSaveDraft(false);
+    setPostContent({
+      id: 2,
+      title: "",
+      description: "",
+      type: "post",
+      notification: false,
+      userId: "",
+      communityId: null,
+      postTarget: false,
+      target: "u/Content_Avatar001",
+      updatedAt: "2021-10-17 16:38:39",
+    });
+  };
+
+  const handleRemoveDraft = id => {
+    const idx = draftLists.findIndex(item => item.id === id);
+    const newArr = [...draftLists];
+    newArr.splice(idx, 1);
+    setDraftLists(newArr);
+  };
+
+  const handleFiles = e => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files).map(file => URL.createObjectURL(file));
+      setSelectFiles(cur => cur.concat(filesArray));
+      Array.from(e.target.files).map(file => URL.revokeObjectURL(file));
+    }
+    setUrl1(cur => [...cur, ...e.target.files]);
+  };
+
+  const handleRemoveFiles = e => {
+    console.log(e.target.id);
+    const arrFile = [...selectFiles];
+    arrFile.splice(e.target.id, 1);
+    const arrUrl1 = [...url1];
+    arrUrl1.splice(e.target.id, 1);
+    setSelectFiles(arrFile);
+    setUrl1(arrUrl1);
+  };
+
   return (
     <div className="overflow-x-hidden bg-gray-100">
       <div className="px-6 py-8">
         <div className="container flex justify-between mx-auto">
-          <div className="w-full lg:w-8/12 mx-auto content-center">
+          <div className="w-full lg:w-8/12 mx-auto content-center ">
             {/* Header Create */}
-            <div className=" max-w-4xl flex items-center justify-between  border-b-2 border-gray-300 pb-2 ">
-              <h1 className="text-xl font-bold text-gray-700 md:text-2xl">
-                Create Post
-              </h1>
-              <div>
-                <div className="w-full border-gray-300 rounded-md shadow-sm ">
+            <div className=" max-w-3xl flex items-center justify-between  border-b-2 border-gray-300 pb-2 ">
+              <h1 className="text-xl font-bold text-gray-700 md:text-2xl">Create Post</h1>
+
+              <div
+                className=" rounded-full px-3 py-1 hover:bg-gray-200 hover:border-gray-300 border"
+                onClick={() => setToggleModel(true)}
+              >
+                <div className="w-full   rounded-md shadow-sm ">
                   <span>Draft</span>
-                  <Link
-                    to={'/'}
-                    className="ml-2 px-2 py-1 font-semibold text-gray-100 bg-gray-500 rounded hover:bg-gray-600"
+                  <span
+                    to={"/"}
+                    className="ml-2 px-2  font-semibold text-gray-100 bg-gray-500 rounded hover:bg-gray-600"
                   >
-                    1
-                  </Link>
+                    {draftLists.length}
+                  </span>
                 </div>
               </div>
             </div>
             {/* Dropdown on click */}
-            <Dropdown />
+            <Dropdown setPostContent={setPostContent} />
+            {ToggleModel && (
+              <DraftModel
+                setToggleModel={setToggleModel}
+                draftLists={draftLists}
+                handleEditPost={handleEditPost}
+                handleRemoveDraft={handleRemoveDraft}
+              />
+            )}
             {/* Main  */}
-            <div className="mt-6">
-              <div className="max-w-4xl px-10 py-6 mx-auto bg-white rounded-lg shadow-md">
-                <div className="flex items-center justify-between">
-                  <span className="font-light text-gray-600">Jun 1, 2020</span>
-                  <a
-                    href="#"
-                    className="px-2 py-1 font-bold text-gray-100 bg-gray-600 rounded hover:bg-gray-500"
-                  >
-                    Laravel
-                  </a>
-                </div>
-                <div className="mt-2">
-                  <a
-                    href="#"
-                    className="text-2xl font-bold text-gray-700 hover:underline"
-                  >
-                    Build Your New Idea with Laravel Freamwork.
-                  </a>
-                  <p className="mt-2 text-gray-600">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Tempora expedita dicta totam aspernatur doloremque.
-                    Excepturi iste iusto eos enim reprehenderit nisi, accusamus
-                    delectus nihil quis facere in modi ratione libero!
-                  </p>
-                </div>
-                <div className="flex items-center justify-between mt-4">
-                  <a href="#" className="text-blue-500 hover:underline">
-                    Read more
-                  </a>
-                  <div>
-                    <a href="#" class="flex items-center">
-                      <img
-                        src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=731&amp;q=80"
-                        alt="avatar"
-                        className="hidden object-cover w-10 h-10 mx-4 rounded-full sm:block"
-                      />
-                      <h1 className="font-bold text-gray-700 hover:underline">
-                        Alex John
-                      </h1>
-                    </a>
+            <div className="mt-12 max-w-3xl flex flex-col">
+              <div class="grid grid-cols-2 ">
+                <label
+                  className={`group relative ${
+                    postContent.type === "post" ? "border-b-2 border-blue-600 " : "border-r border-b"
+                  }  rounded-tl-lg py-3 px-4 flex items-center justify-center text-sm font-medium  hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer`}
+                >
+                  <input type="radio" name="type" value="post" className="sr-only" onChange={handleChangePostContent} />
+                  <FaFileAlt className="text-blue-600 mr-2" />
+                  <p id="post">Post</p>
+
+                  <div class="absolute -inset-px  pointer-events-none" aria-hidden="true"></div>
+                </label>
+
+                <label
+                  className={`group relative ${
+                    postContent.type === "image-video" ? "border-b-2 border-blue-600" : "border-l border-b"
+                  }  rounded-tr-lg py-3 px-4 flex items-center justify-center text-sm font-medium  hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer`}
+                >
+                  <input
+                    type="radio"
+                    name="type"
+                    value="image-video"
+                    className="sr-only"
+                    onChange={handleChangePostContent}
+                  />
+
+                  <ImImages className="text-blue-600 mr-2 text-base" />
+                  <p id="image-video">Image &amp; Video</p>
+
+                  <div class="absolute -inset-px rounded-md pointer-events-none" aria-hidden="true"></div>
+                </label>
+              </div>
+
+              <div className="flex justify-center bg-white py-3 relative border-l border-r ">
+                <input
+                  className="overflow-ellipsis overflow-hidden py-1 pl-5 pr-16 border-black border  w-11/12 shadow-sm sm:text-sm rounded place-content-center align-middle"
+                  type="text"
+                  name="title"
+                  placeholder="title"
+                  value={postContent.title}
+                  onChange={handleChangePostContent}
+                  maxLength="100"
+                />
+                <div
+                  className={`absolute right-0 mr-10 text-xs top-4 pt-0.5  ${
+                    titleLength === 100 ? "text-red-600" : ""
+                  }`}
+                >{`${titleLength} / 100 `}</div>
+              </div>
+
+              {postContent.type === "post" ? (
+                <div className="bg-white w-full border-l border-r">
+                  <div className="w-11/12 mx-auto bg-gray-50">
+                    <EditorToolbar toolbarId={"t1"} />
+                    <ReactQuill
+                      theme="snow"
+                      value={postContent.description}
+                      onChange={hanldeChangeContent}
+                      placeholder={"Write something awesome..."}
+                      modules={modules("t1")}
+                      formats={formats}
+                    />
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="hidden w-4/12 -mx-8 lg:block">
-            <div className="px-8">
-              <div className="flex flex-col max-w-sm px-6 py-4 mx-auto bg-white rounded-lg shadow-md">
-                <ul className="-mx-4">
-                  <li className="flex items-center">
-                    <img
-                      src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=731&amp;q=80"
-                      alt="avatar"
-                      className="object-cover w-10 h-10 mx-4 rounded-full"
-                    />
-                    <p>
-                      <a
-                        href="#"
-                        className="mx-1 font-bold text-gray-700 hover:underline"
+              ) : (
+                // Drag and Drop
+                <div className="bg-white w-full">
+                  <div className="w-11/12 mx-auto bg-gray-50 h-16 shadow">
+                    {url1[0]?.type === "video/mp4" ? (
+                      <Button
+                        onClick={() => {
+                          setUrl1([]);
+                          setSelectFiles([]);
+                        }}
+                        variant="outlined"
+                        startIcon={<DeleteIcon />}
                       >
-                        Alex John
-                      </a>
-                      <span className="text-sm font-light text-gray-700">
-                        Created 23 Posts
-                      </span>
-                    </p>
-                  </li>
-                  <li class="flex items-center mt-6">
-                    <img
-                      src="https://images.unsplash.com/photo-1464863979621-258859e62245?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=333&amp;q=80"
-                      alt="avatar"
-                      className="object-cover w-10 h-10 mx-4 rounded-full"
-                    />
-                    <p>
-                      <a
-                        href="#"
-                        className="mx-1 font-bold text-gray-700 hover:underline"
-                      >
-                        Jane Doe
-                      </a>
-                      <span className="text-sm font-light text-gray-700">
-                        Created 52 Posts
-                      </span>
-                    </p>
-                  </li>
-                  <li className="flex items-center mt-6">
-                    <img
-                      src="https://images.unsplash.com/photo-1531251445707-1f000e1e87d0?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=281&amp;q=80"
-                      alt="avatar"
-                      className="object-cover w-10 h-10 mx-4 rounded-full"
-                    />
-                    <p>
-                      <a
-                        href="#"
-                        className="mx-1 font-bold text-gray-700 hover:underline"
-                      >
-                        Lisa Way
-                      </a>
-                      <span class="text-sm font-light text-gray-700">
-                        Created 73 Posts
-                      </span>
-                    </p>
-                  </li>
-                  <li className="flex items-center mt-6">
-                    <img
-                      src="https://images.unsplash.com/photo-1500757810556-5d600d9b737d?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=735&amp;q=80"
-                      alt="avatar"
-                      className="object-cover w-10 h-10 mx-4 rounded-full"
-                    />
-                    <p>
-                      <a
-                        href="#"
-                        className="mx-1 font-bold text-gray-700 hover:underline"
-                      >
-                        Steve Matt
-                      </a>
-                      <span className="text-sm font-light text-gray-700">
-                        Created 245 Posts
-                      </span>
-                    </p>
-                  </li>
-                  <li className="flex items-center mt-6">
-                    <img
-                      src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=373&amp;q=80"
-                      alt="avatar"
-                      className="object-cover w-10 h-10 mx-4 rounded-full"
-                    />
-                    <p>
-                      <a
-                        href="#"
-                        className="mx-1 font-bold text-gray-700 hover:underline"
-                      >
-                        Khatab Wedaa
-                      </a>
-                      <span className="text-sm font-light text-gray-700">
-                        Created 332 Posts
-                      </span>
-                    </p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="px-8 mt-10">
-              <h1 className="mb-4 text-xl font-bold text-gray-700">
-                Categories
-              </h1>
-              <div className="flex flex-col max-w-sm px-4 py-6 mx-auto bg-white rounded-lg shadow-md">
-                <ul>
-                  <li>
-                    <a
-                      href="#"
-                      className="mx-1 font-bold text-gray-700 hover:text-gray-600 hover:underline"
-                    >
-                      - AWS
-                    </a>
-                  </li>
-                  <li className="mt-2">
-                    <a
-                      href="#"
-                      className="mx-1 font-bold text-gray-700 hover:text-gray-600 hover:underline"
-                    >
-                      - Laravel
-                    </a>
-                  </li>
-                  <li className="mt-2">
-                    <a
-                      href="#"
-                      className="mx-1 font-bold text-gray-700 hover:text-gray-600 hover:underline"
-                    >
-                      - Vue
-                    </a>
-                  </li>
-                  <li className="mt-2">
-                    <a
-                      href="#"
-                      className="mx-1 font-bold text-gray-700 hover:text-gray-600 hover:underline"
-                    >
-                      - Design
-                    </a>
-                  </li>
-                  <li class="flex items-center mt-2">
-                    <a
-                      href="#"
-                      className="mx-1 font-bold text-gray-700 hover:text-gray-600 hover:underline"
-                    >
-                      - Django
-                    </a>
-                  </li>
-                  <li className="flex items-center mt-2">
-                    <a
-                      href="#"
-                      className="mx-1 font-bold text-gray-700 hover:text-gray-600 hover:underline"
-                    >
-                      - PHP
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="px-8 mt-10">
-              <h1 className="mb-4 text-xl font-bold text-gray-700">
-                Recent Post
-              </h1>
-              <div className="flex flex-col max-w-sm px-8 py-6 mx-auto bg-white rounded-lg shadow-md">
-                <div className="flex items-center justify-center">
-                  <a
-                    href="#"
-                    className="px-2 py-1 text-sm text-green-100 bg-gray-600 rounded hover:bg-gray-500"
-                  >
-                    Laravel
-                  </a>
+                        Delete
+                      </Button>
+                    ) : (
+                      <Button variant="contained" component="label">
+                        Upload File
+                        <input type="file" hidden multiple onChange={handleFiles} accept="video/mp4 image/*" />
+                      </Button>
+                    )}
+                  </div>
+                  <div className=" w-11/12 mx-auto bg-gray-50  shadow mt-1 flex  items-center overflow-x-scroll">
+                    {url1[0]?.type === "video/mp4"
+                      ? selectFiles.map(item => (
+                          <video key={item} className="w-11/12 mx-auto" controls>
+                            <source src={item} />
+                          </video>
+                        ))
+                      : selectFiles.map((item, index) => (
+                          <img
+                            className="h-36 p-3 cursor-pointer"
+                            src={item}
+                            alt=""
+                            key={item}
+                            id={index}
+                            onClick={handleRemoveFiles}
+                          />
+                        ))}
+                  </div>
                 </div>
-                <div className="mt-4">
-                  <a
-                    href="#"
-                    className="text-lg font-medium text-gray-700 hover:underline"
-                  >
-                    Build Your New Idea with Laravel Freamwork.
-                  </a>
-                </div>
-                <div className="flex items-center justify-between mt-4">
+              )}
+              <div className="bg-white w-full border-l border-r ">
+                <div className="w-11/12 mx-auto flex justify-between">
                   <div className="flex items-center">
-                    <img
-                      src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=731&amp;q=80"
-                      alt="avatar"
-                      className="object-cover w-8 h-8 rounded-full"
+                    <input
+                      className="mr-2 checked:bg-blue-600 checked:border-transparent "
+                      type="checkbox"
+                      name="notification"
+                      onChange={handleChangePostContent}
                     />
-                    <a
-                      href="#"
-                      className="mx-3 text-sm text-gray-700 hover:underline"
-                    >
-                      Alex John
-                    </a>
+                    <label className="text-xs font-medium">Send me post reply notifications</label>
                   </div>
-                  <span class="text-sm font-light text-gray-600">
-                    Jun 1, 2020
-                  </span>
+                  <div>
+                    {ToggleSaveDraft ? (
+                      <button
+                        onClick={() => handleSaveEdit(postContent.id)}
+                        className="border-2 border-blue-500 rounded-full font-semibold my-5 text-blue-500 px-4  transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white mr-6  "
+                      >
+                        Save Edit
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleSaveDraftList}
+                        className="border-2 border-blue-500 rounded-full font-semibold my-5 text-blue-500 px-4  transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white mr-6  "
+                      >
+                        Save Draft
+                      </button>
+                    )}
+
+                    <button
+                      onClick={handleSubmitPostContent}
+                      className={`${
+                        postContent.postTarget && postContent.title !== ""
+                          ? "bg-blue-500 text-white"
+                          : "bg-gray-200 cursor-not-allowed"
+                      }  rounded-full font-semibold my-5  px-4 py-1 transition duration-300 ease-in-out`}
+                    >
+                      Post
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <footer class="px-6 py-2 text-gray-100 bg-gray-800">
-        <div class="container flex flex-col items-center justify-between mx-auto md:flex-row">
-          <a href="#" className="text-2xl font-bold">
-            Brand
-          </a>
-          <p class="mt-2 md:mt-0">All rights reserved 2020.</p>
-          <div class="flex mt-4 mb-2 -mx-2 md:mt-0 md:mb-0">
-            <a href="#" className="mx-2 text-gray-100 hover:text-gray-400">
-              <svg viewBox="0 0 512 512" className="w-4 h-4 fill-current">
-                <path d="M444.17,32H70.28C49.85,32,32,46.7,32,66.89V441.61C32,461.91,49.85,480,70.28,480H444.06C464.6,480,480,461.79,480,441.61V66.89C480.12,46.7,464.6,32,444.17,32ZM170.87,405.43H106.69V205.88h64.18ZM141,175.54h-.46c-20.54,0-33.84-15.29-33.84-34.43,0-19.49,13.65-34.42,34.65-34.42s33.85,14.82,34.31,34.42C175.65,160.25,162.35,175.54,141,175.54ZM405.43,405.43H341.25V296.32c0-26.14-9.34-44-32.56-44-17.74,0-28.24,12-32.91,23.69-1.75,4.2-2.22,9.92-2.22,15.76V405.43H209.38V205.88h64.18v27.77c9.34-13.3,23.93-32.44,57.88-32.44,42.13,0,74,27.77,74,87.64Z"></path>
-              </svg>
-            </a>
-            <a href="#" className="mx-2 text-gray-100 hover:text-gray-400">
-              <svg viewBox="0 0 512 512" class="w-4 h-4 fill-current">
-                <path d="M455.27,32H56.73A24.74,24.74,0,0,0,32,56.73V455.27A24.74,24.74,0,0,0,56.73,480H256V304H202.45V240H256V189c0-57.86,40.13-89.36,91.82-89.36,24.73,0,51.33,1.86,57.51,2.68v60.43H364.15c-28.12,0-33.48,13.3-33.48,32.9V240h67l-8.75,64H330.67V480h124.6A24.74,24.74,0,0,0,480,455.27V56.73A24.74,24.74,0,0,0,455.27,32Z"></path>
-              </svg>
-            </a>
-            <a href="#" className="mx-2 text-gray-100 hover:text-gray-400">
-              <svg viewBox="0 0 512 512" className="w-4 h-4 fill-current">
-                <path d="M496,109.5a201.8,201.8,0,0,1-56.55,15.3,97.51,97.51,0,0,0,43.33-53.6,197.74,197.74,0,0,1-62.56,23.5A99.14,99.14,0,0,0,348.31,64c-54.42,0-98.46,43.4-98.46,96.9a93.21,93.21,0,0,0,2.54,22.1,280.7,280.7,0,0,1-203-101.3A95.69,95.69,0,0,0,36,130.4C36,164,53.53,193.7,80,211.1A97.5,97.5,0,0,1,35.22,199v1.2c0,47,34,86.1,79,95a100.76,100.76,0,0,1-25.94,3.4,94.38,94.38,0,0,1-18.51-1.8c12.51,38.5,48.92,66.5,92.05,67.3A199.59,199.59,0,0,1,39.5,405.6,203,203,0,0,1,16,404.2,278.68,278.68,0,0,0,166.74,448c181.36,0,280.44-147.7,280.44-275.8,0-4.2-.11-8.4-.31-12.5A198.48,198.48,0,0,0,496,109.5Z"></path>
-              </svg>
-            </a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

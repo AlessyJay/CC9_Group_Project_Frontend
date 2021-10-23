@@ -2,11 +2,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import PostImg from "./components/Post/PostImg";
 import PostText from "./components/Post/PostText";
 import Header from "./components/Navbar/Header";
-import CommunityHeader from "./components/CommunityHeader";
 import Login from "./components/Login/Login";
-import ResetPassword from "./components/Login/ResetPassword";
-import Register from "./components/Login/Register";
-import ConfiremResetPassword from "./components/Login/ConfiremResetPassword";
 
 function App() {
   return (
@@ -31,7 +27,9 @@ function App() {
             </form>
           </div>
         </div> */}
-        <Login />
+        {/* <Login /> */}
+        <Route path="/login" component={Login} />
+        <Route path="/5" component={PostImg} />
       </Switch>
     </BrowserRouter>
   );

@@ -1,3 +1,4 @@
+import axios from "../../config/axios";
 import React, { useState } from "react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 
@@ -7,9 +8,19 @@ function LoginGoogle() {
   const [showloginButton, setShowloginButton] = useState(true);
   const [showlogoutButton, setShowlogoutButton] = useState(false);
 
-  const onLoginSuccess = res => {
-    console.log("Login Success:", res.profileObj);
-    console.log(res);
+  const onLoginSuccess = async response => {
+    // console.log('Login Success:', response.profileObj);
+    const { email, familyName, givenName, googleId, imageUrl } = response.profileObj;
+    const dataObj = {
+      email: email,
+      lastname: familyName,
+      firstname: givenName,
+      googleId,
+      imageUrl,
+    };
+
+    const res = await axios.post("/users/googleauth", dataObj);
+    console.log(res.data.token, res.data.message);
     setShowloginButton(false);
     setShowlogoutButton(true);
   };
