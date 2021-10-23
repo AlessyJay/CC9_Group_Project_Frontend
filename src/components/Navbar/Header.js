@@ -203,7 +203,7 @@ function Header() {
                   />
                 </div>
                 <div className=" group-hover:block origin-top-right absolute right-0 w-full rounded-sm shadow-lg bg-white  ring-1 ring-black ring-opacity-5">
-                  {/* <SearchCard /> */}
+                  {/* Search Card */}
                   {search
                     ? MOCK_DATA.filter(item => {
                         if (item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) {
