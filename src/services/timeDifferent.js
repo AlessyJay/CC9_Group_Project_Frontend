@@ -1,4 +1,4 @@
-const timeDiff = (value) => {
+const timeDiff = value => {
   const newTime = new Date().getTime();
   const diff = newTime - new Date(value).getTime();
   if (diff > 1000 * 60 * 60 * 24 * 7) {
@@ -23,27 +23,39 @@ const timeDiff = (value) => {
 const MOCK_DRAFT = [
   {
     id: 1,
-    title: 'Test01',
-    target: 'u/Content_Avatar001',
-    updatedAt: '2021-10-21 16:38:39',
+    title: "Test01",
+    target: "u/Content_Avatar001",
+    updatedAt: "2021-10-21 16:38:39",
   },
-  {
-    id: 2,
-    title: 'Content001',
-    target: 'u/Content_Avatar001',
-    updatedAt: '2021-10-18 16:38:39',
-  },
-  {
-    id: 3,
-    title: 'TContent002',
-    target: 'u/Content_Avatar001',
-    updatedAt: '2021-10-17 16:38:39',
-  },
-  {
-    id: 4,
-    title: 'Test0555',
-    target: 'r/Content_Avatar001',
-    updatedAt: '2021-10-16 16:38:39',
-  },
+  // {
+  //   id: 2,
+  //   title: "Content001",
+  //   target: "u/Content_Avatar001",
+  //   updatedAt: "2021-10-18 16:38:39",
+  // },
+  // {
+  //   id: 3,
+  //   title: "TContent002",
+  //   target: "u/Content_Avatar001",
+  //   updatedAt: "2021-10-17 16:38:39",
+  // },
+  // {
+  //   id: 4,
+  //   title: "Test0555",
+  //   target: "r/Content_Avatar001",
+  //   updatedAt: "2021-10-16 16:38:39",
+  // },
+  // {
+  //   id: 5,
+  //   title: "testedit",
+  //   target: "r/Content_Avatar001",
+  //   description: "testetst",
+  //   type: "post",
+  //   notification: false,
+  //   userId: "",
+  //   communityId: null,
+  //   postTarget: true,
+  //   updatedAt: "2021-10-16 16:38:39",
+  // },
 ];
 export { timeDiff, MOCK_DRAFT };
