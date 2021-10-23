@@ -6,10 +6,14 @@ function Login() {
   const [loginObj, setLoginObj] = useState({
     email: '',
     password: '',
-    confirmpassword: '',
   });
+
+  const handleChangeInput = (e) => {
+    setLoginObj((cur) => ({ ...cur, [e.target.name]: e.target.value }));
+  };
   const submitLoginform = (e) => {
     e.preventDefault();
+
     try {
     } catch (err) {
       console.log(err);
@@ -55,7 +59,8 @@ function Login() {
                   id="password"
                   name="password"
                   type="password"
-                  autocomplete="current-password"
+                  value={loginObj.password}
+                  onChange={handleChangeInput}
                   required
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
