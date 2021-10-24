@@ -1,6 +1,6 @@
 import { useState } from "react";
-import useEditProfile from "../services/useEditProfile";
-import validate from "../services/EditProfileValidate";
+import useValidate from "../services/useValidate";
+import validate from "../services/ValidateForm";
 
 export default function Editprofile() {
   const [selectedImaProfile, setSelectedImgProfile] = useState();
@@ -48,7 +48,7 @@ export default function Editprofile() {
     displayHandlerCov();
   };
 
-  const { values, errors, handleChange, handleSubmit } = useEditProfile(
+  const { values, errors, handleChange, handleSubmit } = useValidate(
     test,
     validate
   );
@@ -78,7 +78,7 @@ export default function Editprofile() {
                 </label>
                 <input
                   value={values.displayname || ""}
-                  maxLength="20"
+                  maxLength="30"
                   required
                   type="text"
                   name="displayname"
