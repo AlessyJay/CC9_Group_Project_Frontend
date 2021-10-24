@@ -1,0 +1,216 @@
+/* Global */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap");
+body,
+html {
+  font-family: "Noto Serif", serif;
+  margin: 0;
+  padding: 0;
+  background: #dae0e6;
+}
+.container {
+  width: 80%;
+  overflow: hidden;
+  margin-left: 10%;
+  height: 100%;
+}
+.likeBtn {
+  background: none;
+  border: none;
+  width: fit-content;
+  cursor: pointer;
+}
+
+/* Feed box content */
+.feed-box {
+  display: flex;
+  flex-direction: row;
+  flex: auto;
+  background: white;
+  width: 50%;
+  border-radius: 5px;
+  box-shadow: 5px 8px 8px darkgray;
+  height: fit-content;
+  margin-top: 2%;
+  margin-left: 10%;
+  margin-bottom: 2%;
+}
+/* Like section */
+.like-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background: lightgray;
+  border-radius: 5px;
+  width: fit-content;
+}
+.btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  width: fit-content;
+}
+/* avatar and name */
+.avatarAndName {
+  display: flex;
+  justify-content: column;
+  align-items: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  height: fit-content;
+  margin: 0 0 0 2.5%;
+}
+.username {
+  margin-left: 2%;
+  width: 50%;
+}
+/* Title */
+.title {
+  width: 100%;
+}
+/* Follow Button */
+.joinBtn {
+  height: fit-content;
+  margin: 2%;
+}
+/* Function buttons */
+.functionBtn {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+/* Popular Bar */
+.popularBar {
+  display: flex;
+  flex-direction: row;
+  flex: auto;
+  background: white;
+  width: 50%;
+  border-radius: 5px;
+  box-shadow: 5px 8px 8px darkgray;
+  height: fit-content;
+  margin-top: 2%;
+  margin-left: 10%;
+}
+/* View all button starts here */
+.viewAllBtn {
+  display: flex;
+  justify-content: center;
+  flex: auto;
+}
+.viewAllBtn button {
+  height: 3rem;
+  font-size: 24px;
+  font-weight: bolder;
+  width: 80%;
+  border-radius: 50px;
+  outline: none;
+  border: none;
+  background: #317cd6;
+  color: white;
+  cursor: pointer;
+  transition: 200ms;
+}
+.viewAllBtn button:hover {
+  opacity: 0.7;
+}
+/* Topics button */
+.topicBtns {
+  display: flex;
+  justify-content: center;
+  padding: 2%;
+}
+
+/* Side card at App.js */
+.sideCard {
+  position: absolute;
+  margin-left: 55%;
+  margin-top: 1.6%;
+  height: fit-content;
+}
+/* Create post and community buttons */
+.createPostBtn,
+.createCommunityBtn {
+  display: flex;
+  justify-content: center;
+  flex: auto;
+}
+.createPostBtn button {
+  height: 3rem;
+  font-size: 24px;
+  font-weight: bolder;
+  width: 100%;
+  border-radius: 50px;
+  outline: none;
+  border: none;
+  background: #317cd6;
+  color: white;
+  cursor: pointer;
+  width: 80%;
+  transition: 200ms;
+}
+.createCommunityBtn button {
+  height: 3rem;
+  font-size: 24px;
+  font-weight: bolder;
+  width: 100%;
+  border-radius: 50px;
+  outline: none;
+  border: none;
+  background: #f0a30e;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 10%;
+  width: 80%;
+  transition: 200ms;
+}
+/* logo */
+.logo {
+  width: 60%;
+}
+/* Footer options */
+.footerOptions {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+/* Comment section */
+/* .ql-editor {
+  min-height: 15rem;
+  font-size: 24px;
+  width: 100%;
+  resize: none;
+}
+.ql-blank {
+  width: 100%;
+}
+.ql-toolbar.ql-snow {
+  width: 80%;
+}
+.ql-container.ql-snow {
+  width: 80%;
+  max-width: 80%;
+} */
+.comment {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3%;
+  background: red;
+  width: 100%;
+}
+/* .quill {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+} */
+.dropdown {
+  margin-left: 10%;
+  margin-top: 3%;
+}
+.message {
+  width: 80%;
+}

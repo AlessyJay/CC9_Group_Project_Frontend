@@ -5,6 +5,7 @@ import Header from "./components/Navbar/Header";
 import Login from "./components/Login/Login";
 import CreateCommunity from "./components/CreateCommunity";
 import EditProfile from "./components/EditProfile";
+import Comment from "./components/newsFeed/Comment/Comment";
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
           </div>
         </div> */}
         {/* <CreateCommunity /> */}
-        <EditProfile />
+        {/* <EditProfile /> */}
+        <Comment />
         <Route path="/login" component={Login} />
         <Route path="/5" component={PostImg} />
       </Switch>

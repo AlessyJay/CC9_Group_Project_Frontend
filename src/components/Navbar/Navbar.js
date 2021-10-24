@@ -1,16 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
+import React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Link } from "react-router-dom";
 function Navbar() {
   return (
     <nav className="px-6 py-4 bg-white shadow">
       <div className="container flex flex-col mx-auto md:flex-row md:items-center md:justify-between">
         <div className="flex items-center justify-between">
           <div>
-            <Link
-              to={'/'}
-              className="text-xl font-bold text-gray-800 md:text-2xl"
-            >
+            <Link to={"/"} className="text-xl font-bold text-gray-800 md:text-2xl">
               Brand
             </Link>
           </div>
@@ -26,22 +29,13 @@ function Navbar() {
           </div>
         </div>
         <div className="flex-col hidden md:flex md:flex-row md:-mx-4">
-          <Link
-            to={'/'}
-            className="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0"
-          >
+          <Link to={"/"} className="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">
             Home
           </Link>
-          <Link
-            to={'/'}
-            className="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0"
-          >
+          <Link to={"/"} className="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">
             Blog
           </Link>
-          <Link
-            to={'/'}
-            className="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0"
-          >
+          <Link to={"/"} className="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">
             About us
           </Link>
         </div>
