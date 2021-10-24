@@ -20,6 +20,7 @@ import Register from "../Login/Register";
 import DropdownMenuComu from "./DropdownMenuComu";
 import NotificationHead from "./NotificationHead";
 import SearchCard from "./SearchCard";
+import { removeToken } from "../../services/localStorage";
 
 const MOCK_DATA = [
   {
@@ -123,6 +124,7 @@ function Header() {
                         placeholder="Home"
                         value={target.name}
                         className="text-sm px-2 w-full bg-gray-50 appearance-none outline-none"
+                        disabled
                       />
                       <div class="bg-gray-50 text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200">
                         <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
@@ -295,7 +297,7 @@ function Header() {
                             <div className="mr-2">
                               <HiOutlineLogout className="w-5 h-5" />
                             </div>
-                            <span className="flex flex-col text-sm">
+                            <span onClick={() => removeToken()} className="flex flex-col text-sm">
                               <span>Log out</span>
                             </span>
                           </div>

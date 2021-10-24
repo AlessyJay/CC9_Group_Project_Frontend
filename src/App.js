@@ -27,7 +27,7 @@ function App() {
             </form>
           </div>
         </div> */}
-        {/* <Login /> */}
+
         <Route path="/login" component={Login} />
         <Route path="/5" component={PostImg} />
       </Switch>
