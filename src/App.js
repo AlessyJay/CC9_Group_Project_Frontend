@@ -3,6 +3,8 @@ import PostImg from "./components/Post/PostImg";
 import PostText from "./components/Post/PostText";
 import Header from "./components/Navbar/Header";
 import Login from "./components/Login/Login";
+import CreateCommunity from "./components/CreateCommunity";
+import EditProfile from "./components/EditProfile";
 
 function App() {
   return (
@@ -27,7 +29,8 @@ function App() {
             </form>
           </div>
         </div> */}
-
+        {/* <CreateCommunity /> */}
+        <EditProfile />
         <Route path="/login" component={Login} />
         <Route path="/5" component={PostImg} />
       </Switch>
