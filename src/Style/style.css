@@ -19,6 +19,10 @@ html {
   width: fit-content;
   cursor: pointer;
 }
+hr {
+  border: solid black 1px;
+  width: 90%;
+}
 
 /* Feed box content */
 .feed-box {
@@ -62,13 +66,20 @@ html {
   height: fit-content;
   margin: 0 0 0 2.5%;
 }
+.avatarAndName p {
+  width: 90%;
+}
 .username {
   margin-left: 2%;
   width: 50%;
+  font-size: 24px;
 }
 /* Title */
 .title {
   width: 100%;
+  font-size: 20px;
+  font-weight: bolder;
+  margin: 0 0 1% 0;
 }
 /* Follow Button */
 .joinBtn {
@@ -178,22 +189,35 @@ html {
   flex-direction: row;
 }
 /* Comment section */
-/* .ql-editor {
-  min-height: 15rem;
-  font-size: 24px;
+.postBox {
   width: 100%;
-  resize: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.ql-blank {
+.postBox textarea {
+  width: 80%;
+  border: solid black 1px;
+  padding: 1%;
+  border-radius: 12px;
+  font-size: 18px;
+  margin-top: 2%;
+  min-height: 200px;
+  outline: none;
+}
+.postBtn {
   width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin: 2% 12% 2% 0;
 }
-.ql-toolbar.ql-snow {
-  width: 80%;
+.postBtn button {
+  background: gray;
+  width: 25%;
+  padding: 2%;
+  border-radius: 50px;
 }
-.ql-container.ql-snow {
-  width: 80%;
-  max-width: 80%;
-} */
 .comment {
   display: flex;
   align-items: center;
@@ -201,15 +225,18 @@ html {
   background: red;
   width: 100%;
 }
-/* .quill {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-} */
+.commentLine {
+  margin-left: 5%;
+}
+.dropdownBtn {
+  outline: none;
+}
 .dropdown {
-  margin-left: 10%;
   margin-top: 3%;
+  display: flex;
+  justify-content: flex-start;
+  width: 60%;
+  align-items: center;
 }
 .message {
   width: 80%;

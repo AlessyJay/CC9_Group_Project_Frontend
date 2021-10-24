@@ -1,4 +1,3 @@
-import Navbar from "../../Navbar/Navbar";
 import SideCard from "../../newsFeed/SideCard";
 import CreatePostAndCommunity from "../../newsFeed/CreatePostAndCommunity";
 import Footer from "../../Footer/Footer";
@@ -11,13 +10,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Avatar from "@mui/material/Avatar";
 // Import buttons
 import Button from "@mui/material/Button";
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import MessageIcon from "@mui/icons-material/Message";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-// Import editor tool bar
-import { modules, formats } from "./CommentComponents/EditorToolBar";
-import ReactQuill from "react-quill";
 
 function Main() {
   const [text, setText] = useState("");
@@ -53,10 +48,15 @@ function Main() {
             <Avatar
               alt="Profile picture"
               src="https://images.pexels.com/photos/4587991/pexels-photo-4587991.jpeg?cs=srgb&dl=pexels-anna-shvets-4587991.jpg&fm=jpg"
-              style={{ border: "double 2px black" }}
+              style={{ border: "double 2px black", margin: "2% 0 2% 1%" }}
             />
             <h4 className="username">
-              John <span style={{ opacity: "0.5", fontSize: "12px", marginLeft: "3%" }}>Posted by: John TIME</span>
+              John{" "}
+              <span
+                style={{ opacity: "0.5", fontSize: "12px", marginLeft: "3%" }}
+              >
+                Posted by: John TIME
+              </span>
             </h4>
 
             {/* Title */}
@@ -64,8 +64,9 @@ function Main() {
 
             {/* Messages */}
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam non quod facilis laborum rerum ut iure
-              dicta id aspernatur libero, velit sed sit autem in sequi reiciendis nemo nam ullam.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+              non quod facilis laborum rerum ut iure dicta id aspernatur libero,
+              velit sed sit autem in sequi reiciendis nemo nam ullam.
             </p>
 
             {/* Comment, share, save, and more button start here */}
@@ -74,44 +75,57 @@ function Main() {
               <Button startIcon={<TurnedInNotIcon />}>Save</Button>
               <Button startIcon={<MoreHorizIcon />}></Button>
             </div>
-            <hr style={{ border: "solid 1px black", width: "90%" }} />
+            <hr className="commentLine" />
             <div className="postBox">
-              <ReactQuill
-                placeholder={"Write something awesome..."}
-                modules={modules()}
-                formats={formats}
-                value={text}
-              />
+              <textarea
+                name=""
+                id=""
+                cols="30"
+                rows="10"
+                placeholder="Write down your thoughts!"
+              ></textarea>
+
+              {/* Post button starts here */}
+              <div className="postBtn">
+                {/* Sort by menu lists */}
+                <div className="dropdown">
+                  <label>Sort by: </label>
+                  <select className="dropdownBtn">
+                    <option value="best">Best</option>
+                    <option value="top">Top</option>
+                    <option value="new">New</option>
+                    <option value="controversial">Controversial</option>
+                    <option value="old">Old</option>
+                    <option value="qa">QA</option>
+                  </select>
+                </div>
+                <button>Post</button>
+              </div>
             </div>
-            <br />
-            {/* Sort by menu lists */}
-            <div className="dropdown">
-              <label>Sort by: </label>
-              <select name="dropdownBtn">
-                <option value="best">Best</option>
-                <option value="top">Top</option>
-                <option value="new">New</option>
-                <option value="controversial">Controversial</option>
-                <option value="old">Old</option>
-                <option value="qa">QA</option>
-              </select>
-            </div>
-            <hr style={{ border: "solid 1px black", width: "90%" }} />
-            <br />
-            <div className="avatarAndName" style={{ justifyContent: "center" }}>
+            <hr className="commentLine" />
+            <div
+              className="avatarAndName"
+              style={{ justifyContent: "center", margin: "2% 0 2% 0" }}
+            >
               <Avatar
                 alt="Profile picture"
                 src="https://images.pexels.com/photos/4587991/pexels-photo-4587991.jpeg?cs=srgb&dl=pexels-anna-shvets-4587991.jpg&fm=jpg"
                 style={{ border: "double 2px black" }}
               />
               <h4 className="username">
-                John <span style={{ opacity: "0.5", fontSize: "12px", marginLeft: "3%" }}>Posted by: John TIME</span>
+                John{" "}
+                <span
+                  style={{ opacity: "0.5", fontSize: "12px", marginLeft: "3%" }}
+                >
+                  Posted by: John TIME
+                </span>
               </h4>
               <div className="message">
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum rem fugiat quisquam eum voluptate.
-                  Itaque consequuntur sit harum esse culpa quia dignissimos non reprehenderit, illo iure doloribus
-                  officia repellat in.
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum
+                  rem fugiat quisquam eum voluptate. Itaque consequuntur sit
+                  harum esse culpa quia dignissimos non reprehenderit, illo iure
+                  doloribus officia repellat in.
                 </p>
               </div>
             </div>

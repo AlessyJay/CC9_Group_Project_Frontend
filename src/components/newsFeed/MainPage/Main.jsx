@@ -8,7 +8,6 @@ import Footer from "../../Footer/Footer";
 function Main() {
   return (
     <div>
-      <Navbar />
       <div className="container">
         <div className="sideCard">
           <SideCard />

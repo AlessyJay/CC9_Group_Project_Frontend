@@ -6,6 +6,7 @@ import Login from "./components/Login/Login";
 import CreateCommunity from "./components/CreateCommunity";
 import EditProfile from "./components/EditProfile";
 import Comment from "./components/newsFeed/Comment/Comment";
+import Main from "./components/newsFeed/MainPage/Main";
 
 function App() {
   return (
@@ -32,9 +33,10 @@ function App() {
         </div> */}
         {/* <CreateCommunity /> */}
         {/* <EditProfile /> */}
-        <Comment />
+        <Route exact path="/" component={Main} />
         <Route path="/login" component={Login} />
         <Route path="/5" component={PostImg} />
+        <Route path="/comment" component={Comment} />
       </Switch>
     </BrowserRouter>
   );
