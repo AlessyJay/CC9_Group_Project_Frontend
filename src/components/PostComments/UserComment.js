@@ -1,5 +1,5 @@
 import React from "react";
-import { HiChevronUp, HiChevronDown, HiOutlineEye } from "react-icons/hi";
+import { HiChevronUp, HiChevronDown, HiOutlineTrash, HiOutlinePencilAlt } from "react-icons/hi";
 
 function UserComment({ item }) {
   return (
@@ -21,12 +21,12 @@ function UserComment({ item }) {
           <HiChevronDown className="w-5 h-5" />
         </button>
         <button className="flex items-center mx-2">
-          <HiOutlineEye />
-          <span className="text-sm ml-1 font-light">hide</span>
+          <HiOutlinePencilAlt />
+          <span className="text-sm ml-1 font-light">edit</span>
         </button>
         <button className="flex items-center mx-2">
-          <HiOutlineEye />
-          <span className="text-sm ml-1 font-light">Approve</span>
+          <HiOutlineTrash />
+          <span className="text-sm ml-1 font-light">delete</span>
         </button>
       </div>
     </div>

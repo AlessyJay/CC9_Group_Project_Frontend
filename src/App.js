@@ -18,8 +18,8 @@ function App() {
           <Route key={item.path} exact={item.exact} path={item.path} component={item.component} />
         ))}
         <Redirect to={routes[role].redirect} /> */}
-        {/* <CommunityPage /> */}
-        <UserProfile />
+        <CommunityPage />
+        {/* <UserProfile /> */}
       </Switch>
     </>
   );
