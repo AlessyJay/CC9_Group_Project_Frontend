@@ -47,8 +47,9 @@ function Main() {
   };
 
   useEffect(() => {
-    text === ``.trim() ? setUnable(`unable`) : setUnable(`enable`);
+    text.trim() === `` ? setUnable(`unable`) : setUnable(`enable`);
     console.log(text);
+
     // axios fetch
   }, [text]);
 

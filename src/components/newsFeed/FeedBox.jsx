@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 // Import like and dislike icon.
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -17,13 +17,7 @@ function FeedBox(props) {
     item: { avatar, name, title, text, interactions },
   } = props;
 
-  const sliceTextFn = () => {
-    if (text.length > 250) {
-      return text.slice(0, 250);
-    } else {
-      return text;
-    }
-  };
+  const [seeMore, setSeeMore] = useState(false);
 
   return (
     <>
@@ -61,12 +55,16 @@ function FeedBox(props) {
           <h3 className="title">{title}</h3>
 
           {/* Messages */}
-          {text.length > 250 ? (
+          {/* {text.length > 250 && !seeMore ? ( */}
+          {text.length > 250 && seeMore === false ? (
             <p>
-              {sliceTextFn()}
+              {text.slice(0, 250)}
               {`\t`}
               {
-                <button className="readMore" onClick={() => text}>
+                <button
+                  className="readMore"
+                  onClick={() => setSeeMore(!seeMore)}
+                >
                   ... See more
                 </button>
               }

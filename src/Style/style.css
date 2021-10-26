@@ -12,6 +12,7 @@ html {
   overflow: hidden;
   margin-left: 10%;
   height: 100%;
+  overflow: visible;
 }
 .likeBtn {
   background: none;
@@ -32,6 +33,12 @@ hr {
   background: #317cd6;
   transition: 500ms;
 }
+/* .seeLess {
+  max-height: 5rem;
+}
+.seeMore {
+  height: fit-content;
+} */
 
 /* Feed box content */
 .feed-box {
