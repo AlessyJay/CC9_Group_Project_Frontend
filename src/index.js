@@ -5,11 +5,17 @@ import "./index.css";
 import "../node_modules/react-quill/dist/quill.snow.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { UserContextPervider } from "./context/userContext";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <React.StrictMode>
+      <UserContextPervider>
+        <App />
+      </UserContextPervider>
+    </React.StrictMode>
+  </BrowserRouter>,
   document.getElementById("root")
 );
 

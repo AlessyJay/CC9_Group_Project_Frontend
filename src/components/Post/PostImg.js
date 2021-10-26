@@ -11,6 +11,7 @@ import DraftModel from "./DraftModel";
 import { MOCK_DRAFT } from "../../services/timeDifferent";
 import { Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useEffect } from "react";
 
 function PostImg() {
   const [ToggleModel, setToggleModel] = useState(false);
@@ -27,7 +28,7 @@ function PostImg() {
     target: "u/Content_Avatar001",
     updatedAt: "2021-10-17 16:38:39",
   });
-  const [draftLists, setDraftLists] = useState(MOCK_DRAFT);
+  const [draftLists, setDraftLists] = useState([]);
   const [titleLength, setTitleLength] = useState(0);
   const [selectFiles, setSelectFiles] = useState([]);
   const [url1, setUrl1] = useState([]);
@@ -69,7 +70,6 @@ function PostImg() {
     setPostContent({
       id: 2,
       title: "",
-      description: "",
       type: "post",
       notification: false,
       userId: "",
@@ -78,8 +78,10 @@ function PostImg() {
       target: "u/Content_Avatar001",
       updatedAt: "2021-10-17 16:38:39",
     });
+
+    window.location.reload();
   };
-  console.log(draftLists);
+  console.log(postContent.title);
 
   const handleEditPost = id => {
     const idx = draftLists.findIndex(item => item.id === id);
@@ -309,6 +311,7 @@ function PostImg() {
                           ? "bg-blue-500 text-white"
                           : "bg-gray-200 cursor-not-allowed"
                       }  rounded-full font-semibold my-5  px-4 py-1 transition duration-300 ease-in-out`}
+                      disabled={postContent.postTarget && postContent.title !== "" ? false : true}
                     >
                       Post
                     </button>

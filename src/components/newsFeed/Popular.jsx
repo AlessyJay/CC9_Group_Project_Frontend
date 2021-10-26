@@ -12,9 +12,10 @@ function Popular() {
     width: "fit-content",
     margin: "1%",
   };
+
   return (
     <>
-      <div className="popularBar">
+      <div className="flex w-96 md:w-full bg-white shadow rounded-md my-3">
         <Button startIcon={<LocalFireDepartmentIcon />} style={buttonStyle}>
           Hot topics
         </Button>

@@ -21,6 +21,8 @@ import DropdownMenuComu from "./DropdownMenuComu";
 import NotificationHead from "./NotificationHead";
 import SearchCard from "./SearchCard";
 import { removeToken } from "../../services/localStorage";
+import { useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
 const MOCK_DATA = [
   {
@@ -85,6 +87,8 @@ const OTHER = [
 ];
 
 function Header() {
+  const { user } = useContext(UserContext);
+
   const [target, setTarget] = useState({ img: "", name: "" });
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -240,70 +244,74 @@ function Header() {
               <div className="group  flex items-center md:ml-6">
                 <div className="ml-3 relative">
                   <div className="relative inline-block text-left ">
-                    {/* <div className="flex items-center ">
-                      <ButtonLogin setShowLogin={setShowLogin} setShowRegister={setShowRegister} />
-                    </div>
-                    {showLogin && <Login setShowLogin={setShowLogin} />}
-                    {showRegister && <Register setShowRegister={setShowRegister} />} */}
-
-                    <div className="flex items-center px-4 py-2 w-full justify-center">
-                      <img
-                        className="rounded-full h-8 mr-2"
-                        alt="A"
-                        src="https://randomuser.me/api/portraits/men/85.jpg"
-                      />
-
-                      <div className="pr-4 font-extralight cursor-pointer">DueNeighborhood6317</div>
-                    </div>
-                    <div className="z-50 hidden group-hover:block origin-top-right absolute right-0 w-56 rounded-sm shadow-lg bg-white  ring-1 ring-black ring-opacity-5">
-                      <div className="py-1 " role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                        <div className="flex justify-between  items-center mt-2 ml-5">
-                          <div className="text-xs font-bold text-gray-500">My Service</div>
+                    {user ? (
+                      <>
+                        <div className="flex items-center px-4 py-2 w-full justify-center">
+                          <img
+                            className="rounded-full h-8 mr-2"
+                            alt="A"
+                            src="https://randomuser.me/api/portraits/men/85.jpg"
+                          />
+                          <div className="pr-4 font-extralight cursor-pointer">DueNeighborhood6317</div>
                         </div>
-                        <a
-                          href="#"
-                          className="block  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
-                          role="menuitem"
-                        >
-                          <div className="flex items-center">
-                            <div className="mr-2">
-                              <HiOutlineUserCircle className="w-5 h-5" />
+                        <div className="z-50 hidden group-hover:block origin-top-right absolute right-0 w-56 rounded-sm shadow-lg bg-white  ring-1 ring-black ring-opacity-5">
+                          <div className="py-1 " role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                            <div className="flex justify-between  items-center mt-2 ml-5">
+                              <div className="text-xs font-bold text-gray-500">My Service</div>
                             </div>
-                            <span className="flex flex-col text-sm">
-                              <span>Account</span>
-                            </span>
+                            <a
+                              href="#"
+                              className="block  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
+                              role="menuitem"
+                            >
+                              <div className="flex items-center">
+                                <div className="mr-2">
+                                  <HiOutlineUserCircle className="w-5 h-5" />
+                                </div>
+                                <span className="flex flex-col text-sm">
+                                  <span>Account</span>
+                                </span>
+                              </div>
+                            </a>
+                            <a
+                              href="#"
+                              className="block  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
+                              role="menuitem"
+                            >
+                              <div className="flex items-center">
+                                <div className="mr-2">
+                                  <HiOutlineCog className="w-5 h-5" />
+                                </div>
+                                <span className="flex flex-col text-sm">
+                                  <span>User Settting</span>
+                                </span>
+                              </div>
+                            </a>
+                            <a
+                              href="#"
+                              className="block  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
+                              role="menuitem"
+                            >
+                              <div className="flex items-center">
+                                <div className="mr-2">
+                                  <HiOutlineLogout className="w-5 h-5" />
+                                </div>
+                                <span onClick={() => removeToken()} className="flex flex-col text-sm">
+                                  <span>Log out</span>
+                                </span>
+                              </div>
+                            </a>
                           </div>
-                        </a>
-                        <a
-                          href="#"
-                          className="block  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
-                          role="menuitem"
-                        >
-                          <div className="flex items-center">
-                            <div className="mr-2">
-                              <HiOutlineCog className="w-5 h-5" />
-                            </div>
-                            <span className="flex flex-col text-sm">
-                              <span>User Settting</span>
-                            </span>
-                          </div>
-                        </a>
-                        <a
-                          href="#"
-                          className="block  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
-                          role="menuitem"
-                        >
-                          <div className="flex items-center">
-                            <div className="mr-2">
-                              <HiOutlineLogout className="w-5 h-5" />
-                            </div>
-                            <span onClick={() => removeToken()} className="flex flex-col text-sm">
-                              <span>Log out</span>
-                            </span>
-                          </div>
-                        </a>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex items-center w-48">
+                        <ButtonLogin setShowLogin={setShowLogin} setShowRegister={setShowRegister} />
                       </div>
-                    </div>
+                    )}
+
+                    {showLogin && <Login setShowLogin={setShowLogin} />}
+                    {showRegister && <Register setShowRegister={setShowRegister} />}
                   </div>
                 </div>
               </div>

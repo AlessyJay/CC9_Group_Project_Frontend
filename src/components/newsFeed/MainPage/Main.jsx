@@ -1,4 +1,3 @@
-import Navbar from "../../Navbar/Navbar";
 import FeedBox from "../../newsFeed/FeedBox";
 import Popular from "../../newsFeed/Popular";
 import SideCard from "../../newsFeed/SideCard";
@@ -8,7 +7,6 @@ import Footer from "../../Footer/Footer";
 function Main() {
   return (
     <div>
-      <Navbar />
       <div className="container">
         <div className="sideCard">
           <SideCard />

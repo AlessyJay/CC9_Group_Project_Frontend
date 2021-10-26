@@ -4,6 +4,10 @@ import LoginFacebook from "./LoginFacebook";
 import LoginGoogle from "./LoginGoogle";
 import axios from "../../config/axios";
 import { useHistory } from "react-router";
+import jwtDecode from "jwt-decode";
+import { UserContext } from "../../context/userContext";
+import { useContext } from "react";
+import { setToken } from "../../services/localStorage";
 
 function Login({ setShowLogin }) {
   const [error, setError] = useState("");
@@ -11,6 +15,8 @@ function Login({ setShowLogin }) {
     email: "",
     password: "",
   });
+
+  const { setUser } = useContext(UserContext);
   const history = useHistory();
 
   const handleChangeInput = e => {
@@ -21,8 +27,10 @@ function Login({ setShowLogin }) {
     e.preventDefault();
 
     try {
-      await axios.post("/users/login", { email: loginObj.email, password: loginObj.password });
-      history.push("/");
+      const res = await axios.post("/users/login", { email: loginObj.email, password: loginObj.password });
+      setToken(res.data.token);
+      setUser(jwtDecode(res.data.token));
+      setShowLogin(false);
     } catch (err) {
       console.log(err);
       console.dir(err);

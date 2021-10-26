@@ -1,78 +1,57 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// Import like and dislike icon.
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-// Import avatar from mui material.
-import Avatar from "@mui/material/Avatar";
-// Import buttons
-import Button from "@mui/material/Button";
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import MessageIcon from "@mui/icons-material/Message";
-import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { HiChevronUp, HiChevronDown, HiOutlineAnnotation, HiOutlineBookmark, HiOutlineEye } from "react-icons/hi";
 
 function FeedBox() {
   return (
     <>
-      <div className="feed-box">
+      <div className="w-96 md:w-full flex bg-white mb-2 shadow rounded-md">
         {/* Like section starts here */}
-        <div className="like-section">
-          <div className="btn">
-            <button className="likeBtn">
-              <ExpandLessIcon />
-            </button>
-            <h3>0</h3>
-            <button className="likeBtn">
-              <ExpandMoreIcon />
-            </button>
-          </div>
+        <div className="bg-gray-100 w-10 rounded-md rounded-r-none flex-col items-center">
+          <button className="w-full flex justify-center">
+            <HiChevronUp className="w-7 h-7" />
+          </button>
+          <div className="flex justify-center text-sm font-light">0</div>
+          <button className="w-full flex justify-center">
+            <HiChevronDown className="w-7 h-7" />
+          </button>
         </div>
 
-        {/* Post content starts here */}
-        <div className="avatarAndName">
-          <Avatar
-            alt="Profile picture"
-            src="https://images.pexels.com/photos/4587991/pexels-photo-4587991.jpeg?cs=srgb&dl=pexels-anna-shvets-4587991.jpg&fm=jpg"
-            style={{ border: "double 2px black" }}
-          />
-          <h4 className="username">
-            John{" "}
-            <span
-              style={{ opacity: "0.5", fontSize: "12px", marginLeft: "3%" }}
-            >
-              Posted by: John TIME
+        <div className="w-full">
+          <div className="flex">
+            <div className="flex  p-2">
+              <img className="rounded-full h-6 w-6" alt="A" src="https://randomuser.me/api/portraits/men/85.jpg" />
+            </div>
+            <span className="flex text-sm w-full items-center">
+              <span className="font-semibold mr-2">r/javascript</span>
+              <div className="overflow-ellipsis text-xs font-light flex flex-wrap">
+                Posted byu/logicspock 15 hours ago
+              </div>
             </span>
-          </h4>
-
-          {/* Title */}
-          <h3 className="title">This community is good!</h3>
-
-          {/* Messages */}
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam non
-            quod facilis laborum rerum ut iure dicta id aspernatur libero, velit
-            sed sit autem in sequi reiciendis nemo nam ullam.
-          </p>
-
-          {/* Comment, share, save, and more button start here */}
-          <div className="functionBtn" style={{ margin: "1%" }}>
-            <Link to="/comment">
-              <Button startIcon={<MessageIcon />}>0 Comments</Button>
-            </Link>
-            <Button startIcon={<TurnedInNotIcon />}>Save</Button>
-            <Button startIcon={<MoreHorizIcon />}></Button>
           </div>
-        </div>
-        {/* Join button starts here */}
-        <div className="joinBtn">
-          <Button
-            startIcon={<ControlPointIcon />}
-            variant="contained"
-            style={{ background: "blue" }}
-          >
-            Follow
-          </Button>
+          <Link to={"#"} className="w-full">
+            <div className="p-1">Title Content</div>
+            <div className="overflow-ellipsis  font-light text-sm p-1 pt-0 mb-2">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.
+            </div>
+          </Link>
+
+          <div className="p-2 flex">
+            <button className="flex items-center mr-4">
+              <HiOutlineAnnotation />
+              <span className="text-sm ml-1 font-light">comment</span>
+            </button>
+            <button className="flex items-center mr-4">
+              <HiOutlineBookmark />
+              <span className="text-sm ml-1 font-light">save</span>
+            </button>
+            <button className="flex items-center mr-4">
+              <HiOutlineEye />
+              <span className="text-sm ml-1 font-light">hide</span>
+            </button>
+          </div>
         </div>
       </div>
     </>

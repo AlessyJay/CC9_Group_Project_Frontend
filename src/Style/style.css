@@ -1,18 +1,18 @@
 /* Global */
-@import url("https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap");
 body,
 html {
   font-family: "Noto Serif", serif;
   margin: 0;
   padding: 0;
   background: #dae0e6;
-}
-.container {
+} */
+/* .container {
   width: 80%;
   overflow: hidden;
   margin-left: 10%;
   height: 100%;
-}
+} */
 .likeBtn {
   background: none;
   border: none;
@@ -26,12 +26,9 @@ html {
   flex-direction: row;
   flex: auto;
   background: white;
-  width: 50%;
   border-radius: 5px;
   box-shadow: 5px 8px 8px darkgray;
   height: fit-content;
-  margin-top: 2%;
-  margin-left: 10%;
   margin-bottom: 2%;
 }
 /* Like section */
@@ -88,12 +85,11 @@ html {
   flex-direction: row;
   flex: auto;
   background: white;
-  width: 50%;
   border-radius: 5px;
   box-shadow: 5px 8px 8px darkgray;
   height: fit-content;
+  margin-bottom: 2%;
   margin-top: 2%;
-  margin-left: 10%;
 }
 /* View all button starts here */
 .viewAllBtn {

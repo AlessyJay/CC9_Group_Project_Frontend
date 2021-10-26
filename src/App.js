@@ -1,42 +1,25 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import PostImg from "./components/Post/PostImg";
-import PostText from "./components/Post/PostText";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Header from "./components/Navbar/Header";
-import Login from "./components/Login/Login";
-import CreateCommunity from "./components/CreateCommunity";
-import EditProfile from "./components/EditProfile";
-import Comment from "./components/newsFeed/Comment/Comment";
+import { useContext } from "react";
+import { UserContext } from "./context/userContext";
+import routes from "./config/route";
+import CommunityPage from "./pages/CommunityPage";
 
 function App() {
+  const { user } = useContext(UserContext);
+  const role = user ? "user" : "guest";
+
   return (
-    <BrowserRouter>
+    <>
       <Header />
       <Switch>
-        {/* <CommunityHeader /> */}
-        {/* <div className="px-6 py-4 text-gray-400">
-          <div className="border  p-2 rounded-md flex">
-            <div className="rounded-full bg-gray-600 overflow-hidden w-10 h-10">
-              <img src="" alt="" style={{ filter: "invert(100%)" }} />
-            </div>
-            <form action="" className="flex-grow  border  ml-4 mr-2 rounded-md">
-              <input
-                type="text"
-                onFocus={e => {
-                  e.preventDefault();
-                }}
-                className=" p-2 px-3 text-sm block w-full rounded-md"
-                placeholder="New post"
-              />
-            </form>
-          </div>
-        </div> */}
-        {/* <CreateCommunity /> */}
-        {/* <EditProfile /> */}
-        <Comment />
-        <Route path="/login" component={Login} />
-        <Route path="/5" component={PostImg} />
+        {/* {routes[role].route.map(item => (
+          <Route key={item.path} exact={item.exact} path={item.path} component={item.component} />
+        ))}
+        <Redirect to={routes[role].redirect} /> */}
+        <CommunityPage />
       </Switch>
-    </BrowserRouter>
+    </>
   );
 }
 
