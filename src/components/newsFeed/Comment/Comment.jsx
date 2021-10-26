@@ -1,7 +1,7 @@
 import SideCard from "../../newsFeed/SideCard";
 import CreatePostAndCommunity from "../../newsFeed/CreatePostAndCommunity";
 import Footer from "../../Footer/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Import like and dislike icon.
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -14,8 +14,44 @@ import MessageIcon from "@mui/icons-material/Message";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
+const COMMENTS = [
+  {
+    avatar:
+      "https://images.pexels.com/photos/7029081/pexels-photo-7029081.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+    name: "Kenny",
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam non quod facilis laborum rerum ut iure dicta id aspernatur libero, velit sed sit autem in sequi reiciendis nemo nam ullam.",
+  },
+  {
+    avatar:
+      "https://images.pexels.com/photos/8123643/pexels-photo-8123643.jpeg?cs=srgb&dl=pexels-serkan-bayraktar-8123643.jpg&fm=jpg",
+    name: "Christ",
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam non quod facilis laborum rerum ut iure dicta id aspernatur libero, velit sed sit autem in sequi reiciendis nemo nam ullam.",
+  },
+  {
+    avatar:
+      "https://images.pexels.com/photos/7693210/pexels-photo-7693210.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+    name: "Ellena",
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam non quod facilis laborum rerum ut iure dicta id aspernatur libero, velit sed sit autem in sequi reiciendis nemo nam ullam.",
+  },
+];
+
 function Main() {
   const [text, setText] = useState("");
+  const [unable, setUnable] = useState(``);
+
+  const handlePost = (e) => {
+    e.preventDefault();
+    console.log(`click!`);
+
+    // axios part
+  };
+
+  useEffect(() => {
+    text === ``.trim() ? setUnable(`unable`) : setUnable(`enable`);
+    console.log(text);
+    // axios fetch
+  }, [text]);
+
   return (
     <div>
       <div className="container">
@@ -83,52 +119,57 @@ function Main() {
                 cols="30"
                 rows="10"
                 placeholder="Write down your thoughts!"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
               ></textarea>
 
               {/* Post button starts here */}
-              <div className="postBtn">
-                {/* Sort by menu lists */}
-                <div className="dropdown">
-                  <label>Sort by: </label>
-                  <select className="dropdownBtn">
-                    <option value="best">Best</option>
-                    <option value="top">Top</option>
-                    <option value="new">New</option>
-                    <option value="controversial">Controversial</option>
-                    <option value="old">Old</option>
-                    <option value="qa">QA</option>
-                  </select>
+              <form className="postForm" onSubmit={handlePost}>
+                <div className="postBtn">
+                  {/* Sort by menu lists */}
+                  <div className="dropdown">
+                    <label>Sort by: </label>
+                    <select className="dropdownBtn">
+                      <option value="new">New</option>
+                      <option value="old">Old</option>
+                    </select>
+                  </div>
+                  <button type="submit" className={`${unable}`}>
+                    Post
+                  </button>
                 </div>
-                <button>Post</button>
-              </div>
+              </form>
             </div>
             <hr className="commentLine" />
-            <div
-              className="avatarAndName"
-              style={{ justifyContent: "center", margin: "2% 0 2% 0" }}
-            >
-              <Avatar
-                alt="Profile picture"
-                src="https://images.pexels.com/photos/4587991/pexels-photo-4587991.jpeg?cs=srgb&dl=pexels-anna-shvets-4587991.jpg&fm=jpg"
-                style={{ border: "double 2px black" }}
-              />
-              <h4 className="username">
-                John{" "}
-                <span
-                  style={{ opacity: "0.5", fontSize: "12px", marginLeft: "3%" }}
-                >
-                  Posted by: John TIME
-                </span>
-              </h4>
-              <div className="message">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum
-                  rem fugiat quisquam eum voluptate. Itaque consequuntur sit
-                  harum esse culpa quia dignissimos non reprehenderit, illo iure
-                  doloribus officia repellat in.
-                </p>
+
+            {/* Comments under the post! */}
+            {COMMENTS.map((item) => (
+              <div
+                className="avatarAndName"
+                style={{ justifyContent: "center", margin: "2% 0 2% 0" }}
+              >
+                <Avatar
+                  alt="Profile picture"
+                  src={`${item.avatar}`}
+                  style={{ border: "double 2px black" }}
+                />
+                <h4 className="username">
+                  {item.name}{" "}
+                  <span
+                    style={{
+                      opacity: "0.5",
+                      fontSize: "12px",
+                      marginLeft: "3%",
+                    }}
+                  >
+                    Posted by: {item.name} TIME
+                  </span>
+                </h4>
+                <div className="message">
+                  <p>{item.text}</p>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

@@ -23,6 +23,15 @@ hr {
   border: solid black 1px;
   width: 90%;
 }
+.unable {
+  background: gray;
+  pointer-events: none;
+}
+.enable {
+  cursor: pointer;
+  background: #317cd6;
+  transition: 500ms;
+}
 
 /* Feed box content */
 .feed-box {
@@ -206,17 +215,22 @@ hr {
   min-height: 200px;
   outline: none;
 }
+.postForm {
+  width: 100%;
+}
 .postBtn {
   width: 100%;
   display: flex;
-  justify-content: flex-end;
-  margin: 2% 12% 2% 0;
+  justify-content: space-evenly;
+  margin: 2% 0 2% 0;
 }
 .postBtn button {
-  background: gray;
+  font-size: 20px;
+  font-weight: bolder;
   width: 25%;
   padding: 2%;
   border-radius: 50px;
+  transition: 200ms;
 }
 .comment {
   display: flex;
@@ -240,4 +254,5 @@ hr {
 }
 .message {
   width: 80%;
+  margin-bottom: 2%;
 }
