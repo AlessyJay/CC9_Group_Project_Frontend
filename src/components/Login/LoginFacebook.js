@@ -1,37 +1,35 @@
-import React, { useState } from "react";
-import FacebookLogin from "react-facebook-login";
-import { FaFacebookF } from "react-icons/fa";
+import React, { useState } from 'react';
+import FacebookLogin from 'react-facebook-login';
+import { FaFacebookF } from 'react-icons/fa';
 
 function LoginFacebook() {
-  const clientId = "864275854266130";
+  const clientId = '864275854266130';
   const [isLogged, setIsLogged] = useState(false);
   const [user, setUser] = useState({
-    name: "",
-    email: "",
-    picture: "",
+    name: '',
+    email: '',
+    picture: '',
   });
-  const responseFacebook = res => {
-    console.log("Login", res);
+  const responseFacebook = (res) => {
+    console.log('Login', res);
     setIsLogged(true);
-    setUser(cur => ({
+    setUser((cur) => ({
       ...cur,
       name: res.name,
       email: res.email,
       picture: res.picture?.data?.url,
     }));
   };
-  const onLoginSuccess = res => {
-    console.log("xxxxxxxxx");
-
+  const onLoginSuccess = (res) => {
     console.log(res);
   };
-  const onLogoutSuccess = res => {
+  const onLogoutSuccess = (res) => {
     setIsLogged(false);
   };
 
   const fa = (
     <div className="p-2.5 mr-2.5">
-      <FaFacebookF style={{ fontSize: "18px" }} />
+      <FaFacebookF style={{ fontSize: '18px' }} />
     </div>
   );
 

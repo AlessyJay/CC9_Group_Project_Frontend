@@ -9,7 +9,7 @@ import { UserContext } from '../../context/userContext';
 import { useContext } from 'react';
 import { setToken } from '../../services/localStorage';
 
-function Login({ setShowLogin }) {
+function Login({ setShowLogin, setShowRegister }) {
   const [error, setError] = useState('');
   const [loginObj, setLoginObj] = useState({
     email: '',
@@ -134,12 +134,15 @@ function Login({ setShowLogin }) {
                 </label>
               </div>
               <div className="text-sm">
-                <Link
-                  to={'/register'}
-                  className="font-medium text-blue-600 hover:text-blue-500 mr-9"
+                <p
+                  className="font-medium text-blue-600 hover:text-blue-500 mr-9 cursor-pointer"
+                  onClick={() => {
+                    setShowRegister(true);
+                    setShowLogin(false);
+                  }}
                 >
                   Sign Up
-                </Link>
+                </p>
               </div>
             </div>
           </form>
