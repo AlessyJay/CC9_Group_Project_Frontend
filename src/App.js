@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { UserContext } from "./context/userContext";
 import routes from "./config/route";
 import CommunityPage from "./pages/CommunityPage";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   const { user } = useContext(UserContext);
@@ -17,7 +18,8 @@ function App() {
           <Route key={item.path} exact={item.exact} path={item.path} component={item.component} />
         ))}
         <Redirect to={routes[role].redirect} /> */}
-        <CommunityPage />
+        {/* <CommunityPage /> */}
+        <UserProfile />
       </Switch>
     </>
   );
