@@ -1,33 +1,37 @@
-import React, { useState } from "react";
+import axios from "../../config/axios";
+import React, { useContext, useState } from "react";
 import FacebookLogin from "react-facebook-login";
 import { FaFacebookF } from "react-icons/fa";
+import { setToken } from "../../services/localStorage";
+import { UserContext } from "../../context/userContext";
+import jwtDecode from "jwt-decode";
 
-function LoginFacebook() {
+function LoginFacebook({ setShowLogin }) {
+  const { setUser } = useContext(UserContext);
   const clientId = "864275854266130";
-  const [isLogged, setIsLogged] = useState(false);
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-    picture: "",
-  });
-  const responseFacebook = res => {
-    console.log("Login", res);
-    setIsLogged(true);
-    setUser(cur => ({
-      ...cur,
-      name: res.name,
-      email: res.email,
-      picture: res.picture?.data?.url,
-    }));
+
+  const responseFacebook = async response => {
+    console.log("Login", response);
+    const { email, id, first_name, last_name, picture } = response;
+
+    const dataObj = {
+      email: email,
+      facebookId: id,
+      firstname: first_name,
+      lastname: last_name,
+      imageUrl: picture.data.url,
+    };
+
+    const res = await axios.post("/users/facebookauth", dataObj);
+    console.log(res.data.token);
+    setToken(res.data.token);
+    setUser(jwtDecode(res.data.token));
+    setShowLogin(false);
   };
   const onLoginSuccess = res => {
-    console.log("xxxxxxxxx");
-
     console.log(res);
   };
-  const onLogoutSuccess = res => {
-    setIsLogged(false);
-  };
+  const onLogoutSuccess = res => {};
 
   const fa = (
     <div className="p-2.5 mr-2.5">
@@ -39,7 +43,7 @@ function LoginFacebook() {
     <div>
       <FacebookLogin
         appId={clientId}
-        fields="name,email,picture"
+        fields="first_name,last_name,email,picture"
         callback={responseFacebook}
         onClick={() => onLoginSuccess()}
         icon={fa}

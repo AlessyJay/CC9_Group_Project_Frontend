@@ -7,7 +7,7 @@ import Footer from "../components/Footer/Footer";
 
 function Mainpage() {
   return (
-    <div className=" grid grid-cols-7 gap-6">
+    <div className="bg-gray-200 grid grid-cols-7 gap-6">
       <div className="col-start-2 col-span-3 ">
         <Popular />
         <FeedBox />

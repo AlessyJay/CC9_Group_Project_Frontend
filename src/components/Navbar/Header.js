@@ -87,7 +87,7 @@ const OTHER = [
 ];
 
 function Header() {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const [target, setTarget] = useState({ img: "", name: "" });
   const [showLogin, setShowLogin] = useState(false);
@@ -97,6 +97,13 @@ function Header() {
 
   const handleSelectTarget = (url, name, icon) => {
     setTarget(cur => ({ ...cur, img: url, name, icon }));
+  };
+
+  console.log(user);
+
+  const handleLogOut = () => {
+    setUser(null);
+    removeToken();
   };
 
   return (
@@ -247,12 +254,8 @@ function Header() {
                     {user ? (
                       <>
                         <div className="flex items-center px-4 py-2 w-full justify-center">
-                          <img
-                            className="rounded-full h-8 mr-2"
-                            alt="A"
-                            src="https://randomuser.me/api/portraits/men/85.jpg"
-                          />
-                          <div className="pr-4 font-extralight cursor-pointer">DueNeighborhood6317</div>
+                          <img className="rounded-full h-8 mr-2" alt="A" src={user.profileUrl} />
+                          <div className="pr-4 font-extralight cursor-pointer">{user.username}</div>
                         </div>
                         <div className="z-50 hidden group-hover:block origin-top-right absolute right-0 w-56 rounded-sm shadow-lg bg-white  ring-1 ring-black ring-opacity-5">
                           <div className="py-1 " role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
@@ -296,7 +299,7 @@ function Header() {
                                 <div className="mr-2">
                                   <HiOutlineLogout className="w-5 h-5" />
                                 </div>
-                                <span onClick={() => removeToken()} className="flex flex-col text-sm">
+                                <span onClick={handleLogOut} className="flex flex-col text-sm">
                                   <span>Log out</span>
                                 </span>
                               </div>

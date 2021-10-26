@@ -3,7 +3,7 @@ import { validateLoginObject } from "../../services/validations";
 import LoginFacebook from "./LoginFacebook";
 import LoginGoogle from "./LoginGoogle";
 import axios from "../../config/axios";
-import { useHistory } from "react-router";
+import { useHistory, Link } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import { UserContext } from "../../context/userContext";
 import { useContext } from "react";
@@ -25,9 +25,11 @@ function Login({ setShowLogin }) {
 
   const submitLoginform = async e => {
     e.preventDefault();
-
     try {
-      const res = await axios.post("/users/login", { email: loginObj.email, password: loginObj.password });
+      const res = await axios.post("/users/login", {
+        email: loginObj.email,
+        password: loginObj.password,
+      });
       setToken(res.data.token);
       setUser(jwtDecode(res.data.token));
       setShowLogin(false);
@@ -42,10 +44,10 @@ function Login({ setShowLogin }) {
     <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col  items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-90 filter z-30">
       <div className="mx-auto p-24 pt-28 pb-28 bg-yellow-50 rounded-3xl shadow-md">
         <div className="max-w-sm w-full mb-2">
-          <LoginGoogle />
+          <LoginGoogle setShowLogin={setShowLogin} />
         </div>
         <div className="max-w-sm w-full ">
-          <LoginFacebook />
+          <LoginFacebook setShowLogin={setShowLogin} />
         </div>
         <div class="my-2 flex flex-row justify-center">
           <span class="absolute bg-yellow-50 px-4 text-gray-900">or</span>
@@ -101,9 +103,9 @@ function Login({ setShowLogin }) {
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+                <Link to={"/resetpassword"} className="font-medium text-blue-600 hover:text-blue-500">
                   Forgot your password?
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -123,9 +125,9 @@ function Login({ setShowLogin }) {
                 </label>
               </div>
               <div className="text-sm">
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500 mr-9">
+                <Link to={"/register"} className="font-medium text-blue-600 hover:text-blue-500 mr-9">
                   Sign Up
-                </a>
+                </Link>
               </div>
             </div>
           </form>

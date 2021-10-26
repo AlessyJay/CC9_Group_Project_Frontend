@@ -1,12 +1,14 @@
 import axios from "../../config/axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { setToken } from "../../services/localStorage";
+import { UserContext } from "../../context/userContext";
+import jwtDecode from "jwt-decode";
 
 const clientId = "53293005935-dgrkd5fp3429rbgk897j2n68sch99nrk.apps.googleusercontent.com";
 
-function LoginGoogle() {
-  const [showloginButton, setShowloginButton] = useState(true);
-  const [showlogoutButton, setShowlogoutButton] = useState(false);
+function LoginGoogle({ setShowLogin }) {
+  const { setUser } = useContext(UserContext);
 
   const onLoginSuccess = async response => {
     // console.log('Login Success:', response.profileObj);
@@ -20,9 +22,10 @@ function LoginGoogle() {
     };
 
     const res = await axios.post("/users/googleauth", dataObj);
-    console.log(res.data.token, res.data.message);
-    setShowloginButton(false);
-    setShowlogoutButton(true);
+    // console.log(res.data.token, res.data.message);
+    setToken(res.data.token);
+    setUser(jwtDecode(res.data.token));
+    setShowLogin(false);
   };
 
   const onLoginFailure = res => {
@@ -32,8 +35,6 @@ function LoginGoogle() {
   const onSignoutSuccess = () => {
     alert("You have been logged out successfully");
     console.clear();
-    setShowloginButton(true);
-    setShowlogoutButton(false);
   };
   return (
     <div>
@@ -43,7 +44,6 @@ function LoginGoogle() {
         onSuccess={onLoginSuccess}
         onFailure={onLoginFailure}
         cookiePolicy={"single_host_origin"}
-        isSignedIn={true}
         className="shadow-md flex items-center justify-center h-11 max-w-xs w-full rounded-sm "
         style={{ fontSize: "16px" }}
       />
