@@ -4,9 +4,14 @@ import Register from "../components/Login/Register";
 import Resetpassword from "../components/Login/ResetPassword";
 import ComfiremResetPassword from "../components/Login/ConfiremResetPassword";
 import CommunityPage from "../pages/CommunityPage";
+import CreatePost from "../pages/CreatePost";
 const routes = {
   user: {
     route: [
+      {
+        path: "/create-post",
+        component: CreatePost,
+      },
       {
         path: "/",
         component: Mainpage,

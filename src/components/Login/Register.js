@@ -1,26 +1,35 @@
-import React, { useState } from "react";
-import LoginFacebook from "./LoginFacebook";
-import LoginGoogle from "./LoginGoogle";
-
-function Register({ setShowRegister }) {
+import React, { useState } from 'react';
+import { validateRegisterObject } from '../../services/validations';
+import LoginFacebook from './LoginFacebook';
+import LoginGoogle from './LoginGoogle';
+import axios from '../../config/axios';
+function Register({ setShowRegister, setShowLogin }) {
+  const [error, setError] = useState({});
   const [registerObj, setRegisterObj] = useState({
-    email: "",
-    username: "",
-    password: "",
-    confirmpassword: "",
+    email: '',
+    username: '',
+    password: '',
+    confirmpassword: '',
   });
 
-  const handleChangeInput = e => {
-    setRegisterObj(cur => ({ ...cur, [e.target.name]: e.target.value }));
+  const handleChangeInput = (e) => {
+    setRegisterObj((cur) => ({ ...cur, [e.target.name]: e.target.value }));
   };
-
-  const submitRegisterform = e => {
+  console.log(error);
+  const submitRegisterform = async (e) => {
     e.preventDefault();
-
-    try {
-    } catch (err) {
-      console.log(err);
-      console.dir(err);
+    const errMessage = validateRegisterObject(registerObj);
+    setError(errMessage);
+    if (Object.keys(errMessage).length === 0) {
+      try {
+        const res = await axios.post('/users/register', registerObj);
+        setShowRegister(false);
+        setShowLogin(true);
+      } catch (err) {
+        setError((cur) => ({ ...cur, username: err.response.data.message }));
+        console.dir(err);
+        console.log(err);
+      }
     }
   };
   return (
@@ -34,7 +43,7 @@ function Register({ setShowRegister }) {
         </div>
         <div class="my-2 flex flex-row justify-center">
           <span class="absolute bg-yellow-50 px-4 text-gray-900">or</span>
-          <div class="w-full bg-gray-200 mt-3" style={{ height: "1px" }}></div>
+          <div class="w-full bg-gray-200 mt-3" style={{ height: '1px' }}></div>
         </div>
         <div className="max-w-sm w-full space-y-8 ">
           <form className="mt-8 space-y-6" action="#" method="POST">
@@ -53,6 +62,11 @@ function Register({ setShowRegister }) {
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
+                {error.email && (
+                  <p className="text-red-600 text-xs italic mb-1">
+                    {error.email}
+                  </p>
+                )}
               </div>
               <div>
                 <label for="email-address" className="sr-only">
@@ -68,6 +82,11 @@ function Register({ setShowRegister }) {
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Username"
                 />
+                {error.username && (
+                  <p className="text-red-600 text-xs italic mb-1">
+                    {error.username}
+                  </p>
+                )}
               </div>
               <div>
                 <label for="password" className="sr-only">
@@ -82,6 +101,11 @@ function Register({ setShowRegister }) {
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
                 />
+                {error.password && (
+                  <p className="text-red-600 text-xs italic mb-1">
+                    {error.password}
+                  </p>
+                )}
               </div>
               <div>
                 <label for="confirmpassword" className="sr-only">
@@ -96,24 +120,39 @@ function Register({ setShowRegister }) {
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Confirm Password"
                 />
+                {error.confirmpassword && (
+                  <p className="text-red-600 text-xs italic">
+                    {error.confirmpassword}
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="flex items-center justify-around">
               <div className="flex items-center">
-                <label for="remember-me" className="ml-7 mr-4 block text-sm text-gray-900">
+                <label
+                  for="remember-me"
+                  className="ml-7 mr-4 block text-sm text-gray-900"
+                >
                   Already have an account?
                 </label>
               </div>
               <div className="text-sm">
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500 mr-9">
+                <div
+                  className="font-medium text-blue-600 hover:text-blue-500 mr-9 cursor-pointer"
+                  onClick={() => {
+                    setShowLogin(true);
+                    setShowRegister(false);
+                  }}
+                >
                   Login
-                </a>
+                </div>
               </div>
             </div>
 
             <div>
               <button
+                onClick={submitRegisterform}
                 type="submit"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >

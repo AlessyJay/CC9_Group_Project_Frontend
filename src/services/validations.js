@@ -24,31 +24,12 @@ const validateInput = (name, value) => {
       return '';
     }
 
-    case 'firstname': {
+    case 'username': {
       if (isEmpty(value)) {
-        return 'Firstname is required';
+        return 'Username is required';
       }
       return '';
     }
-    case 'lastname': {
-      if (isEmpty(value)) {
-        return 'Lastname is required';
-      }
-      return '';
-    }
-    case 'phonenumber': {
-      if (isEmpty(value)) {
-        return 'Phonenumber is required';
-      }
-      if (!isNumeric(value)) {
-        return 'Invalid phonenumber format';
-      }
-      if (value.length !== 10) {
-        return 'Invalid phonenumber format';
-      }
-      return '';
-    }
-
     case 'postTarget': {
       if (!value) {
         return 'Select your target post';
@@ -77,22 +58,18 @@ const validateInput = (name, value) => {
   }
 };
 
-const validateRegisterObject = (value, form) => {
+const validateRegisterObject = (value) => {
   console.log('validata', value);
   const errorEmail = validateInput('email', value.email);
   const errorPassword = validateInput('password', value.password);
-  const errorFirstname = validateInput('firstname', value.firstname);
-  const errorLastname = validateInput('lastname', value.password);
-  const errorPhonenumber = validateInput('phonenumber', value.phonenumber);
+  const errorUsername = validateInput('username', value.username);
   const errorConfirmPassword =
     value.password !== value.confirmpassword ? 'Password is not match' : '';
 
   const error = {};
   if (errorEmail) error.email = errorEmail;
   if (errorPassword) error.password = errorPassword;
-  if (errorFirstname) error.firstname = errorFirstname;
-  if (errorLastname) error.lastname = errorLastname;
-  if (errorPhonenumber) error.phonenumber = errorPhonenumber;
+  if (errorUsername) error.username = errorUsername;
   if (errorConfirmPassword) error.confirmpassword = errorConfirmPassword;
   return error;
 };
