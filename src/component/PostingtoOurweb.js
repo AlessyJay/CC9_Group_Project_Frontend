@@ -6,19 +6,19 @@ export default function PostingtoOurweb() {
       <div className="w-11/12">
         {" "}
         <p className="mt-5 font-semibold">Posting to Ourweb</p>
-        <div class="my-1 grid grid-cols-1 divide-y divide-gray-200  ">
-          <div className="my-2 ">
-            <p className="mt-8">1.remember the humen</p>
-          </div>
-          <div className="my-2 ">
+        <ul class="grid grid-cols-1 divide-y divide-gray-200  ">
+          <li className="my-5 ">
+            <p className="">1.remember the humen</p>
+          </li>
+          <li className="my-5  ">
             {" "}
-            <p className="mt-8">1.remember the humen</p>
-          </div>
-          <div className="my-2 ">
+            <p className="">1.remember the humen</p>
+          </li>
+          <li className=" my-5 ">
             {" "}
-            <p className="mt-8">1.remember the humen</p>
-          </div>
-        </div>
+            <p className="">1.remember the humen</p>
+          </li>
+        </ul>
       </div>
     </div>
   );
