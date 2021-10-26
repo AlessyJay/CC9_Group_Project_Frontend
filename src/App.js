@@ -1,25 +1,26 @@
-import { Switch, Route, Redirect } from "react-router-dom";
-import Header from "./components/Navbar/Header";
-import { useContext } from "react";
-import { UserContext } from "./context/userContext";
-import routes from "./config/route";
-import CommunityPage from "./pages/CommunityPage";
-import UserProfile from "./pages/UserProfile";
+import { Switch, Route, Redirect } from 'react-router-dom';
+import Header from './components/Navbar/Header';
+import { useContext } from 'react';
+import { UserContext } from './context/userContext';
+import routes from './config/route';
 
 function App() {
   const { user } = useContext(UserContext);
-  const role = user ? "user" : "guest";
+  const role = user ? 'user' : 'guest';
 
   return (
     <>
       <Header />
       <Switch>
-        {/* {routes[role].route.map(item => (
-          <Route key={item.path} exact={item.exact} path={item.path} component={item.component} />
+        {routes[role].route.map((item) => (
+          <Route
+            key={item.path}
+            exact={item.exact}
+            path={item.path}
+            component={item.component}
+          />
         ))}
-        <Redirect to={routes[role].redirect} /> */}
-        {/* <CommunityPage /> */}
-        <UserProfile />
+        <Redirect to={routes[role].redirect} />
       </Switch>
     </>
   );

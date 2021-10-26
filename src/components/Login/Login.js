@@ -1,33 +1,35 @@
-import React, { useState } from "react";
-import { validateLoginObject } from "../../services/validations";
-import LoginFacebook from "./LoginFacebook";
-import LoginGoogle from "./LoginGoogle";
-import axios from "../../config/axios";
-import { useHistory } from "react-router";
-import jwtDecode from "jwt-decode";
-import { UserContext } from "../../context/userContext";
-import { useContext } from "react";
-import { setToken } from "../../services/localStorage";
+import React, { useState } from 'react';
+import { validateLoginObject } from '../../services/validations';
+import LoginFacebook from './LoginFacebook';
+import LoginGoogle from './LoginGoogle';
+import axios from '../../config/axios';
+import { useHistory, Link } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
+import { UserContext } from '../../context/userContext';
+import { useContext } from 'react';
+import { setToken } from '../../services/localStorage';
 
 function Login({ setShowLogin }) {
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loginObj, setLoginObj] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const { setUser } = useContext(UserContext);
   const history = useHistory();
 
-  const handleChangeInput = e => {
-    setLoginObj(cur => ({ ...cur, [e.target.name]: e.target.value }));
+  const handleChangeInput = (e) => {
+    setLoginObj((cur) => ({ ...cur, [e.target.name]: e.target.value }));
   };
 
-  const submitLoginform = async e => {
+  const submitLoginform = async (e) => {
     e.preventDefault();
-
     try {
-      const res = await axios.post("/users/login", { email: loginObj.email, password: loginObj.password });
+      const res = await axios.post('/users/login', {
+        email: loginObj.email,
+        password: loginObj.password,
+      });
       setToken(res.data.token);
       setUser(jwtDecode(res.data.token));
       setShowLogin(false);
@@ -49,7 +51,7 @@ function Login({ setShowLogin }) {
         </div>
         <div class="my-2 flex flex-row justify-center">
           <span class="absolute bg-yellow-50 px-4 text-gray-900">or</span>
-          <div class="w-full bg-gray-200 mt-3" style={{ height: "1px" }}></div>
+          <div class="w-full bg-gray-200 mt-3" style={{ height: '1px' }}></div>
         </div>
         <div className="max-w-sm w-full space-y-8 ">
           <form className="mt-8 space-y-6" onSubmit={submitLoginform}>
@@ -95,15 +97,21 @@ function Login({ setShowLogin }) {
                   type="checkbox"
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
-                <label for="remember-me" className="ml-2 mr-9 block text-sm text-gray-900">
+                <label
+                  for="remember-me"
+                  className="ml-2 mr-9 block text-sm text-gray-900"
+                >
                   Remember
                 </label>
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+                <Link
+                  to={'/resetpassword'}
+                  className="font-medium text-blue-600 hover:text-blue-500"
+                >
                   Forgot your password?
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -118,14 +126,20 @@ function Login({ setShowLogin }) {
 
             <div className="flex items-center justify-around">
               <div className="flex items-center">
-                <label for="remember-me" className="ml-7 mr-4 block text-sm text-gray-900">
+                <label
+                  for="remember-me"
+                  className="ml-7 mr-4 block text-sm text-gray-900"
+                >
                   Don't have an account?
                 </label>
               </div>
               <div className="text-sm">
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500 mr-9">
+                <Link
+                  to={'/register'}
+                  className="font-medium text-blue-600 hover:text-blue-500 mr-9"
+                >
                   Sign Up
-                </a>
+                </Link>
               </div>
             </div>
           </form>
