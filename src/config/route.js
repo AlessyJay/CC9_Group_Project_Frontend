@@ -3,6 +3,7 @@ import ComfiremResetPassword from "../components/Login/ConfiremResetPassword";
 import CommunityPage from "../pages/CommunityPage";
 import CreatePost from "../pages/CreatePost";
 import UserProfile from "../pages/UserProfile";
+import EditCommunitPage from "../pages/EditCommunitPage";
 const routes = {
   user: {
     route: [
@@ -15,8 +16,14 @@ const routes = {
         component: UserProfile,
       },
       {
-        path: "/community/:name",
+        path: "/community/:name/:id",
         component: CommunityPage,
+        exact: true,
+      },
+      {
+        path: "/community/:name/:id/edit",
+        // path: "/4",
+        component: EditCommunitPage,
       },
       {
         path: "/",
