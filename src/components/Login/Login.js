@@ -33,6 +33,7 @@ function Login({ setShowLogin, setShowRegister, setShowResetpass }) {
       setToken(res.data.token);
       setUser(jwtDecode(res.data.token));
       setShowLogin(false);
+      history.push("/");
     } catch (err) {
       console.log(err);
       console.dir(err);

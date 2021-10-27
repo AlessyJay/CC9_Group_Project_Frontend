@@ -1,6 +1,8 @@
 import React from "react";
+import { HiOutlineUserCircle } from "react-icons/hi";
 
 function SearchCard({ item }) {
+  const { name, username, profileUrl } = item;
   return (
     <div className="py-1">
       <a
@@ -9,11 +11,15 @@ function SearchCard({ item }) {
         role="menuitem"
       >
         <div className="flex items-center">
-          <div className="mr-2">
-            <img className="rounded-full h-6 mr-4" alt="A" src={item.profileUrl} />
+          <div>
+            {profileUrl ? (
+              <img className="rounded-full h-6 mr-4" alt="A" src={profileUrl} />
+            ) : (
+              <HiOutlineUserCircle className="rounded-full h-6 w-6 mr-4" />
+            )}
           </div>
           <span className="flex flex-col text-sm">
-            <span>{item.name || item.username}</span>
+            <span>{name || username}</span>
           </span>
         </div>
       </a>
