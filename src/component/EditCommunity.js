@@ -375,7 +375,7 @@ export default function EditCommunity() {
                     <div className="flex ml-3">{rule.text}</div>
                   </div>
 
-                  <div className="flex">
+                  <div className="flex justify-end">
                     <button onClick={() => handleEditeRule(rule)}>
                       {""} <HiOutlinePencilAlt />
                     </button>
