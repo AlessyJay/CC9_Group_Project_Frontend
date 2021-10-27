@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import useValidate from "../../services/useValidate";
 import validate from "../../services/ValidateForm";
 
-export default function CreateCommunity() {
-  const [closeButton, setCloseButton] = useState("visible");
+export default function CreateCommunity({ setShowCreatecommunity }) {
   const { values, errors, handleChange, handleSubmit } = useValidate(test, validate);
 
   function test() {
@@ -13,14 +12,14 @@ export default function CreateCommunity() {
   return (
     //  hide element when click close button
 
-    <div className={closeButton}>
+    <div className="items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-90 filter z-30">
       <form action="#" method="POST" onSubmit={handleSubmit} noValidate>
-        <div className="flex justify-center h-screen items-center bg-gray-200 antialiased">
-          <div className="flex flex-col w-11/12 sm:w-5/6 lg:w-1/2 max-w-2xl mx-auto rounded-lg border border-gray-300 shadow-xl">
+        <div className="flex justify-center h-screen items-center  antialiased">
+          <div className="flex flex-col w-11/12 sm:w-5/6 lg:w-1/2 max-w-2xl mx-auto rounded-lg border  shadow-xl">
             {/* head */}
             <div className="flex flex-row justify-between p-6 bg-white border-b border-gray-200 rounded-tl-lg rounded-tr-lg">
               <p className="block text-xl font-bold font-small text-gray-700">Create a community</p>
-              <button onClick={() => setCloseButton("invisible")}>
+              <button onClick={() => setShowCreatecommunity(false)}>
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -96,7 +95,7 @@ export default function CreateCommunity() {
               </label>
             </div>
             <button className="flex flex-row items-center justify-between p-5 bg-white border-t border-gray-200 rounded-bl-lg rounded-br-lg">
-              <p className="font-semibold text-gray-600 " onClick={() => setCloseButton("invisible")}>
+              <p className="font-semibold text-gray-600 " onClick={() => setShowCreatecommunity(false)}>
                 Cancel
               </p>
               <button type="submit" className="px-4 py-2 text-white font-semibold bg-blue-500 rounded">

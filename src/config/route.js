@@ -22,7 +22,6 @@ const routes = {
       },
       {
         path: "/community/:name/:id/edit",
-        // path: "/4",
         component: EditCommunitPage,
       },
       {
