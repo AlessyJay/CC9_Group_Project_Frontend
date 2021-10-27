@@ -52,11 +52,14 @@ export default function EditCommunity() {
     }
     setRule("");
   }
+
   function handleDeleteRule(id) {
-    const remveRule = rules.filter((rule) => {
-      return rule.id !== id;
-    });
-    setRules(remveRule);
+    if (window.confirm("Are sure want to delete?")) {
+      const remveRule = rules.filter((rule) => {
+        return rule.id !== id;
+      });
+      setRules(remveRule);
+    }
   }
 
   function handleEditeRule(rule) {
@@ -371,8 +374,8 @@ export default function EditCommunity() {
             <ul className=" text-lg  text-gray-700 divide-y divide-gray-200 ">
               {rules.map((rule) => (
                 <li key={rule.id} className="grid grid-cols-4 gap-4 my-5">
-                  <div className="col-span-3">
-                    <div className="flex ml-3">{rule.text}</div>
+                  <div className="col-span-3 ">
+                    <div className="flex ml-3  ">{rule.text}</div>
                   </div>
 
                   <div className="flex justify-end">
