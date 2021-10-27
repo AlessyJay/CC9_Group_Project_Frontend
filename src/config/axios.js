@@ -1,26 +1,30 @@
-import axios from 'axios';
-import { API_URL } from './env';
+import axios from "axios";
+import { API_URL } from "./env";
+import { createBrowserHistory } from "history";
+import { getToken, removeToken } from "../services/localStorage";
 
-import { getToken, removeToken } from '../services/localStorage';
 axios.defaults.baseURL = API_URL;
 
+const history = createBrowserHistory();
+
 axios.interceptors.request.use(
-  (config) => {
+  config => {
     config.headers.authorization = `Bearer ${getToken()}`;
     return config;
   },
-  (err) => Promise.reject.err
+  err => Promise.reject.err
 );
 
 axios.interceptors.response.use(
-  (response) => {
+  response => {
     return response;
   },
-  (err) => {
+  err => {
     if (err.response && err.response.status === 401) {
       removeToken();
-      //   window.location.reload();
-      window.location.replace('/login');
+      history.push({ pathname: "/", state: true });
+      window.location.reload();
+      // window.location.replace("/");
       return;
     }
     return Promise.reject(err);

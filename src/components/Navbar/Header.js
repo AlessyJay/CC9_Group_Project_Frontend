@@ -23,6 +23,9 @@ import SearchCard from "./SearchCard";
 import { removeToken } from "../../services/localStorage";
 import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
+import { Link, useLocation } from "react-router-dom";
+import ResetPassword from "../Login/ResetPassword";
+import ConfiremResetPassword from "../Login/ConfiremResetPassword";
 
 const MOCK_DATA = [
   {
@@ -87,19 +90,27 @@ const OTHER = [
 ];
 
 function Header() {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, arrUserCommu, Commu } = useContext(UserContext);
 
-  const [target, setTarget] = useState({ img: "", name: "" });
+  const [target, setTarget] = useState({ name: "", icon: "" });
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [showResetpass, setShowResetpass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
 
-  const handleSelectTarget = (url, name, icon) => {
-    setTarget(cur => ({ ...cur, img: url, name, icon }));
+  const location = useLocation();
+  useEffect(() => {
+    setShowLogin(location.state);
+    // console.log(location);
+  }, [location]);
+
+  const handleSelectTarget = (name, icon) => {
+    setTarget(cur => ({ ...cur, name, icon }));
   };
 
-  console.log(user);
+  console.log(arrUserCommu);
 
   const handleLogOut = () => {
     setUser(null);
@@ -117,14 +128,14 @@ function Header() {
               </a>
             </div>
 
-            <div className="max-w-7xl w-full flex items-center hidden md:flex  ">
+            <div className="max-w-7xl w-full  items-center hidden md:flex  ">
               <div className="mt-1.5 group flex items-center md:ml-6 mr-8">
                 <div className="relative">
                   <div className="relative inline-block text-left">
                     <div className="flex h-8 items-center shadow-md bg-gray-50 ">
                       <div className="bg-gray-50 p-1">
-                        {target.img ? (
-                          <img className="rounded-full w-5 h-5 mx-2" alt="A" src={target.img} />
+                        {Commu?.Community?.profileUrl ? (
+                          <img className="rounded-full w-5 h-5 mx-2" alt="A" src={Commu.Community.profileUrl} />
                         ) : target.icon ? (
                           target.icon
                         ) : (
@@ -145,7 +156,7 @@ function Header() {
                     </div>
 
                     {/* CARD */}
-                    <div className="z-40 hidden group-hover:block origin-top-right absolute right-0 mt-1 w-full rounded-sm shadow-lg bg-white  ring-1 ring-black ring-opacity-5 max-h-96 overflow-y-scroll">
+                    <div className="z-40 hidden group-hover:block origin-top-right absolute right-0 w-full rounded-sm shadow-lg bg-white  ring-1 ring-black ring-opacity-5 max-h-96 overflow-y-scroll">
                       <div className="py-1">
                         <div className="flex justify-center">
                           {/* Filter */}
@@ -158,9 +169,9 @@ function Header() {
                         <div className="flex justify-between  items-center mt-2 ml-5">
                           <div className="text-xs font-bold text-gray-500">My Commnities</div>
                         </div>
-                        <a
-                          href="#"
-                          className="block  px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
+                        <Link
+                          to="#"
+                          className="  px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
                           role="menuitem"
                         >
                           <div className="flex items-center">
@@ -171,12 +182,12 @@ function Header() {
                               <span>Create Commnity</span>
                             </span>
                           </div>
-                        </a>
+                        </Link>
                         {/* Community Dropdown Menu */}
-                        {MOCK_DATA.filter(item => {
+                        {Commu.filter(item => {
                           if (filter === "") {
                             return item;
-                          } else if (item.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())) {
+                          } else if (item.name.toLowerCase().includes(filter.toLowerCase())) {
                             return item;
                           }
                         }).map((item, index) => (
@@ -217,12 +228,18 @@ function Header() {
                 </div>
                 <div className="z-50 group-hover:block origin-top-right absolute right-0 w-full rounded-sm shadow-lg bg-white  ring-1 ring-black ring-opacity-5">
                   {/* Search Card */}
-                  {search
-                    ? MOCK_DATA.filter(item => {
-                        if (item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) {
-                          return item;
-                        }
-                      }).map((item, index) => <SearchCard key={index} item={item} />)
+                  {search && user
+                    ? arrUserCommu
+                        .filter(item => {
+                          if (
+                            (item?.name && item?.name.toLowerCase().includes(search.toLowerCase())) ||
+                            (item?.username && item?.username.toLowerCase().includes(search.toLowerCase()))
+                          ) {
+                            console.log(item);
+                            return item;
+                          }
+                        })
+                        .map((item, index) => <SearchCard key={index} item={item} />)
                     : ""}
                 </div>
               </div>
@@ -230,18 +247,18 @@ function Header() {
 
             {/* Menu */}
             <div className="mr-4  items-center hidden md:flex">
-              <a href="#">
+              <Link to="#">
                 <HiHome className="h-6 w-6 mr-4" />
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="#">
                 <HiClock className="h-6 w-6 mr-4" />
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="#">
                 <HiFire className="h-6 w-6 mr-4" />
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="#">
                 <HiGlobeAlt className="h-6 w-6 mr-4" />
-              </a>
+              </Link>
 
               <NotificationHead />
             </div>
@@ -254,7 +271,13 @@ function Header() {
                     {user ? (
                       <>
                         <div className="flex items-center px-4 py-2 w-full justify-center">
-                          <img className="rounded-full h-8 mr-2" alt="A" src={user.profileUrl} />
+                          {user.profileUrl ? (
+                            <img className="rounded-full h-8 mr-2" alt="A" src={user.profileUrl} />
+                          ) : (
+                            <div className="mr-1">
+                              <HiOutlineUserCircle className="w-7 h-7" />
+                            </div>
+                          )}
                           <div className="pr-4 font-extralight cursor-pointer">{user.username}</div>
                         </div>
                         <div className="z-50 hidden group-hover:block origin-top-right absolute right-0 w-56 rounded-sm shadow-lg bg-white  ring-1 ring-black ring-opacity-5">
@@ -262,9 +285,9 @@ function Header() {
                             <div className="flex justify-between  items-center mt-2 ml-5">
                               <div className="text-xs font-bold text-gray-500">My Service</div>
                             </div>
-                            <a
-                              href="#"
-                              className="block  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
+                            <Link
+                              to={`/profile/${user.username}`}
+                              className="  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
                               role="menuitem"
                             >
                               <div className="flex items-center">
@@ -275,10 +298,10 @@ function Header() {
                                   <span>Account</span>
                                 </span>
                               </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="block  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
+                            </Link>
+                            <Link
+                              to="#"
+                              className="  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
                               role="menuitem"
                             >
                               <div className="flex items-center">
@@ -289,10 +312,10 @@ function Header() {
                                   <span>User Settting</span>
                                 </span>
                               </div>
-                            </a>
-                            <a
-                              href="#"
-                              className="block  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
+                            </Link>
+                            <Link
+                              to="#"
+                              className="  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
                               role="menuitem"
                             >
                               <div className="flex items-center">
@@ -303,7 +326,7 @@ function Header() {
                                   <span>Log out</span>
                                 </span>
                               </div>
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </>
@@ -313,8 +336,18 @@ function Header() {
                       </div>
                     )}
 
-                    {showLogin && <Login setShowLogin={setShowLogin} setShowRegister={setShowRegister} />}
+                    {showLogin && (
+                      <Login
+                        setShowLogin={setShowLogin}
+                        setShowRegister={setShowRegister}
+                        setShowResetpass={setShowResetpass}
+                      />
+                    )}
                     {showRegister && <Register setShowRegister={setShowRegister} setShowLogin={setShowLogin} />}
+                    {showResetpass && (
+                      <ResetPassword setShowResetpass={setShowResetpass} setShowConfirmPass={setShowConfirmPass} />
+                    )}
+                    {showConfirmPass && <ConfiremResetPassword />}
                   </div>
                 </div>
               </div>
@@ -323,27 +356,27 @@ function Header() {
         </div>
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a
+            <Link
               className="text-gray-300 hover:text-gray-800 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              href="/#"
+              to="/#"
             >
               Home
-            </a>
-            <a className="text-gray-800 dark:text-white block px-3 py-2 rounded-md text-base font-medium" href="/#">
+            </Link>
+            <Link className="text-gray-800 dark:text-white block px-3 py-2 rounded-md text-base font-medium" to="/#">
               Gallery
-            </a>
-            <a
+            </Link>
+            <Link
               className="text-gray-300 hover:text-gray-800 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              href="/#"
+              to="/#"
             >
               Content
-            </a>
-            <a
+            </Link>
+            <Link
               className="text-gray-300 hover:text-gray-800 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              href="/#"
+              to="/#"
             >
               Contact
-            </a>
+            </Link>
           </div>
         </div>
       </div>

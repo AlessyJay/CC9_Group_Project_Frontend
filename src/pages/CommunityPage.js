@@ -20,7 +20,6 @@ function CommunityPage() {
           <PostComment />
         </div>
         <div className="col-span-2">
-          <ProfileSide />
           <AboutCommu />
           <CreatePostAndCommunity />
           <Footer />

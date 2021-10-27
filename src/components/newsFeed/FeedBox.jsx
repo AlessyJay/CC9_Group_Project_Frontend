@@ -1,8 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { HiChevronUp, HiChevronDown, HiOutlineAnnotation, HiOutlineBookmark, HiOutlineEye } from "react-icons/hi";
+import axios from "../../config/axios";
 
 function FeedBox() {
+  const handleHide = async e => {};
+  const handleClick = async e => {
+    try {
+      e.preventDefault();
+      const res = await axios.post("/posts/savepost/1", { isSaved: true });
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       <div className="w-96 md:w-full flex bg-white mb-2 shadow rounded-md">
@@ -29,12 +40,29 @@ function FeedBox() {
               </div>
             </span>
           </div>
-          <Link to={"#"} className="w-full">
+          <Link to="/#" className="w-full">
             <div className="p-1">Title Content</div>
-            <div className="overflow-ellipsis  font-light text-sm p-1 pt-0 mb-2">
+            <div className=" max-h-64 overflow-y-scroll font-light text-sm p-1 pt-0 mb-2 bg-white ">
               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
               industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-              scrambled it to make a type specimen book.
+              scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+              an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is
+              scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+              an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is
+              scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+              scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+              an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is
+              scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+              scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and scrambled
+              it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when scrambled it
+              to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum has
             </div>
           </Link>
 
@@ -43,11 +71,11 @@ function FeedBox() {
               <HiOutlineAnnotation />
               <span className="text-sm ml-1 font-light">comment</span>
             </button>
-            <button className="flex items-center mr-4">
+            <button onClick={handleClick} className="flex items-center mr-4">
               <HiOutlineBookmark />
               <span className="text-sm ml-1 font-light">save</span>
             </button>
-            <button className="flex items-center mr-4">
+            <button className="flex items-center mr-4" type="button" onClick={handleHide}>
               <HiOutlineEye />
               <span className="text-sm ml-1 font-light">hide</span>
             </button>

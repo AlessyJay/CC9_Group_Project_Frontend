@@ -1,16 +1,22 @@
-import Login from "../components/Login/Login";
 import Mainpage from "../pages/Mainpage";
-import Register from "../components/Login/Register";
-import Resetpassword from "../components/Login/ResetPassword";
 import ComfiremResetPassword from "../components/Login/ConfiremResetPassword";
 import CommunityPage from "../pages/CommunityPage";
 import CreatePost from "../pages/CreatePost";
+import UserProfile from "../pages/UserProfile";
 const routes = {
   user: {
     route: [
       {
         path: "/create-post",
         component: CreatePost,
+      },
+      {
+        path: "/profile/:name",
+        component: UserProfile,
+      },
+      {
+        path: "/community/:name",
+        component: CommunityPage,
       },
       {
         path: "/",
@@ -27,14 +33,8 @@ const routes = {
         component: ComfiremResetPassword,
       },
       {
-        path: "/community/:name",
-        component: CommunityPage,
-        exact: true,
-      },
-      {
         path: "/",
         component: Mainpage,
-        exact: true,
       },
     ],
     redirect: "/",

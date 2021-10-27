@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { HiOutlineX } from "react-icons/hi";
 
-function ResetPassword() {
+function ResetPassword({ setShowResetpass, setShowConfirmPass }) {
   const [resetObj, setResetObj] = useState({
     email: "",
     username: "",
@@ -22,8 +23,11 @@ function ResetPassword() {
     }
   };
   return (
-    <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col">
-      <div className="mx-auto p-24 py-28 bg-yellow-50 rounded-3xl shadow-md">
+    <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-90 filter z-30">
+      <div className="mx-auto p-24 py-28 bg-yellow-50 rounded-3xl shadow-md relative">
+        <div className="absolute right-9 top-5">
+          <HiOutlineX className="w-7 h-7 cursor-pointer" onClick={() => setShowResetpass(false)} />
+        </div>
         <div className="mb-3 text-left text-xl">Reset your password</div>
         <div className=" max-w-sm w-full text-left font-extralight text-gray-900 text-sm">
           Tell us the username and email address

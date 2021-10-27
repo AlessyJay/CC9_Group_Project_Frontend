@@ -10,10 +10,10 @@ function SearchCard({ item }) {
       >
         <div className="flex items-center">
           <div className="mr-2">
-            <img className="rounded-full h-6 mr-4" alt="A" src={item.imgUrl} />
+            <img className="rounded-full h-6 mr-4" alt="A" src={item.profileUrl} />
           </div>
           <span className="flex flex-col text-sm">
-            <span>{item.name}</span>
+            <span>{item.name || item.username}</span>
           </span>
         </div>
       </a>

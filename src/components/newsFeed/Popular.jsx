@@ -17,13 +17,10 @@ function Popular() {
     <>
       <div className="flex w-96 md:w-full bg-white shadow rounded-md my-3">
         <Button startIcon={<LocalFireDepartmentIcon />} style={buttonStyle}>
-          Hot topics
+          Hot
         </Button>
         <Button startIcon={<AccessTimeIcon />} style={buttonStyle}>
-          Recent
-        </Button>
-        <Button startIcon={<PublicIcon />} style={buttonStyle}>
-          Everywhere
+          New
         </Button>
       </div>
     </>

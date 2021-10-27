@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { validateLoginObject } from "../../services/validations";
 import LoginFacebook from "./LoginFacebook";
 import LoginGoogle from "./LoginGoogle";
 import axios from "../../config/axios";
@@ -8,8 +7,9 @@ import jwtDecode from "jwt-decode";
 import { UserContext } from "../../context/userContext";
 import { useContext } from "react";
 import { setToken } from "../../services/localStorage";
+import { HiOutlineX } from "react-icons/hi";
 
-function Login({ setShowLogin, setShowRegister }) {
+function Login({ setShowLogin, setShowRegister, setShowResetpass }) {
   const [error, setError] = useState("");
   const [loginObj, setLoginObj] = useState({
     email: "",
@@ -42,7 +42,10 @@ function Login({ setShowLogin, setShowRegister }) {
   console.log(error);
   return (
     <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col  items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-90 filter z-30">
-      <div className="mx-auto p-24 pt-28 pb-28 bg-yellow-50 rounded-3xl shadow-md">
+      <div className="mx-auto p-24 pt-28 pb-28 bg-yellow-50 rounded-3xl shadow-md relative">
+        <div className="absolute right-9 top-5">
+          <HiOutlineX className="w-7 h-7 cursor-pointer" onClick={() => setShowLogin(false)} />
+        </div>
         <div className="max-w-sm w-full mb-2">
           <LoginGoogle setShowLogin={setShowLogin} />
         </div>
@@ -103,7 +106,11 @@ function Login({ setShowLogin, setShowRegister }) {
               </div>
 
               <div className="text-sm">
-                <Link to={"/resetpassword"} className="font-medium text-blue-600 hover:text-blue-500">
+                <Link
+                  to={"/#"}
+                  className="font-medium text-blue-600 hover:text-blue-500"
+                  onClick={() => setShowResetpass(true)}
+                >
                   Forgot your password?
                 </Link>
               </div>
