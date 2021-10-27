@@ -286,9 +286,8 @@ function Header() {
                               <div className="text-xs font-bold text-gray-500">My Service</div>
                             </div>
                             <Link
-                              to={`/profile/${user.username}`}
+                              to={`/profile/${user.id}`}
                               className="  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
-                              role="menuitem"
                             >
                               <div className="flex items-center">
                                 <div className="mr-2">
@@ -300,9 +299,8 @@ function Header() {
                               </div>
                             </Link>
                             <Link
-                              to="#"
+                              to={`/profile/${user.id}/edit`}
                               className="  px-2 pr-2 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 h-8 flex items-center"
-                              role="menuitem"
                             >
                               <div className="flex items-center">
                                 <div className="mr-2">

@@ -22,7 +22,7 @@ function UserContextPervider({ children }) {
         .then(res => setCommu(res.data.communityLists))
         .catch(err => console.dir(err));
     }
-  }, []);
+  }, [user]);
 
   return <UserContext.Provider value={{ user, setUser, arrUserCommu, Commu }}>{children}</UserContext.Provider>;
 }

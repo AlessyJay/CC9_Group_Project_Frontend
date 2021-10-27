@@ -7,6 +7,7 @@ import FeedBox from "../components/newsFeed/FeedBox";
 import AboutCommu from "../components/Community/AboutCommu";
 import PostComment from "../components/PostComments/PostComment";
 import { useParams } from "react-router-dom";
+import PostingtoOurweb from "../components/Community/PostingtoOurweb";
 
 import axios from "../config/axios";
 
@@ -29,6 +30,7 @@ function CommunityPage() {
         </div>
         <div className="col-span-2">
           <AboutCommu name={name} id={id} />
+          <PostingtoOurweb />
           <CreatePostAndCommunity />
           <Footer />
         </div>

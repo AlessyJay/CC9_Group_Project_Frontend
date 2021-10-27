@@ -4,6 +4,9 @@ import CommunityPage from "../pages/CommunityPage";
 import CreatePost from "../pages/CreatePost";
 import UserProfile from "../pages/UserProfile";
 import EditCommunitPage from "../pages/EditCommunitPage";
+import UserEditPage from "../pages/UserEditPage";
+import UserProfilePost from "../pages/UserProfilePost";
+
 const routes = {
   user: {
     route: [
@@ -12,7 +15,15 @@ const routes = {
         component: CreatePost,
       },
       {
-        path: "/profile/:name",
+        path: "/profile/:id/edit",
+        component: UserEditPage,
+      },
+      {
+        path: "/profile/:id/posts",
+        component: UserProfilePost,
+      },
+      {
+        path: "/profile/:id",
         component: UserProfile,
       },
       {

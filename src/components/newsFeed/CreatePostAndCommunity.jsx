@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CreateCommunity from "../Community/CreateCommunity";
+import { Link } from "react-router-dom";
 
 export default function MediaCard() {
   const [showCreatecommunity, setShowCreatecommunity] = useState(false);
@@ -22,10 +23,13 @@ export default function MediaCard() {
           </p>
         </div>
       </CardContent>
-      <div className=" cursor-pointer flex justify-center mx-2 pb-2">
-        <div className="flex justify-center max-w-sm border-2 border-blue-500 rounded-full font-semibold  text-white px-6 w-full  transition duration-300 ease-in-out hover:bg-white hover:text-blue-500 bg-blue-500 ">
+      <div className=" flex justify-center mx-2 pb-2">
+        <Link
+          to={"/create-post"}
+          className="flex justify-center max-w-sm border-2 border-blue-500 rounded-full font-semibold  text-white px-6 w-full  transition duration-300 ease-in-out hover:bg-white hover:text-blue-500 bg-blue-500 "
+        >
           Create Post
-        </div>
+        </Link>
       </div>
       <div onClick={() => setShowCreatecommunity(true)} className=" cursor-pointer flex justify-center mx-2 pb-4">
         <div className="flex justify-center max-w-sm border-2 border-blue-500 rounded-full font-semibold  text-blue-500 px-6 w-full  transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white  ">
