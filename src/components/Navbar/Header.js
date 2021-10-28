@@ -103,9 +103,10 @@ function Header() {
 
   const location = useLocation();
   useEffect(() => {
+    console.log(location.state);
     setShowLogin(location.state);
     // console.log(location);
-  }, [location]);
+  }, [location.state]);
 
   const handleSelectTarget = (name, icon) => {
     setTarget(cur => ({ ...cur, name, icon }));
@@ -114,8 +115,8 @@ function Header() {
   console.log(arrUserCommu);
 
   const handleLogOut = () => {
-    setUser(null);
     removeToken();
+    setUser(null);
   };
 
   return (
