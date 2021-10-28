@@ -108,6 +108,7 @@ function Dropdown({ setPostContent }) {
                             ...cur,
                             userId: user.id,
                             communityId: null,
+                            postTarget: true,
                           }));
                         }}
                       >
