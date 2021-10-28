@@ -12,11 +12,13 @@ import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { MOCK_DRAFT } from '../../services/timeDifferent';
 import { UserContext } from '../../context/userContext';
-
+import axios from '../../config/axios';
+import { useHistory } from 'react-router-dom';
 function PostImg() {
   const { user } = useContext(UserContext);
   const [ToggleModel, setToggleModel] = useState(false);
   const [ToggleSaveDraft, setToggleSaveDraft] = useState(false);
+  const history = useHistory();
   const [postContent, setPostContent] = useState({
     title: '',
     descriptions: '',
@@ -25,7 +27,7 @@ function PostImg() {
     userId: user.id,
     communityId: null,
     postTarget: false,
-    target: '',
+    status: true,
   });
   const [draftLists, setDraftLists] = useState([]);
   const [titleLength, setTitleLength] = useState(0);
@@ -54,8 +56,30 @@ function PostImg() {
 
   const handleSubmitPostContent = async (e) => {
     try {
-      console.log(postContent);
+      console.log('inSubmut', postContent);
       console.log(url1);
+      const formData = new FormData();
+      formData.append('title', postContent.title);
+      formData.append('descriptions', postContent.descriptions);
+      formData.append('type', postContent.type);
+      formData.append('status', postContent.status);
+      formData.append('notification', postContent.notification);
+      if (postContent.communityId !== null) {
+        formData.append('communityId', postContent.communityId);
+      }
+      if (url1.length !== 0) {
+        console.log('Not plain post');
+        for (let i = 0; i < url1.length; i++) {
+          formData.append('cloudimage', url1[i]);
+        }
+      }
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+      const res = await axios.post('/posts/createpost', formData);
+      console.log(res.data.post);
+      alert('success');
+      // history.push('/post/:postId') // push ไปหน้า post นั้นๆ และก็ fetch ข้อมูลมา
     } catch (err) {
       console.dir(err);
     }
@@ -79,7 +103,6 @@ function PostImg() {
 
     window.location.reload();
   };
-  console.log(postContent.title);
 
   const handleEditPost = (id) => {
     const idx = draftLists.findIndex((item) => item.id === id);
