@@ -35,6 +35,7 @@ function Login({ setShowLogin, setShowRegister, setShowResetpass }) {
       setShowLogin(false);
       history.push("/");
     } catch (err) {
+      setError(err.response.data.message);
       console.log(err);
       console.dir(err);
     }
@@ -59,6 +60,7 @@ function Login({ setShowLogin, setShowRegister, setShowResetpass }) {
         </div>
         <div className="max-w-sm w-full space-y-8 ">
           <form className="mt-8 space-y-6" onSubmit={submitLoginform}>
+            {error && <p className="text-red-600 text-xs italic">{error}</p>}
             <input type="hidden" name="remember" value="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>

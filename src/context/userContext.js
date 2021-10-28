@@ -5,6 +5,7 @@ import axios from "../config/axios";
 const UserContext = createContext();
 function UserContextPervider({ children }) {
   const [user, setUser] = useState(initialUser);
+  const [userNotification, setUserNotification] = useState([]);
   const [arrUserCommu, setArrUserCommu] = useState([]);
   const [Commu, setCommu] = useState([]);
 
@@ -18,11 +19,17 @@ function UserContextPervider({ children }) {
   useEffect(() => {
     if (user) {
       axios
-        .get("feeds/usercommunitys")
+        .get("/feeds/usercommunitys")
         .then(res => setCommu(res.data.communityLists))
         .catch(err => console.dir(err));
+      // axios
+      //   .get("/notification")
+      //   .then(res => setUserNotification(res.data.notification))
+      //   .catch(err => console.log(err));
     }
   }, [user]);
+
+  console.log(Commu);
 
   return <UserContext.Provider value={{ user, setUser, arrUserCommu, Commu }}>{children}</UserContext.Provider>;
 }

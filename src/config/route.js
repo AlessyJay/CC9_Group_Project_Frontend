@@ -6,6 +6,9 @@ import UserProfile from "../pages/UserProfile";
 import EditCommunitPage from "../pages/EditCommunitPage";
 import UserEditPage from "../pages/UserEditPage";
 import UserProfilePost from "../pages/UserProfilePost";
+import UserProfileComments from "../pages/UserProfileComments";
+import UserProfileSave from "../pages/UserProfileSave";
+import UserProfileHidden from "../pages/UserProfileHidden";
 
 const routes = {
   user: {
@@ -21,6 +24,22 @@ const routes = {
       {
         path: "/profile/:id/posts",
         component: UserProfilePost,
+        exact: true,
+      },
+      {
+        path: "/profile/:id/comments",
+        component: UserProfileComments,
+        exact: true,
+      },
+      {
+        path: "/profile/:id/save",
+        component: UserProfileSave,
+        exact: true,
+      },
+      {
+        path: "/profile/:id/hidden",
+        component: UserProfileHidden,
+        exact: true,
       },
       {
         path: "/profile/:id",
@@ -45,10 +64,6 @@ const routes = {
 
   guest: {
     route: [
-      {
-        path: "/confirm-reset",
-        component: ComfiremResetPassword,
-      },
       {
         path: "/",
         component: Mainpage,

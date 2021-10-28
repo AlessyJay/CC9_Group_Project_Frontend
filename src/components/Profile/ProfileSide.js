@@ -8,11 +8,19 @@ function ProfileSide({ user }) {
     <div className=" bg-white max-w-xs mt-4 shadow rounded-sm hidden md:block">
       <div className="group shadow relative rounded-sm w-full h-28 bg-cover text-xl font-semibold flex p-3 text-white bg-blue-300 rounded-b-none">
         <div className="group">
-          <img
-            className="rounded-sm h-20 w-20 shadow absolute -bottom-5 left-4 border-2 border-gray-200 "
-            alt="A"
-            src={user.profileUrl}
-          />
+          {user.profileUrl ? (
+            <img
+              className="rounded-sm h-20 w-20 shadow absolute -bottom-5 left-4 border-2 border-gray-200 "
+              alt="A"
+              src={user.profileUrl}
+            />
+          ) : (
+            <img
+              className="rounded-sm h-20 w-20 shadow absolute -bottom-5 left-4 border-2 border-gray-200 "
+              alt="A"
+              src="https://randomuser.me/api/portraits/men/85.jpg"
+            />
+          )}
           <div className="hidden group-hover:flex rounded-full w-7 h-7  bg-white  justify-center absolute z-40 -bottom-4 left-16 opacity-50">
             <button>
               <label htmlFor="pic">

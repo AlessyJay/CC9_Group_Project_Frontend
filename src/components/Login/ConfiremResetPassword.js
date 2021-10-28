@@ -1,26 +1,31 @@
 import React, { useState } from "react";
 
-function ConfiremResetPassword() {
+import axios from "../../config/axios";
+function ConfiremResetPassword({ resetPasswordUser, setShowConfirmPass }) {
   const [confirmResetObj, setConfirmResetObj] = useState({
     password: "",
-    confirmPassword: "",
+    confirmpassword: "",
   });
-
   const handleChangeInput = e => {
     setConfirmResetObj(cur => ({ ...cur, [e.target.name]: e.target.value }));
   };
 
-  const submitLoginform = e => {
+  const submitResetForm = async e => {
     e.preventDefault();
-
     try {
+      const res = await axios.put(`/users/resetpassword/${resetPasswordUser}`, {
+        password: confirmResetObj.password,
+        confirmpassword: confirmResetObj.confirmpassword,
+      });
+      setShowConfirmPass(false);
+      console.log(res.data);
     } catch (err) {
       console.log(err);
       console.dir(err);
     }
   };
   return (
-    <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col">
+    <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col  items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-90 filter z-30">
       <div className="mx-auto p-24 py-28 bg-yellow-50 rounded-3xl shadow-md">
         <div className="mb-3 text-left text-xl">Change Your New Password</div>
         <div className=" max-w-sm w-full text-left font-extralight text-gray-900 text-sm">
@@ -28,7 +33,7 @@ function ConfiremResetPassword() {
         </div>
 
         <div className="max-w-sm w-full space-y-8 ">
-          <form className="mt-12 space-y-6" action="#" method="POST">
+          <form className="mt-12 space-y-6" onSubmit={submitResetForm}>
             <input type="hidden" name="remember" value="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
@@ -50,8 +55,8 @@ function ConfiremResetPassword() {
                   Confirm New Password
                 </label>
                 <input
-                  id="confirmPassword"
-                  name="confirmPassword"
+                  id="confirmpassword"
+                  name="confirmpassword"
                   type="password"
                   required
                   onChange={handleChangeInput}

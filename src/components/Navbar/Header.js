@@ -97,6 +97,7 @@ function Header() {
   const [showRegister, setShowRegister] = useState(false);
   const [showResetpass, setShowResetpass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
+  const [resetPasswordUser, setResetPasswordUser] = useState("");
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
 
@@ -123,9 +124,9 @@ function Header() {
         <div className="max-w-none w-full px-2">
           <div className="flex items-center justify-between h-11">
             <div className=" flex items-center">
-              <a className="flex-shrink-0" href="/">
+              <Link className="flex-shrink-0" to="/">
                 <div>LOGO</div>
-              </a>
+              </Link>
             </div>
 
             <div className="max-w-7xl w-full  items-center hidden md:flex  ">
@@ -224,11 +225,12 @@ function Header() {
                     id="search"
                     placeholder="Search something.."
                     onChange={e => setSearch(e.target.value)}
+                    value={search}
                   />
                 </div>
                 <div className="z-50 group-hover:block origin-top-right absolute right-0 w-full rounded-sm shadow-lg bg-white  ring-1 ring-black ring-opacity-5">
                   {/* Search Card */}
-                  {search && user
+                  {search
                     ? arrUserCommu
                         .filter(item => {
                           if (
@@ -239,7 +241,7 @@ function Header() {
                             return item;
                           }
                         })
-                        .map((item, index) => <SearchCard key={index} item={item} />)
+                        .map((item, index) => <SearchCard setSearch={setSearch} key={index} item={item} />)
                     : ""}
                 </div>
               </div>
@@ -343,9 +345,18 @@ function Header() {
                     )}
                     {showRegister && <Register setShowRegister={setShowRegister} setShowLogin={setShowLogin} />}
                     {showResetpass && (
-                      <ResetPassword setShowResetpass={setShowResetpass} setShowConfirmPass={setShowConfirmPass} />
+                      <ResetPassword
+                        setShowResetpass={setShowResetpass}
+                        setShowConfirmPass={setShowConfirmPass}
+                        setResetPasswordUser={setResetPasswordUser}
+                      />
                     )}
-                    {showConfirmPass && <ConfiremResetPassword />}
+                    {showConfirmPass && (
+                      <ConfiremResetPassword
+                        setShowConfirmPass={setShowConfirmPass}
+                        resetPasswordUser={resetPasswordUser}
+                      />
+                    )}
                   </div>
                 </div>
               </div>

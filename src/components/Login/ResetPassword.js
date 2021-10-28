@@ -1,23 +1,29 @@
 import React, { useState } from "react";
 import { HiOutlineX } from "react-icons/hi";
+import axios from "../../config/axios";
 
-function ResetPassword({ setShowResetpass, setShowConfirmPass }) {
+function ResetPassword({ setShowResetpass, setShowConfirmPass, setResetPasswordUser }) {
+  const [error, setError] = useState();
+
   const [resetObj, setResetObj] = useState({
     email: "",
     username: "",
-    password: "",
-    confirmpassword: "",
   });
 
   const handleChangeInput = e => {
     setResetObj(cur => ({ ...cur, [e.target.name]: e.target.value }));
   };
 
-  const submitResetform = e => {
+  const submitResetform = async e => {
     e.preventDefault();
-
     try {
+      const res = await axios.post("/users/verifyuser", { email: resetObj.email, username: resetObj.username });
+      console.log(res.data);
+      setResetPasswordUser(res.data.id);
+      setShowResetpass(false);
+      setShowConfirmPass(true);
     } catch (err) {
+      setError(err.response.data.message);
       console.log(err);
       console.dir(err);
     }
@@ -35,9 +41,10 @@ function ResetPassword({ setShowResetpass, setShowConfirmPass }) {
         </div>
 
         <div className="max-w-sm w-full space-y-8 ">
-          <form className="mt-12 space-y-6" action="#" method="POST">
+          <form className="mt-12 space-y-6" onSubmit={submitResetform}>
             <input type="hidden" name="remember" value="true" />
             <div className="rounded-md shadow-sm -space-y-px">
+              {error && <p className="text-red-600 text-xs italic">{error}</p>}
               <div>
                 <label for="email-address" className="sr-only">
                   Email address

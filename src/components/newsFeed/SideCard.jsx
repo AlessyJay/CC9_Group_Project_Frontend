@@ -1,9 +1,7 @@
-import * as React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import CommuSideCard from "./CommuSideCard";
+import axios from "../../config/axios";
 
 const MOCK_DATA = [
   {
@@ -34,6 +32,13 @@ const MOCK_DATA = [
 ];
 
 export default function MediaCard() {
+  const [listCommunity, setListCommunity] = useState([]);
+
+  useEffect(() => {
+    axios.get("/feeds/allcommunity").then(res => setListCommunity(res.data.communityLists));
+  }, []);
+
+  console.log(listCommunity);
   return (
     <Card className="max-w-xs mt-3 shadow rounded-sm hidden md:block">
       <div
@@ -45,7 +50,7 @@ export default function MediaCard() {
       >
         Top Communities
       </div>
-      {MOCK_DATA.map((item, index) => (
+      {listCommunity.map((item, index) => (
         <CommuSideCard key={index} item={item} index={index} />
       ))}
       <div className="flex justify-center m-2 py-4">

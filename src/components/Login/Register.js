@@ -51,7 +51,7 @@ function Register({ setShowRegister, setShowLogin }) {
           <div class="w-full bg-gray-200 mt-3" style={{ height: "1px" }}></div>
         </div>
         <div className="max-w-sm w-full space-y-8 ">
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form className="mt-8 space-y-6">
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
                 <label for="email-address" className="sr-only">
