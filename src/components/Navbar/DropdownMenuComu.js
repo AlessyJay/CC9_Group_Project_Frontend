@@ -5,13 +5,13 @@ import { HiOutlineUserCircle } from "react-icons/hi";
 
 function DropdownMenuComu({ item, handleSelectTarget }) {
   const {
-    Community: { name, profileUrl },
+    Community: { id, name, profileUrl },
   } = item;
 
   const history = useHistory();
 
   const handleToCommu = e => {
-    history.push(`/community/${name}`);
+    history.push(`/community/${name}/${id}`);
     handleSelectTarget(name, profileUrl);
   };
   return (

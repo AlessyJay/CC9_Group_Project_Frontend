@@ -7,16 +7,15 @@ import Footer from "../components/Footer/Footer";
 import { UserContext } from "../context/userContext";
 import Popular from "../components/newsFeed/Popular";
 
-function UserProfile() {
+function UserProfilePost() {
   const { user } = useContext(UserContext);
 
   return (
     <div className="bg-gray-200">
-      <ProfileBar user={user} page={1} />
+      <ProfileBar user={user} page={2} />
       <div className=" grid grid-cols-7 gap-6">
         <div className="col-start-2 col-span-3 ">
-          <Popular />
-          <FeedBox />
+          <CreateBar />
           <FeedBox />
         </div>
         <div className="col-span-2">
@@ -28,4 +27,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile;
+export default UserProfilePost;
