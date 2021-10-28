@@ -1,64 +1,62 @@
-import React, { useState } from "react";
-import Dropdown from "./Dropdown";
-import { FaFileAlt } from "react-icons/fa";
-import { ImImages } from "react-icons/im";
-import { HiXCircle } from "react-icons/hi";
-import "react-quill/dist/quill.snow.css";
-import "./TextEditor.css";
-import ReactQuill from "react-quill";
-import EditorToolbar, { modules, formats } from "./EditorToolbar";
-import DraftModel from "./DraftModel";
-import { MOCK_DRAFT } from "../../services/timeDifferent";
-import { Button } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { useEffect } from "react";
+import React, { useState, useEffect, useContext } from 'react';
+import Dropdown from './Dropdown';
+import { FaFileAlt } from 'react-icons/fa';
+import { ImImages } from 'react-icons/im';
+import { HiXCircle } from 'react-icons/hi';
+import 'react-quill/dist/quill.snow.css';
+import './TextEditor.css';
+import ReactQuill from 'react-quill';
+import EditorToolbar, { modules, formats } from './EditorToolbar';
+import DraftModel from './DraftModel';
+import { Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { MOCK_DRAFT } from '../../services/timeDifferent';
+import { UserContext } from '../../context/userContext';
 
 function PostImg() {
+  const { user } = useContext(UserContext);
   const [ToggleModel, setToggleModel] = useState(false);
   const [ToggleSaveDraft, setToggleSaveDraft] = useState(false);
   const [postContent, setPostContent] = useState({
-    id: 2,
-    title: "",
-    description: "",
-    type: "post",
+    title: '',
+    descriptions: '',
+    type: 'MAIN',
     notification: false,
-    userId: "",
+    userId: user.id,
     communityId: null,
     postTarget: false,
-    target: "u/Content_Avatar001",
-    updatedAt: "2021-10-17 16:38:39",
+    target: '',
   });
   const [draftLists, setDraftLists] = useState([]);
   const [titleLength, setTitleLength] = useState(0);
   const [selectFiles, setSelectFiles] = useState([]);
   const [url1, setUrl1] = useState([]);
 
-  console.log(url1);
-  console.log(selectFiles);
-
-  console.log("React quill logging :", postContent.description);
-  const handleChangePostContent = e => {
-    if (e.target.name === "title") {
+  // console.log('React quill logging :', postContent.descriptions);
+  const handleChangePostContent = (e) => {
+    if (e.target.name === 'title') {
       setTitleLength(e.target.value.length);
-      setPostContent(cur => ({ ...cur, title: e.target.value }));
-    } else if (e.target.name === "notification") {
-      setPostContent(cur => ({
+      setPostContent((cur) => ({ ...cur, title: e.target.value }));
+    } else if (e.target.name === 'notification') {
+      setPostContent((cur) => ({
         ...cur,
         notification: !postContent.notification,
       }));
     } else {
-      setPostContent(cur => ({ ...cur, [e.target.name]: e.target.value }));
+      setPostContent((cur) => ({ ...cur, [e.target.name]: e.target.value }));
     }
   };
-  const hanldeChangeContent = value => {
-    setPostContent({ ...postContent, description: value });
+
+  // อันนี้คือของ quill
+  const hanldeChangeContent = (value) => {
+    setPostContent({ ...postContent, descriptions: value });
   };
 
-  const handleSubmitPostContent = async e => {
+  const handleSubmitPostContent = async (e) => {
     try {
       console.log(postContent);
+      console.log(url1);
     } catch (err) {
-      console.log("Create Post:", err);
       console.dir(err);
     }
   };
@@ -69,62 +67,65 @@ function PostImg() {
     setDraftLists(newDraft);
     setPostContent({
       id: 2,
-      title: "",
-      type: "post",
+      title: '',
+      type: 'MAIN',
       notification: false,
-      userId: "",
+      userId: '',
       communityId: null,
       postTarget: false,
-      target: "u/Content_Avatar001",
-      updatedAt: "2021-10-17 16:38:39",
+      target: 'u/Content_Avatar001',
+      updatedAt: '2021-10-17 16:38:39',
     });
 
     window.location.reload();
   };
   console.log(postContent.title);
 
-  const handleEditPost = id => {
-    const idx = draftLists.findIndex(item => item.id === id);
-    setPostContent(cur => ({ ...cur, ...draftLists[idx] }));
+  const handleEditPost = (id) => {
+    const idx = draftLists.findIndex((item) => item.id === id);
+    setPostContent((cur) => ({ ...cur, ...draftLists[idx] }));
     setToggleModel(false);
     setToggleSaveDraft(true);
   };
 
-  const handleSaveEdit = id => {
-    const newEdit = draftLists.map(item => (item.id === id ? { ...item, ...postContent } : item));
+  const handleSaveEdit = (id) => {
+    const newEdit = draftLists.map((item) =>
+      item.id === id ? { ...item, ...postContent } : item
+    );
     setDraftLists(newEdit);
     setToggleSaveDraft(false);
     setPostContent({
       id: 2,
-      title: "",
-      description: "",
-      type: "post",
+      title: '',
+      description: '',
+      type: 'MAIN',
       notification: false,
-      userId: "",
+      userId: '',
       communityId: null,
       postTarget: false,
-      target: "u/Content_Avatar001",
-      updatedAt: "2021-10-17 16:38:39",
+      target: 'u/Content_Avatar001',
     });
   };
 
-  const handleRemoveDraft = id => {
-    const idx = draftLists.findIndex(item => item.id === id);
+  const handleRemoveDraft = (id) => {
+    const idx = draftLists.findIndex((item) => item.id === id);
     const newArr = [...draftLists];
     newArr.splice(idx, 1);
     setDraftLists(newArr);
   };
 
-  const handleFiles = e => {
+  const handleFiles = (e) => {
     if (e.target.files) {
-      const filesArray = Array.from(e.target.files).map(file => URL.createObjectURL(file));
-      setSelectFiles(cur => cur.concat(filesArray));
-      Array.from(e.target.files).map(file => URL.revokeObjectURL(file));
+      const filesArray = Array.from(e.target.files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setSelectFiles((cur) => cur.concat(filesArray));
+      Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
     }
-    setUrl1(cur => [...cur, ...e.target.files]);
+    setUrl1((cur) => [...cur, ...e.target.files]);
   };
 
-  const handleRemoveFiles = e => {
+  const handleRemoveFiles = (e) => {
     console.log(e.target.id);
     const arrFile = [...selectFiles];
     arrFile.splice(e.target.id, 1);
@@ -139,7 +140,9 @@ function PostImg() {
       <div className="w-full">
         {/* Header Create */}
         <div className=" max-w-3xl flex items-center justify-between  border-b-2 border-gray-300 pb-2 ">
-          <h1 className="text-xl font-bold text-gray-700 md:text-2xl">Create Post</h1>
+          <h1 className="text-xl font-bold text-gray-700 md:text-2xl">
+            Create Post
+          </h1>
 
           <div
             className=" rounded-full px-3 py-1 hover:bg-gray-200 hover:border-gray-300 border"
@@ -147,7 +150,7 @@ function PostImg() {
           >
             <div className="w-full   rounded-md shadow-sm ">
               <span>Draft</span>
-              <span to={"/"} className="ml-2 px-2  font-semibold text-gray-100 bg-gray-500 rounded hover:bg-gray-600">
+              <span className="ml-2 px-2  font-semibold text-gray-100 bg-gray-500 rounded hover:bg-gray-600">
                 {draftLists.length}
               </span>
             </div>
@@ -168,25 +171,38 @@ function PostImg() {
           <div class="grid grid-cols-2 ">
             <label
               className={`group relative ${
-                postContent.type === "post" ? "border-b-2 border-blue-600 " : "border-r border-b"
+                postContent.type === 'MAIN'
+                  ? 'border-b-2 border-blue-600 '
+                  : 'border-r border-b'
               }  rounded-tl-lg py-3 px-4 flex items-center justify-center text-sm font-medium  hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer`}
             >
-              <input type="radio" name="type" value="post" className="sr-only" onChange={handleChangePostContent} />
+              <input
+                type="radio"
+                name="type"
+                value="MAIN"
+                className="sr-only"
+                onChange={handleChangePostContent}
+              />
               <FaFileAlt className="text-blue-600 mr-2" />
               <p id="post">Post</p>
 
-              <div class="absolute -inset-px  pointer-events-none" aria-hidden="true"></div>
+              <div
+                class="absolute -inset-px  pointer-events-none"
+                aria-hidden="true"
+              ></div>
             </label>
 
             <label
               className={`group relative ${
-                postContent.type === "image-video" ? "border-b-2 border-blue-600" : "border-l border-b"
+                postContent.type === 'IMG'
+                  ? 'border-b-2 border-blue-600'
+                  : 'border-l border-b'
               }  rounded-tr-lg py-3 px-4 flex items-center justify-center text-sm font-medium  hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer`}
             >
               <input
                 type="radio"
                 name="type"
-                value="image-video"
+                value="IMG"
                 className="sr-only"
                 onChange={handleChangePostContent}
               />
@@ -194,7 +210,10 @@ function PostImg() {
               <ImImages className="text-blue-600 mr-2 text-base" />
               <p id="image-video">Image &amp; Video</p>
 
-              <div class="absolute -inset-px rounded-md pointer-events-none" aria-hidden="true"></div>
+              <div
+                class="absolute -inset-px rounded-md pointer-events-none"
+                aria-hidden="true"
+              ></div>
             </label>
           </div>
 
@@ -209,20 +228,22 @@ function PostImg() {
               maxLength="100"
             />
             <div
-              className={`absolute right-0 mr-10 text-xs top-4 pt-0.5  ${titleLength === 100 ? "text-red-600" : ""}`}
+              className={`absolute right-0 mr-10 text-xs top-4 pt-0.5  ${
+                titleLength === 100 ? 'text-red-600' : ''
+              }`}
             >{`${titleLength} / 100 `}</div>
           </div>
 
-          {postContent.type === "post" ? (
+          {postContent.type === 'MAIN' ? (
             <div className="bg-white w-full border-l border-r">
               <div className="w-11/12 mx-auto bg-gray-50">
-                <EditorToolbar toolbarId={"t1"} />
+                <EditorToolbar toolbarId={'t1'} />
                 <ReactQuill
                   theme="snow"
-                  value={postContent.description}
+                  value={postContent.descriptions}
                   onChange={hanldeChangeContent}
-                  placeholder={"Write something awesome..."}
-                  modules={modules("t1")}
+                  placeholder={'Write something awesome...'}
+                  modules={modules('t1')}
                   formats={formats}
                 />
               </div>
@@ -230,8 +251,8 @@ function PostImg() {
           ) : (
             // Drag and Drop
             <div className="bg-white w-full">
-              <div className="w-11/12 mx-auto bg-gray-50 h-16 shadow">
-                {url1[0]?.type === "video/mp4" ? (
+              <div className="w-11/12 mx-auto bg-gray-50 h-12 shadow">
+                {url1[0]?.type === 'video/mp4' ? (
                   <Button
                     onClick={() => {
                       setUrl1([]);
@@ -245,13 +266,19 @@ function PostImg() {
                 ) : (
                   <Button variant="contained" component="label">
                     Upload File
-                    <input type="file" hidden multiple onChange={handleFiles} accept="video/mp4 image/*" />
+                    <input
+                      type="file"
+                      hidden
+                      multiple
+                      onChange={handleFiles}
+                      accept="video/mp4 image/*"
+                    />
                   </Button>
                 )}
               </div>
               <div className=" w-11/12 mx-auto bg-gray-50  shadow mt-1 flex  items-center overflow-x-scroll">
-                {url1[0]?.type === "video/mp4"
-                  ? selectFiles.map(item => (
+                {url1[0]?.type === 'video/mp4'
+                  ? selectFiles.map((item) => (
                       <video key={item} className="w-11/12 mx-auto" controls>
                         <source src={item} />
                       </video>
@@ -278,7 +305,9 @@ function PostImg() {
                   name="notification"
                   onChange={handleChangePostContent}
                 />
-                <label className="text-xs font-medium">Send me post reply notifications</label>
+                <label className="text-xs font-medium">
+                  Send me post reply notifications
+                </label>
               </div>
               <div>
                 {ToggleSaveDraft ? (
@@ -300,11 +329,15 @@ function PostImg() {
                 <button
                   onClick={handleSubmitPostContent}
                   className={`${
-                    postContent.postTarget && postContent.title !== ""
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200 cursor-not-allowed"
+                    postContent.postTarget && postContent.title !== ''
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-200 cursor-not-allowed'
                   }  rounded-full font-semibold my-5  px-4 py-1 transition duration-300 ease-in-out`}
-                  disabled={postContent.postTarget && postContent.title !== "" ? false : true}
+                  disabled={
+                    postContent.postTarget && postContent.title !== ''
+                      ? false
+                      : true
+                  }
                 >
                   Post
                 </button>

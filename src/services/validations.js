@@ -52,7 +52,18 @@ const validateInput = (name, value) => {
       }
       return '';
     }
-
+    case 'name': {
+      if (isEmpty(value)) {
+        return 'Community name is required';
+      }
+      return '';
+    }
+    case 'type': {
+      if (isEmpty(value)) {
+        return 'Please select type of community';
+      }
+      return '';
+    }
     default:
       return '';
   }
@@ -98,9 +109,18 @@ const validatePostContentObject = (value) => {
   return error;
 };
 
+const validateCommuObject = (value) => {
+  const errorName = validateInput('name', value.name);
+  const errorType = validateInput('type', value.type);
+  const error = {};
+  if (errorName) error.name = errorName;
+  if (errorType) error.type = errorType;
+  return error;
+};
 export {
   validateInput,
   validateRegisterObject,
   validateLoginObject,
   validatePostContentObject,
+  validateCommuObject,
 };
