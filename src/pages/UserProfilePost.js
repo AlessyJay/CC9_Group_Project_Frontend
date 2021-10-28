@@ -12,7 +12,7 @@ function UserProfilePost() {
 
   return (
     <div className="bg-gray-200">
-      <ProfileBar user={user} />
+      <ProfileBar user={user} page={2} />
       <div className=" grid grid-cols-7 gap-6">
         <div className="col-start-2 col-span-3 ">
           <CreateBar />
