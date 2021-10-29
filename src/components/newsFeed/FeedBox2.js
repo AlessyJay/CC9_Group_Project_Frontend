@@ -4,7 +4,6 @@ import { HiChevronUp, HiChevronDown, HiOutlineAnnotation, HiOutlineBookmark, HiO
 import axios from "../../config/axios";
 import { UserContext } from "../../context/userContext";
 import ReactHtmlParser from "react-html-parser";
-import { HiOutlineUserCircle } from "react-icons/hi";
 
 function FeedBox({ item }) {
   const handleHide = async e => {};
@@ -40,11 +39,7 @@ function FeedBox({ item }) {
         <div className="w-full">
           <div className="flex">
             <div className="flex  p-2">
-              {item.Community.profileUrl ? (
-                <img className="rounded-full h-6 w-6" alt="A" src={item.Community.profileUrl} />
-              ) : (
-                <HiOutlineUserCircle className="rounded-full h-6 w-6" />
-              )}
+              <img className="rounded-full h-6 w-6" alt="A" src={item.Community.profileUrl} />
             </div>
             <span className="flex text-sm w-full items-center">
               <span className="font-semibold mr-2">{item.Community.name}</span>

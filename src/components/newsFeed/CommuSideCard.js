@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { HiOutlineUserCircle } from "react-icons/hi";
 
 function CommuSideCard({ item, index }) {
   const { name, profileUrl } = item;
@@ -9,7 +10,12 @@ function CommuSideCard({ item, index }) {
         <div className="flex items-center">
           <span className="flex text-base">
             <span className="mr-4">{`${index + 1}.`}</span>
-            <img className="rounded-full h-7 mr-4" alt="A" src={profileUrl} />
+            {/* <img className="rounded-full h-7 mr-4" alt="A" src={profileUrl} /> */}
+            {profileUrl ? (
+              <img className="rounded-full h-7 mr-4" alt="A" src={profileUrl} />
+            ) : (
+              <HiOutlineUserCircle className="rounded-full h-7 w-7 mr-4" />
+            )}
             <span>{name}</span>
           </span>
         </div>

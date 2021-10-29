@@ -21,9 +21,6 @@ function OtherProfilePage() {
       <div className=" grid grid-cols-7 gap-6">
         <div className="col-start-2 col-span-3 ">
           <Popular />
-          <FeedBox />
-          <FeedBox />
-          <FeedBox />
         </div>
         <div className="col-span-2">
           <OtherUserProfileSide user={user} />
