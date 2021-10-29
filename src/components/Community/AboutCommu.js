@@ -1,11 +1,11 @@
-import React from "react";
-import { useRouteMatch, useHistory } from "react-router-dom";
+import React from 'react';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 
 function AboutCommu({ name, id }) {
   const { path } = useRouteMatch();
   const history = useHistory();
 
-  const handleTo = () => {
+  const handleClickEditCommunity = () => {
     history.push(`/community/${name}/${id}/edit`);
   };
 
@@ -16,9 +16,10 @@ function AboutCommu({ name, id }) {
       </div>
       <div className="h-56 px-4 py-6 rounded-sm rounded-t-none">
         <p className="text-sm mb-5">
-          A subreddit for news and discussion about Liverpool FC, a football club playing in the English Premier League.
-          Liverpool are one of the most decorated football clubs in all of world football, with 19 English League Titles
-          and 6 European Cups.
+          A subreddit for news and discussion about Liverpool FC, a football
+          club playing in the English Premier League. Liverpool are one of the
+          most decorated football clubs in all of world football, with 19
+          English League Titles and 6 European Cups.
         </p>
         <h3>Member</h3>
         <h3>1100K</h3>
@@ -26,7 +27,7 @@ function AboutCommu({ name, id }) {
       <div className="mx-8 border-b-2 text-sm border-gray-100"></div>
       <div className=" cursor-pointer flex justify-center mx-2 pb-2">
         <div
-          onClick={handleTo}
+          onClick={handleClickEditCommunity}
           className="flex justify-center max-w-sm border-2 border-blue-500 rounded-full font-semibold  text-white px-6 w-full  transition duration-300 ease-in-out hover:bg-white hover:text-blue-500 bg-blue-500 "
         >
           Edit Community
