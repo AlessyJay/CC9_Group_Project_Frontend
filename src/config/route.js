@@ -10,6 +10,7 @@ import UserProfileComments from "../pages/UserProfileComments";
 import UserProfileSave from "../pages/UserProfileSave";
 import UserProfileHidden from "../pages/UserProfileHidden";
 import OtherProfilePage from "../pages/OtherProfilePage";
+import PostPage from "../pages/PostPage";
 
 const routes = {
   user: {
@@ -17,6 +18,10 @@ const routes = {
       {
         path: "/create-post",
         component: CreatePost,
+      },
+      {
+        path: "/posts/:communityHostId/:id",
+        component: PostPage,
       },
       {
         path: "/user/:id",
@@ -72,6 +77,10 @@ const routes = {
       {
         path: "/user/:id",
         component: OtherProfilePage,
+      },
+      {
+        path: "/posts/:communityHostId/:id",
+        component: PostPage,
       },
       {
         path: "/",
