@@ -118,7 +118,7 @@ export default function EditCommunity() {
                 </div>
 
                 <div className="block text-xs font-small text-gray-500">
-                  500 Characters remaining
+                  {`${500 - descriptions.length}`}/500 Characters remaining
                 </div>
               </div>
 
