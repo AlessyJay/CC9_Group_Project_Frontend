@@ -79,6 +79,11 @@ const routes = {
         component: OtherProfilePage,
       },
       {
+        path: "/community/:name/:id",
+        component: CommunityPage,
+        exact: true,
+      },
+      {
         path: "/posts/:communityHostId/:id",
         component: PostPage,
       },

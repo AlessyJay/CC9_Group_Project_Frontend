@@ -112,8 +112,6 @@ function Header() {
     setTarget(cur => ({ ...cur, name, icon }));
   };
 
-  console.log(arrUserCommu);
-
   const handleLogOut = () => {
     removeToken();
     setUser(null);
@@ -189,7 +187,7 @@ function Header() {
                         {Commu.filter(item => {
                           if (filter === "") {
                             return item;
-                          } else if (item.name.toLowerCase().includes(filter.toLowerCase())) {
+                          } else if (item.Community.name.toLowerCase().includes(filter.toLowerCase())) {
                             return item;
                           }
                         }).map((item, index) => (

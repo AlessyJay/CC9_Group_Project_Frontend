@@ -5,6 +5,7 @@ import axios from "../../config/axios";
 import { UserContext } from "../../context/userContext";
 import ReactHtmlParser from "react-html-parser";
 import { HiOutlineUserCircle } from "react-icons/hi";
+import { timeDiff } from "../../services/timeDifferent";
 
 function FeedBox({ item }) {
   const handleHide = async e => {};
@@ -58,14 +59,14 @@ function FeedBox({ item }) {
                 {item.Community.name}
               </span>
               <div className=" cursor-pointer overflow-ellipsis text-xs font-light flex flex-wrap">
-                Posted by <span className="font-semibold">{item.User.username}</span> 15 hours ago
+                Posted by <span className="font-semibold mx-2">{item.User.username}</span> {timeDiff(item.createdAt)}{" "}
+                ago
               </div>
             </span>
           </div>
           <Link to="/#" className="w-full">
             <div className="p-1 text-xl ml-3">{item.title}</div>
-            <div className=" max-h-64 overflow-y-scroll font-light text-sm p-1 pt-0 mb-2 bg-white ">
-              {/* {ReactHtmlParser(item.descriptions)} */}
+            <div className="ml-2 max-h-64 overflow-y-scroll font-light text-sm p-1 pt-0 mb-2 bg-white ">
               {item.descriptions ? (
                 ReactHtmlParser(item.descriptions)
               ) : item.imageUrl ? (
