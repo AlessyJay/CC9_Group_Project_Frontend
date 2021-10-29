@@ -5,18 +5,19 @@ import {
   HiOutlineTrash,
   HiOutlinePencilAlt,
 } from 'react-icons/hi';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router-dom';
 
 export default function EditCommunity() {
   useEffect(() => {
     // ดึงข้อมูลเก่ามา
   }, []);
-
-  const { id } = useParams();
+  const history = useHistory();
+  const { id, name } = useParams();
   const [descriptions, setDescriptions] = useState('');
   const [profileUrl, setProfileUrl] = useState(null);
   const [bannerUrl, setBannerUrl] = useState(null);
   const [showProfile, setShowProfile] = useState(null);
+  const [showBanner, setShowBanner] = useState(null);
   const handleChangeDescription = (e) => {
     setDescriptions(e.target.value);
   };
@@ -49,7 +50,42 @@ export default function EditCommunity() {
       }
 
       const res = await axios.put(`/communities/profile/${id}`, formData);
-      // console.log(res.data);
+      history.push(`/community/${name}/${id}`);
+    } catch (err) {
+      console.dir(err);
+    }
+  };
+
+  console.log(bannerUrl);
+
+  const handleChangeBanner = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setBannerUrl(null);
+      return;
+    }
+    if (e.target.files) {
+      const files = URL.createObjectURL(e.target.files[0]);
+      setShowBanner(files);
+    }
+    URL.revokeObjectURL(e.target.files[0]);
+    setBannerUrl(e.target.files[0]);
+  };
+  const handleRemoveBannerImage = () => {
+    setBannerUrl(null);
+    setShowBanner(null);
+  };
+  const handleSubmitBanner = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      if (profileUrl && showBanner !== null) {
+        formData.append('bannerimage', bannerUrl);
+        const res = await axios.put(`/communities/profile/${id}`, formData);
+        alert('Success');
+        // history.push(`/community/${name}/${id}`);
+      } else {
+        alert('nothing');
+      }
     } catch (err) {
       console.dir(err);
     }
@@ -126,19 +162,22 @@ export default function EditCommunity() {
                         )}
                         <div className="mt-10 flex flex-col">
                           {showProfile && (
-                            <img
-                              src={showProfile}
-                              className="max-w-full max-h-56"
-                              alt="Thumb"
-                            />
+                            <>
+                              <img
+                                src={showProfile}
+                                className="max-w-full max-h-56"
+                                alt="Thumb"
+                              />
+
+                              <button
+                                type="button"
+                                onClick={handleRemoveProfileImage}
+                                className="mt-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 "
+                              >
+                                Remove This Image
+                              </button>
+                            </>
                           )}
-                          <button
-                            type="button"
-                            onClick={handleRemoveProfileImage}
-                            className="mt-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 "
-                          >
-                            Remove This Image
-                          </button>
                         </div>
                       </div>
                     </div>
@@ -149,16 +188,18 @@ export default function EditCommunity() {
               {/* button submit */}
             </div>
             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-              <button
-                type="submit"
-                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                Submit
-              </button>
+              {(descriptions || showProfile) && (
+                <button
+                  type="button"
+                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Submit
+                </button>
+              )}
             </div>
           </form>
 
-          <form>
+          <form onSubmit={handleSubmitBanner}>
             {/* up img cover */}
             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
               <div className="col-span-2">
@@ -170,47 +211,65 @@ export default function EditCommunity() {
                 </div>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   <div className="space-y-1 text-center">
-                    <div>
-                      <HiOutlinePhotograph
-                        className="mx-auto h-12 w-12 text-gray-400"
-                        stroke="currentColor"
-                        fill="none"
-                      />
+                    {!showBanner && (
+                      <div>
+                        <HiOutlinePhotograph
+                          className="mx-auto h-12 w-12 text-gray-400"
+                          stroke="currentColor"
+                          fill="none"
+                        />
 
-                      <div className=" text-sm text-gray-600">
-                        <label
-                          htmlFor="BanerCommunity"
-                          className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                        >
-                          <span>Upload a file</span>
-                          <input
-                            id="BanerCommunity"
-                            name="BanerCommunity"
-                            type="file"
-                            className="sr-only"
-                          />
-                        </label>
-                        <div className="">or Upload Banner Image</div>
+                        <div className=" text-sm text-gray-600">
+                          <label
+                            htmlFor="BanerCommunity"
+                            className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                          >
+                            <span>Upload a file</span>
+                            <input
+                              id="BanerCommunity"
+                              name="BanerCommunity"
+                              type="file"
+                              className="sr-only"
+                              onChange={handleChangeBanner}
+                            />
+                          </label>
+                          <div className="">or Upload Banner Image</div>
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div className="mt-10 flex flex-col">
-                      <img src="" className="max-w-full max-h-56" alt="Thumb" />
-                      <button className="mt-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 ">
-                        Remove This Image
-                      </button>
+                      {showBanner && (
+                        <>
+                          <img
+                            src={showBanner}
+                            className="max-w-full max-h-56"
+                            alt="Thumb"
+                          />
+                          <button
+                            type="button"
+                            onClick={handleRemoveBannerImage}
+                            className="mt-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 "
+                          >
+                            Remove This Image
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-              <button
-                type="submit"
-                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                Submit
-              </button>
+              {showBanner && (
+                <button
+                  className={`inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 `}
+                >
+                  Submit
+                </button>
+              )}
             </div>
+
+            {/* Rule Form */}
           </form>
           <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
             <div className="block text-xl font-bold font-small text-gray-700">
