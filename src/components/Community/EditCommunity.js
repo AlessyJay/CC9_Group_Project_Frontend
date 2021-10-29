@@ -18,6 +18,8 @@ export default function EditCommunity() {
   const [bannerUrl, setBannerUrl] = useState(null);
   const [showProfile, setShowProfile] = useState(null);
   const [showBanner, setShowBanner] = useState(null);
+  const [rule, setRule] = useState('');
+  const [onEditRule, setOnEditRule] = useState(false);
   const handleChangeDescription = (e) => {
     setDescriptions(e.target.value);
   };
@@ -56,10 +58,6 @@ export default function EditCommunity() {
     }
   };
 
-  console.log(descriptions);
-  console.log(profileUrl);
-  console.log(bannerUrl);
-
   const handleChangeBanner = (e) => {
     if (!e.target.files || e.target.files.length === 0) {
       setBannerUrl(null);
@@ -96,6 +94,7 @@ export default function EditCommunity() {
     <div className="w-full mt-3">
       <div className="mt-5 md:mt-0 md:col-span-2">
         <div className="shadow sm:rounded-md sm:overflow-hidden">
+          {/* Profile */}
           <form onSubmit={handleSumbitObjAbout}>
             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
               <div className="grid grid-cols-3 gap-6"></div>
@@ -197,7 +196,7 @@ export default function EditCommunity() {
               )}
             </div>
           </form>
-
+          {/* Banner */}
           <form onSubmit={handleSubmitBanner}>
             {/* up img cover */}
             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -270,6 +269,7 @@ export default function EditCommunity() {
 
             {/* Rule Form */}
           </form>
+          {/* Rule */}
           <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
             <div className="block text-xl font-bold font-small text-gray-700">
               Rule Community
@@ -300,7 +300,7 @@ export default function EditCommunity() {
                 100 Characters remaining
               </div>
             </form>
-            ) : (
+
             <form>
               <div className="grid grid-cols-6 gap-4 ">
                 <input
