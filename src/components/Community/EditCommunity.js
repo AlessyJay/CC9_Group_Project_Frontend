@@ -56,6 +56,8 @@ export default function EditCommunity() {
     }
   };
 
+  console.log(descriptions);
+  console.log(profileUrl);
   console.log(bannerUrl);
 
   const handleChangeBanner = (e) => {
@@ -80,7 +82,7 @@ export default function EditCommunity() {
       const formData = new FormData();
       if (profileUrl && showBanner !== null) {
         formData.append('bannerimage', bannerUrl);
-        const res = await axios.put(`/communities/profile/${id}`, formData);
+        const res = await axios.put(`/communities/banner/${id}`, formData);
         alert('Success');
         // history.push(`/community/${name}/${id}`);
       } else {
@@ -189,10 +191,7 @@ export default function EditCommunity() {
             </div>
             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
               {(descriptions || showProfile) && (
-                <button
-                  type="button"
-                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
+                <button className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                   Submit
                 </button>
               )}
