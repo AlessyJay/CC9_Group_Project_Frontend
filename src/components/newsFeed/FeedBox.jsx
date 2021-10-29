@@ -1,22 +1,19 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import {
-  HiChevronUp,
-  HiChevronDown,
-  HiOutlineAnnotation,
-  HiOutlineBookmark,
-  HiOutlineEye,
-} from 'react-icons/hi';
-import axios from '../../config/axios';
+import React, { useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { HiChevronUp, HiChevronDown, HiOutlineAnnotation, HiOutlineBookmark, HiOutlineEye } from "react-icons/hi";
+import axios from "../../config/axios";
+import { UserContext } from "../../context/userContext";
 
 function FeedBox() {
-  const handleHide = async (e) => {};
-  const handleClick = async (e) => {
+  const { arrUserCommu } = useContext(UserContext);
+
+  const handleHide = async e => {};
+  const handleClick = async e => {
     try {
       e.preventDefault();
 
-      const res = await axios.post('/posts/savepost/1', { isSaved: true });
-      console.log('19', location);
+      const res = await axios.post("/posts/savepost/1", { isSaved: true });
+      console.log("19", location);
       console.log(res.data);
     } catch (err) {
       console.log(err);
@@ -43,11 +40,7 @@ function FeedBox() {
         <div className="w-full">
           <div className="flex">
             <div className="flex  p-2">
-              <img
-                className="rounded-full h-6 w-6"
-                alt="A"
-                src="https://randomuser.me/api/portraits/men/85.jpg"
-              />
+              <img className="rounded-full h-6 w-6" alt="A" src="https://randomuser.me/api/portraits/men/85.jpg" />
             </div>
             <span className="flex text-sm w-full items-center">
               <span className="font-semibold mr-2">r/javascript</span>
@@ -59,37 +52,26 @@ function FeedBox() {
           <Link to="/#" className="w-full">
             <div className="p-1">Title Content</div>
             <div className=" max-h-64 overflow-y-scroll font-light text-sm p-1 pt-0 mb-2 bg-white ">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. Lorem Ipsum is
-              simply dummy text of the printing and typesetting industry. Lorem
-              Ipsum has been the industry's standard dummy text ever since the
-              1500s, when an unknown printer took a galley of type and scrambled
-              it to make a type specimen book. Lorem Ipsum is scrambled it to
-              make a type specimen book. Lorem Ipsum is simply dummy text of the
-              printing and typesetting industry. Lorem Ipsum has been the
-              industry's standard dummy text ever since the 1500s, when an
-              unknown printer took a galley of type and scrambled it to make a
-              type specimen book. Lorem Ipsum is scrambled it to make a type
-              specimen book. Lorem Ipsum is simply dummy text of the printing
-              and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when scrambled it to
-              make a type specimen book. Lorem Ipsum is simply dummy text of the
-              printing and typesetting industry. Lorem Ipsum has been the
-              industry's standard dummy text ever since the 1500s, when an
-              unknown printer took a galley of type and scrambled it to make a
-              type specimen book. Lorem Ipsum is scrambled it to make a type
-              specimen book. Lorem Ipsum is simply dummy text of the printing
-              and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when scrambled it to
-              make a type specimen book. Lorem Ipsum is simply dummy text of the
-              printing and scrambled it to make a type specimen book. Lorem
-              Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when scrambled it to make a type specimen
-              book. Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry. Lorem Ipsum has
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+              an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is
+              scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+              an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is
+              scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+              scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+              an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is
+              scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+              scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and scrambled
+              it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when scrambled it
+              to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum has
             </div>
           </Link>
 
@@ -102,11 +84,7 @@ function FeedBox() {
               <HiOutlineBookmark />
               <span className="text-sm ml-1 font-light">save</span>
             </button>
-            <button
-              className="flex items-center mr-4"
-              type="button"
-              onClick={handleHide}
-            >
+            <button className="flex items-center mr-4" type="button" onClick={handleHide}>
               <HiOutlineEye />
               <span className="text-sm ml-1 font-light">hide</span>
             </button>

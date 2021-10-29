@@ -9,11 +9,11 @@ import axios from "../config/axios";
 
 function Mainpage() {
   const { user } = useContext(UserContext);
-  // const [postMain, setPostMain] = useState([]);
+  const [listCommunity, setListCommunity] = useState([]);
 
-  // useEffect(() => {
-  //   axios.get("/feeds/mainpage").then(res => setPostMain(res.data.feedLists));
-  // }, []);
+  useEffect(() => {
+    axios.get("/feeds/allcommunity").then(res => setListCommunity(res.data.communityLists));
+  }, []);
   return (
     <div className="bg-gray-200 grid grid-cols-7 gap-6 ">
       <div className="col-start-2 col-span-3 ">
@@ -21,12 +21,9 @@ function Mainpage() {
         <FeedBox />
         <FeedBox />
         <FeedBox />
-        {/* {postMain.map(item => (
-          <FeedBox key={item.id} item={item} />
-        ))} */}
       </div>
       <div className="col-span-2">
-        <SideCard />
+        <SideCard listCommunity={listCommunity} />
         {user ? <CreatePostAndCommunity /> : ""}
 
         <Footer />

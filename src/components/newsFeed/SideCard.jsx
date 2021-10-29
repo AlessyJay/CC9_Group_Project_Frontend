@@ -31,13 +31,7 @@ const MOCK_DATA = [
   },
 ];
 
-export default function MediaCard() {
-  const [listCommunity, setListCommunity] = useState([]);
-
-  useEffect(() => {
-    axios.get("/feeds/allcommunity").then(res => setListCommunity(res.data.communityLists));
-  }, []);
-
+export default function MediaCard({ listCommunity }) {
   console.log(listCommunity);
   return (
     <Card className="max-w-xs mt-3 shadow rounded-sm hidden md:block">
