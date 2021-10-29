@@ -1,5 +1,5 @@
-import React from 'react';
-import { Quill } from 'react-quill';
+import React from "react";
+import { Quill } from "react-quill";
 
 // Custom Undo button icon component for Quill editor. You can import it directly
 // from 'quill/assets/icons/undo.svg' but I found that a number of loaders do not
@@ -7,10 +7,7 @@ import { Quill } from 'react-quill';
 const CustomUndo = () => (
   <svg viewBox="0 0 18 18">
     <polygon className="ql-fill ql-stroke" points="6 10 4 12 2 10 6 10" />
-    <path
-      className="ql-stroke"
-      d="M8.09,13.91A4.6,4.6,0,0,0,9,14,5,5,0,1,0,4,9"
-    />
+    <path className="ql-stroke" d="M8.09,13.91A4.6,4.6,0,0,0,9,14,5,5,0,1,0,4,9" />
   </svg>
 );
 
@@ -18,10 +15,7 @@ const CustomUndo = () => (
 const CustomRedo = () => (
   <svg viewBox="0 0 18 18">
     <polygon className="ql-fill ql-stroke" points="12 10 14 12 16 10 12 10" />
-    <path
-      className="ql-stroke"
-      d="M9.91,13.91A4.6,4.6,0,0,1,9,14a5,5,0,1,1,5-5"
-    />
+    <path className="ql-stroke" d="M9.91,13.91A4.6,4.6,0,0,1,9,14a5,5,0,1,1,5-5" />
   </svg>
 );
 
@@ -34,27 +28,19 @@ function redoChange() {
 }
 
 // Add sizes to whitelist and register them
-const Size = Quill.import('formats/size');
-Size.whitelist = ['extra-small', 'small', 'medium', 'large'];
+const Size = Quill.import("formats/size");
+Size.whitelist = ["extra-small", "small", "medium", "large"];
 Quill.register(Size, true);
 
 // Add fonts to whitelist and register them
-const Font = Quill.import('formats/font');
-Font.whitelist = [
-  'arial',
-  'comic-sans',
-  'courier-new',
-  'georgia',
-  'helvetica',
-  'Inter',
-  'lucida',
-];
+const Font = Quill.import("formats/font");
+Font.whitelist = ["arial", "comic-sans", "courier-new", "georgia", "helvetica", "Inter", "lucida"];
 Quill.register(Font, true);
 
 // Modules object for setting up the Quill editor
-export const modules = (props) => ({
+export const modules = props => ({
   toolbar: {
-    container: '#' + props,
+    container: "#" + props,
     handlers: {
       undo: undoChange,
       redo: redoChange,
@@ -69,29 +55,28 @@ export const modules = (props) => ({
 
 // Formats objects for setting up the Quill editor
 export const formats = [
-  'header',
-  'font',
-  'size',
-  'bold',
-  'italic',
-  'underline',
-  'align',
-  'strike',
-  'script',
-  'blockquote',
-  'background',
-  'list',
-  'bullet',
-  'indent',
-  'link',
-  'image',
-  'video',
-  'color',
-  'code-block',
+  "header",
+  "font",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "align",
+  "strike",
+  "script",
+  "blockquote",
+  "background",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+
+  "color",
+  "code-block",
 ];
 
 // Quill Toolbar component
-export const QuillToolbar = (props) => {
+export const QuillToolbar = props => {
   return (
     <>
       {props.toolbarId !== undefined && (
@@ -153,8 +138,6 @@ export const QuillToolbar = (props) => {
           </span>
           <span className="ql-formats">
             <button className="ql-link" />
-            <button className="ql-image" />
-            <button className="ql-video" />
           </span>
           <span className="ql-formats">
             <button className="ql-formula" />

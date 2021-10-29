@@ -1,6 +1,7 @@
 import React from "react";
 
-function CommunityHeader() {
+function CommunityHeader({ community }) {
+  const { profileUrl } = community;
   return (
     <div className="hidden md:block">
       <div
@@ -14,10 +15,14 @@ function CommunityHeader() {
         <div className="col-start-2 col-span-3">
           <div className="mx-6 relative  flex">
             <div className="h-20 w-20 rounded-full overflow-hidden relative -top-3 border-4 border-white bg-white shadow">
-              <img
-                src="https://styles.redditmedia.com/t5_2qs0q/styles/communityIcon_5ey8lzmwmxp21.png?width=256&s=5a85d5c682f40e3cf317c560b219585ac0afce78"
-                alt=""
-              />
+              {profileUrl ? (
+                <img className="h-20 w-20 rounded-full" src={profileUrl} alt="" />
+              ) : (
+                <img
+                  src="https://styles.redditmedia.com/t5_2qs0q/styles/communityIcon_5ey8lzmwmxp21.png?width=256&s=5a85d5c682f40e3cf317c560b219585ac0afce78"
+                  alt=""
+                />
+              )}
             </div>
             <div className="pt-2 pl-4">
               <h1 className="text-gray-300 text-3xl">webdev: reddit for web developers</h1>

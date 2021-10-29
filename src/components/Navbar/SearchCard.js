@@ -26,7 +26,7 @@ function SearchCard({ item, setSearch }) {
         <div className="flex items-center">
           <div>
             {profileUrl ? (
-              <img className="rounded-full h-6 mr-4" alt="A" src={profileUrl} />
+              <img className="rounded-full h-6 w-6 mr-4" alt="A" src={profileUrl} />
             ) : (
               <HiOutlineUserCircle className="rounded-full h-6 w-6 mr-4" />
             )}

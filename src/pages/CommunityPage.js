@@ -13,17 +13,22 @@ import axios from "../config/axios";
 
 function CommunityPage() {
   const { id, name } = useParams();
+  const [community, setCommunity] = useState([]);
 
   useEffect(() => {
     axios
       .get(`/communities/posts/${id}`)
       .then(res => console.log(res.data))
       .catch(err => console.dir(err));
+    axios
+      .get(`/communities/${id}`)
+      .then(res => setCommunity(res.data.community))
+      .catch(err => console.dir(err));
   }, []);
 
   return (
     <div className="bg-gray-200">
-      <CommunityHeader />
+      <CommunityHeader community={community} />
       <div className=" grid grid-cols-7 gap-6">
         <div className="col-start-2 col-span-3 ">
           <PostComment />

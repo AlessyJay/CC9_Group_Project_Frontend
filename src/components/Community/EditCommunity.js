@@ -52,6 +52,8 @@ export default function EditCommunity() {
     }
   };
 
+  console.log(descriptions);
+  console.log(profileUrl);
   console.log(bannerUrl);
 
   const handleChangeBanner = e => {
@@ -76,7 +78,7 @@ export default function EditCommunity() {
       const formData = new FormData();
       if (profileUrl && showBanner !== null) {
         formData.append("bannerimage", bannerUrl);
-        const res = await axios.put(`/communities/profile/${id}`, formData);
+        const res = await axios.put(`/communities/banner/${id}`, formData);
         alert("Success");
         // history.push(`/community/${name}/${id}`);
       } else {
@@ -109,7 +111,9 @@ export default function EditCommunity() {
                   />
                 </div>
 
-                <div className="block text-xs font-small text-gray-500">500 Characters remaining</div>
+                <div className="block text-xs font-small text-gray-500">
+                  {`${500 - descriptions.length}`}/500 Characters remaining
+                </div>
               </div>
 
               {/* up img */}
