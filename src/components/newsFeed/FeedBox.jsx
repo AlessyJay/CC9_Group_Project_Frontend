@@ -4,9 +4,7 @@ import { HiChevronUp, HiChevronDown, HiOutlineAnnotation, HiOutlineBookmark, HiO
 import axios from "../../config/axios";
 import { UserContext } from "../../context/userContext";
 
-function FeedBox() {
-  const { arrUserCommu } = useContext(UserContext);
-
+function FeedBox({ item }) {
   const handleHide = async e => {};
   const handleClick = async e => {
     try {
@@ -31,7 +29,7 @@ function FeedBox() {
           <button className="w-full flex justify-center">
             <HiChevronUp className="w-7 h-7" />
           </button>
-          <div className="flex justify-center text-sm font-light">0</div>
+          <div className="flex justify-center text-sm font-light">{item.like}</div>
           <button className="w-full flex justify-center">
             <HiChevronDown className="w-7 h-7" />
           </button>
@@ -40,19 +38,19 @@ function FeedBox() {
         <div className="w-full">
           <div className="flex">
             <div className="flex  p-2">
-              <img className="rounded-full h-6 w-6" alt="A" src="https://randomuser.me/api/portraits/men/85.jpg" />
+              <img className="rounded-full h-6 w-6" alt="A" src={item.Community.profileUrl} />
             </div>
             <span className="flex text-sm w-full items-center">
-              <span className="font-semibold mr-2">r/javascript</span>
+              <span className="font-semibold mr-2">{item.Community.name}</span>
               <div className="overflow-ellipsis text-xs font-light flex flex-wrap">
-                Posted byu/logicspock 15 hours ago
+                {`Posted by ${item.User.username} 15 hours ago`}
               </div>
             </span>
           </div>
           <Link to="/#" className="w-full">
-            <div className="p-1">Title Content</div>
+            <div className="p-1">{item.title}</div>
             <div className=" max-h-64 overflow-y-scroll font-light text-sm p-1 pt-0 mb-2 bg-white ">
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              {/* Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
               industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
               scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and
               typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
@@ -71,7 +69,8 @@ function FeedBox() {
               it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when scrambled it
               to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-              Lorem Ipsum has
+              Lorem Ipsum has */}
+              {item.descriptions}
             </div>
           </Link>
 

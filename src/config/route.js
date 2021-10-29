@@ -9,6 +9,7 @@ import UserProfilePost from "../pages/UserProfilePost";
 import UserProfileComments from "../pages/UserProfileComments";
 import UserProfileSave from "../pages/UserProfileSave";
 import UserProfileHidden from "../pages/UserProfileHidden";
+import OtherProfilePage from "../pages/OtherProfilePage";
 
 const routes = {
   user: {
@@ -16,6 +17,10 @@ const routes = {
       {
         path: "/create-post",
         component: CreatePost,
+      },
+      {
+        path: "/user/:id",
+        component: OtherProfilePage,
       },
       {
         path: "/profile/:id/edit",
@@ -64,6 +69,10 @@ const routes = {
 
   guest: {
     route: [
+      {
+        path: "/user/:id",
+        component: OtherProfilePage,
+      },
       {
         path: "/",
         component: Mainpage,

@@ -11,7 +11,7 @@ function SearchCard({ item, setSearch }) {
     if (name) {
       history.push(`/community/${name}/${id}`);
     } else if (username) {
-      history.push(`/profile/${username}/${id}`);
+      history.push(`/user/${id}`);
     }
     setSearch("");
   };

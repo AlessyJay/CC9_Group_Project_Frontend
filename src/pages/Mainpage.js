@@ -10,17 +10,26 @@ import axios from "../config/axios";
 function Mainpage() {
   const { user } = useContext(UserContext);
   const [listCommunity, setListCommunity] = useState([]);
+  const [postMain, setPostMain] = useState([]);
 
   useEffect(() => {
     axios.get("/feeds/allcommunity").then(res => setListCommunity(res.data.communityLists));
+    axios.get("/feeds/mainpage").then(res => setPostMain(res.data.feedLists));
   }, []);
+
+  console.log(postMain);
+
   return (
     <div className="bg-gray-200 grid grid-cols-7 gap-6 ">
       <div className="col-start-2 col-span-3 ">
         <Popular />
+        {/* <FeedBox />
         <FeedBox />
-        <FeedBox />
-        <FeedBox />
+        <FeedBox /> */}
+
+        {postMain.map((item, index) => (
+          <FeedBox key={index} item={item} />
+        ))}
       </div>
       <div className="col-span-2">
         <SideCard listCommunity={listCommunity} />

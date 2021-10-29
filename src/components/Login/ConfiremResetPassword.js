@@ -17,6 +17,7 @@ function ConfiremResetPassword({ resetPasswordUser, setShowConfirmPass }) {
         password: confirmResetObj.password,
         confirmpassword: confirmResetObj.confirmpassword,
       });
+      alert(res.data.message);
       setShowConfirmPass(false);
       console.log(res.data);
     } catch (err) {
