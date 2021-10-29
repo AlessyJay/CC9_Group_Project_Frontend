@@ -3,12 +3,13 @@ import React, { useState, useEffect } from 'react';
 import {
   HiOutlinePhotograph,
   HiOutlineTrash,
-  HiOutlinePencilAlt,
-  HiSave,
+  HiOutlineScissors,
+  HiOutlineUpload,
   HiOutlineX,
 } from 'react-icons/hi';
 import { useParams, useHistory } from 'react-router-dom';
 import { sizeHeight } from '@mui/system';
+import EditRule from './EditRule';
 
 export default function EditCommunity() {
   useEffect(() => {
@@ -129,6 +130,10 @@ export default function EditCommunity() {
     } catch (err) {
       console.dir(err);
     }
+  };
+
+  const deleteRuleList = (id) => {
+    //Delete from rule list and axios to db
   };
   return (
     <div className="w-full mt-3">
@@ -369,28 +374,8 @@ export default function EditCommunity() {
                     <div className="flex ml-3 text-sm font-semibold">{`${
                       idx + 1
                     }. ${item.ruleDetail}`}</div>
-                    <form>
-                      <div className="grid grid-4 gap-4">
-                        <input
-                          maxLength="100"
-                          type="text"
-                          name="editRule"
-                          placeholder="edit rule"
-                          className="col-span-3 outline-none pl-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full h-9  sm:text-sm border border-gray-300 rounded-md"
-                        />
-                      </div>
-                    </form>
-                  </div>
 
-                  <div className="flex justify-end">
-                    {!onEditRule ? (
-                      <HiSave size="20px" />
-                    ) : (
-                      <>
-                        <HiOutlinePencilAlt />
-                        <HiOutlineTrash />
-                      </>
-                    )}
+                    <EditRule item={item} deleteRuleList={deleteRuleList} />
                   </div>
                 </li>
               ))}
