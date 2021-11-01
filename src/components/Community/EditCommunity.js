@@ -1,19 +1,33 @@
 import axios from "../../config/axios";
 import React, { useState, useEffect } from "react";
-import { HiOutlinePhotograph, HiOutlineTrash, HiOutlinePencilAlt } from "react-icons/hi";
+import { HiOutlinePhotograph, HiOutlineX } from "react-icons/hi";
 import { useParams, useHistory } from "react-router-dom";
+import RuleComponent from "./RuleComponent";
 
 export default function EditCommunity() {
   useEffect(() => {
-    // ดึงข้อมูลเก่ามา
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`communities/rules/${id}`);
+        setRuleLists(res.data.rules);
+      } catch (err) {
+        console.dir(err);
+      }
+    };
+    fetchData();
   }, []);
   const history = useHistory();
-  const { id, name } = useParams();
+  const { id, name } = useParams(); // communityId , community name
+  const [ruleLists, setRuleLists] = useState([]);
   const [descriptions, setDescriptions] = useState("");
   const [profileUrl, setProfileUrl] = useState(null);
   const [bannerUrl, setBannerUrl] = useState(null);
   const [showProfile, setShowProfile] = useState(null);
   const [showBanner, setShowBanner] = useState(null);
+  const [toggleAddRule, setToggleAddRule] = useState(false);
+  const [rule, setRule] = useState("");
+  const [error, setError] = useState("");
+
   const handleChangeDescription = e => {
     setDescriptions(e.target.value);
   };
@@ -52,10 +66,6 @@ export default function EditCommunity() {
     }
   };
 
-  console.log(descriptions);
-  console.log(profileUrl);
-  console.log(bannerUrl);
-
   const handleChangeBanner = e => {
     if (!e.target.files || e.target.files.length === 0) {
       setBannerUrl(null);
@@ -88,10 +98,49 @@ export default function EditCommunity() {
       console.dir(err);
     }
   };
+  console.log(rule);
+  const handleChangeRules = e => {
+    setError("");
+    if (e.target.value === "") {
+      setError("Rule is required");
+    }
+    setRule(e.target.value);
+  };
+
+  const handleAddNewRule = async e => {
+    e.preventDefault();
+    try {
+      if (rule === "") {
+        setError("Rule is required");
+      }
+      const res = await axios.post(`/communities/rules/${id}`, { rule });
+      console.log(res.data);
+      setRule("");
+      setRuleLists(cur => [...cur, res.data.rule]);
+    } catch (err) {
+      console.dir(err);
+    }
+  };
+
+  const deleteRuleList = async id => {
+    console.log(id);
+    const newRuleLists = ruleLists.filter(item => item.id !== id);
+    setRuleLists(newRuleLists);
+    await axios.delete(`/communities/${id}`);
+  };
+  const editRuleList = async (id, newRule) => {
+    console.log(id);
+    console.log(newRule);
+    const idx = ruleLists.findIndex(item => item.id === id);
+    const arrRule = [...ruleLists];
+    arrRule[idx].ruleDetail = newRule;
+    setRuleLists(arrRule);
+  };
   return (
     <div className="w-full mt-3">
       <div className="mt-5 md:mt-0 md:col-span-2">
         <div className="shadow sm:rounded-md sm:overflow-hidden">
+          {/* Profile */}
           <form onSubmit={handleSumbitObjAbout}>
             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
               <div className="grid grid-cols-3 gap-6"></div>
@@ -184,7 +233,7 @@ export default function EditCommunity() {
               )}
             </div>
           </form>
-
+          {/* Banner */}
           <form onSubmit={handleSubmitBanner}>
             {/* up img cover */}
             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -249,66 +298,61 @@ export default function EditCommunity() {
 
             {/* Rule Form */}
           </form>
+          {/* Rule */}
           <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
-            <div className="block text-xl font-bold font-small text-gray-700">Rule Community</div>
-            <form>
-              <div className="grid grid-cols-4 gap-4">
-                <input
-                  maxLength="100"
-                  type="text"
-                  name="editRule"
-                  placeholder="edit rule"
-                  className="col-span-3 outline-none pl-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full h-9  sm:text-sm border border-gray-300 rounded-md"
-                />
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="submit"
-                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    update
-                  </button>
-
-                  <button className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                    cancel
-                  </button>
-                </div>
-              </div>
-              <div className="block text-xs font-small text-gray-500">100 Characters remaining</div>
-            </form>
-            ) : (
-            <form>
-              <div className="grid grid-cols-6 gap-4 ">
-                <input
-                  maxLength="100"
-                  type="text"
-                  name="rules"
-                  placeholder="Create a new rule"
-                  className="col-span-5 outline-none pl-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full h-9  sm:text-sm border border-gray-300 rounded-md"
-                />
+            <div className="flex justify-between">
+              <div className="block text-xl font-bold font-small text-gray-700">Rule Community</div>
+              {!toggleAddRule ? (
                 <button
-                  type="submit"
-                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  onClick={() => {
+                    setError("");
+                    setToggleAddRule(cur => !cur);
+                  }}
+                  className="inline-flex justify-center py-1 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-black bg-yellow-300 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
-                  Add
+                  Add Rule
                 </button>
-              </div>
-              <div className="block text-xs font-small text-gray-500">100 Characters remaining</div>
-            </form>
-            <ul className=" text-lg  text-gray-700 divide-y divide-gray-200 ">
-              <li className="grid grid-cols-4 gap-4 my-5">
-                <div className="col-span-3">
-                  <div className="flex ml-3">1.Rule1</div>
+              ) : (
+                <div onClick={() => setToggleAddRule(cur => !cur)}>
+                  <HiOutlineX size="24px" />
                 </div>
+              )}
+            </div>
+            {toggleAddRule && (
+              <form onSubmit={handleAddNewRule}>
+                <div className="grid grid-cols-6 gap-4 ">
+                  <input
+                    maxLength="100"
+                    type="text"
+                    name="rule"
+                    value={rule}
+                    onChange={handleChangeRules}
+                    placeholder="Add new rule"
+                    className="col-span-5 outline-none pl-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full h-9  sm:text-sm border border-gray-300 rounded-md"
+                  />
+                  <button className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Add
+                  </button>
+                </div>
+                <div className="flex justify-between">
+                  {error && <p className="text-red-600 italic text-xs">{error}</p>}
+                  <div className="block text-xs font-small text-gray-500 mr-28">
+                    {`${100 - rule.length}`}/100 Characters remaining
+                  </div>
+                </div>
+              </form>
+            )}
 
-                <div className="flex justify-end">
-                  <button>
-                    <HiOutlinePencilAlt />
-                  </button>
-                  <button>
-                    <HiOutlineTrash />
-                  </button>
-                </div>
-              </li>
+            <ul className=" text-lg  text-gray-700 divide-y divide-gray-200 ">
+              {ruleLists.map((item, idx) => (
+                <RuleComponent
+                  key={idx}
+                  item={item}
+                  idx={idx}
+                  deleteRuleList={deleteRuleList}
+                  editRuleList={editRuleList}
+                />
+              ))}
             </ul>
           </div>
           {/* end list rule */}
