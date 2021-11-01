@@ -15,13 +15,15 @@ import axios from "../../config/axios";
 import { timeDiff } from "../../services/timeDifferent";
 import { useParams } from "react-router-dom";
 
-function PostComment({ item }) {
-  const { user, arrUserCommu } = useContext(UserContext);
+function PostComment({ item, comment, setComment }) {
+  const { user } = useContext(UserContext);
   const [text, setText] = useState({
-    comment: "",
+    userId: user?.id,
+    User: { username: user?.username, profileUrl: user?.profileUrl },
+    commentDetails: "",
   });
 
-  console.log(item);
+  console.log(comment);
 
   const handleSubmitForm = e => {
     e.preventDefault();
@@ -29,17 +31,22 @@ function PostComment({ item }) {
       .post("/comments", {
         userToNoti: item.userId,
         postId: item.id,
-        commentDetails: text.comment,
+        commentDetails: text.commentDetails,
       })
       .then(res => console.log(res))
       .catch(err => console.dir(err));
+    const newArr = [...comment];
+    newArr.push(text);
+    setComment(newArr);
     setText({
-      comment: "",
+      userId: user.id,
+      User: { username: user.username, profileUrl: user.profileUrl },
+      commentDetails: "",
     });
   };
 
   const handleComment = e => {
-    setText(cur => ({ ...cur, comment: e.target.value }));
+    setText(cur => ({ ...cur, commentDetails: e.target.value }));
   };
 
   return (
@@ -106,16 +113,16 @@ function PostComment({ item }) {
               <p className="mb-2 text-sm">{`Comment as ${user.username}`}</p>
               <form onSubmit={handleSubmitForm}>
                 <textarea
-                  value={text.comment}
+                  value={text.commentDetails}
                   className="bg-gray-100 w-full font-light text-sm shadow rounded-sm outline-none appearance-none p-2 h-36 break-words"
                   style={{ minHeight: "122px" }}
                   onChange={handleComment}
                 />
                 <button
                   className={`${
-                    text.comment ? "bg-blue-500 text-white" : "bg-gray-200 cursor-not-allowed"
+                    text.commentDetails ? "bg-blue-500 text-white" : "bg-gray-200 cursor-not-allowed"
                   }  rounded-full text-sm px-2 py-1 mt-1 transition duration-300 ease-in-out`}
-                  disabled={text.comment ? false : true}
+                  disabled={text.commentDetails ? false : true}
                 >
                   comment
                 </button>
@@ -129,7 +136,7 @@ function PostComment({ item }) {
 
       <div className="mx-9 my-2 pr-4 pb-1 border-b-2 border-gray-100"></div>
       <div className="pr-4 pb-4 mt-4 mr-4 ml-2">
-        {item.comment ? item.comment.map((item, index) => <UserComment key={index} item={item} user={user} />) : <></>}
+        {comment ? comment.map((item, index) => <UserComment key={index} item={item} />) : <></>}
       </div>
     </div>
   );

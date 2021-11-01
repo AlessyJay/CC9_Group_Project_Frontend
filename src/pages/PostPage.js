@@ -11,16 +11,26 @@ import axios from "axios";
 function PostPage() {
   const { user } = useContext(UserContext);
   const [post, setPost] = useState([]);
+  const [comment, setComment] = useState([]);
   const { id, communityHostId } = useParams();
 
   useEffect(() => {
-    axios(`/posts/${id}`).then(res => setPost(res.data.post));
+    const run = async () => {
+      try {
+        const res = await axios(`/posts/${id}`);
+        setPost(res.data.post);
+        setComment(res.data.post.comment);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    run();
   }, []);
 
   return (
     <div className="bg-gray-200 grid grid-cols-7 gap-6 ">
       <div className="col-start-2 col-span-3 ">
-        <PostComment item={post} />
+        <PostComment item={post} comment={comment} setComment={setComment} />
       </div>
       <div className="col-span-2">
         {/* <AboutCommu /> */}

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { HiChevronUp, HiChevronDown, HiOutlineTrash, HiOutlinePencilAlt, HiOutlineUserCircle } from "react-icons/hi";
+import { UserContext } from "../../context/userContext";
 
-function UserComment({ item, user }) {
+function UserComment({ item }) {
+  const { user } = useContext(UserContext);
   return (
     <div className="mb-2">
       <div className="flex p-2">
