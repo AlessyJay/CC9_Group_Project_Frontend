@@ -28,10 +28,10 @@ export default function EditCommunity() {
   const [rule, setRule] = useState("");
   const [error, setError] = useState("");
 
-  const handleChangeDescription = e => {
+  const handleChangeDescription = (e) => {
     setDescriptions(e.target.value);
   };
-  const handleChangeProfile = e => {
+  const handleChangeProfile = (e) => {
     if (!e.target.files || e.target.files.length === 0) {
       setProfileUrl(null);
       return;
@@ -48,7 +48,7 @@ export default function EditCommunity() {
     setProfileUrl(null);
     setShowProfile(null);
   };
-  const handleSumbitObjAbout = async e => {
+  const handleSumbitObjAbout = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
@@ -66,7 +66,7 @@ export default function EditCommunity() {
     }
   };
 
-  const handleChangeBanner = e => {
+  const handleChangeBanner = (e) => {
     if (!e.target.files || e.target.files.length === 0) {
       setBannerUrl(null);
       return;
@@ -82,15 +82,15 @@ export default function EditCommunity() {
     setBannerUrl(null);
     setShowBanner(null);
   };
-  const handleSubmitBanner = async e => {
+  const handleSubmitBanner = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      if (profileUrl && showBanner !== null) {
+      if (bannerUrl && showBanner !== null) {
         formData.append("bannerimage", bannerUrl);
         const res = await axios.put(`/communities/banner/${id}`, formData);
         alert("Success");
-        // history.push(`/community/${name}/${id}`);
+        history.push(`/community/${name}/${id}`);
       } else {
         alert("nothing");
       }
@@ -99,7 +99,7 @@ export default function EditCommunity() {
     }
   };
   console.log(rule);
-  const handleChangeRules = e => {
+  const handleChangeRules = (e) => {
     setError("");
     if (e.target.value === "") {
       setError("Rule is required");
@@ -107,7 +107,7 @@ export default function EditCommunity() {
     setRule(e.target.value);
   };
 
-  const handleAddNewRule = async e => {
+  const handleAddNewRule = async (e) => {
     e.preventDefault();
     try {
       if (rule === "") {
@@ -116,22 +116,22 @@ export default function EditCommunity() {
       const res = await axios.post(`/communities/rules/${id}`, { rule });
       console.log(res.data);
       setRule("");
-      setRuleLists(cur => [...cur, res.data.rule]);
+      setRuleLists((cur) => [...cur, res.data.rule]);
     } catch (err) {
       console.dir(err);
     }
   };
 
-  const deleteRuleList = async id => {
+  const deleteRuleList = async (id) => {
     console.log(id);
-    const newRuleLists = ruleLists.filter(item => item.id !== id);
+    const newRuleLists = ruleLists.filter((item) => item.id !== id);
     setRuleLists(newRuleLists);
     await axios.delete(`/communities/${id}`);
   };
   const editRuleList = async (id, newRule) => {
     console.log(id);
     console.log(newRule);
-    const idx = ruleLists.findIndex(item => item.id === id);
+    const idx = ruleLists.findIndex((item) => item.id === id);
     const arrRule = [...ruleLists];
     arrRule[idx].ruleDetail = newRule;
     setRuleLists(arrRule);
@@ -146,7 +146,9 @@ export default function EditCommunity() {
               <div className="grid grid-cols-3 gap-6"></div>
 
               <div>
-                <div className="block text-xl font-bold font-small text-gray-700">Community description</div>
+                <div className="block text-xl font-bold font-small text-gray-700">
+                  Community description
+                </div>
                 <label className="block text-xs  text-gray-500">
                   A brief description of yourself shown on your Community.
                 </label>
@@ -167,8 +169,12 @@ export default function EditCommunity() {
 
               {/* up img */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">Community image profile</label>
-                <div className="block text-xs font-small text-gray-500">Images must be .png or .jpg format</div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Community image profile
+                </label>
+                <div className="block text-xs font-small text-gray-500">
+                  Images must be .png or .jpg format
+                </div>
                 <div className="">
                   {/* up img Profile */}
                   <div>
@@ -202,10 +208,13 @@ export default function EditCommunity() {
                           </div>
                         )}
                         <div className="mt-10 flex flex-col">
-                          {showProfile && <img src={showProfile} className="max-w-full max-h-56" alt="Thumb" />}
                           {showProfile && (
                             <>
-                              <img src={showProfile} className="max-w-full max-h-56" alt="Thumb" />
+                              <img
+                                src={showProfile}
+                                className="max-w-full max-h-56"
+                                alt="Thumb"
+                              />
 
                               <button
                                 type="button"
@@ -238,8 +247,12 @@ export default function EditCommunity() {
             {/* up img cover */}
             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
               <div className="col-span-2">
-                <label className="block text-sm font-medium text-gray-700">Community banner image</label>
-                <div className="block text-xs font-small text-gray-500">Images must be .png or .jpg format</div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Community banner image
+                </label>
+                <div className="block text-xs font-small text-gray-500">
+                  Images must be .png or .jpg format
+                </div>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   <div className="space-y-1 text-center">
                     {!showBanner && (
@@ -271,7 +284,11 @@ export default function EditCommunity() {
                     <div className="mt-10 flex flex-col">
                       {showBanner && (
                         <>
-                          <img src={showBanner} className="max-w-full max-h-56" alt="Thumb" />
+                          <img
+                            src={showBanner}
+                            className="max-w-full max-h-56"
+                            alt="Thumb"
+                          />
                           <button
                             type="button"
                             onClick={handleRemoveBannerImage}
@@ -301,19 +318,21 @@ export default function EditCommunity() {
           {/* Rule */}
           <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
             <div className="flex justify-between">
-              <div className="block text-xl font-bold font-small text-gray-700">Rule Community</div>
+              <div className="block text-xl font-bold font-small text-gray-700">
+                Rule Community
+              </div>
               {!toggleAddRule ? (
                 <button
                   onClick={() => {
                     setError("");
-                    setToggleAddRule(cur => !cur);
+                    setToggleAddRule((cur) => !cur);
                   }}
                   className="inline-flex justify-center py-1 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-black bg-yellow-300 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   Add Rule
                 </button>
               ) : (
-                <div onClick={() => setToggleAddRule(cur => !cur)}>
+                <div onClick={() => setToggleAddRule((cur) => !cur)}>
                   <HiOutlineX size="24px" />
                 </div>
               )}
@@ -335,7 +354,9 @@ export default function EditCommunity() {
                   </button>
                 </div>
                 <div className="flex justify-between">
-                  {error && <p className="text-red-600 italic text-xs">{error}</p>}
+                  {error && (
+                    <p className="text-red-600 italic text-xs">{error}</p>
+                  )}
                   <div className="block text-xs font-small text-gray-500 mr-28">
                     {`${100 - rule.length}`}/100 Characters remaining
                   </div>

@@ -1,28 +1,28 @@
-import React, { useState, useEffect, useContext } from 'react';
-import Dropdown from './Dropdown';
-import { FaFileAlt } from 'react-icons/fa';
-import { ImImages } from 'react-icons/im';
-import { HiXCircle } from 'react-icons/hi';
-import 'react-quill/dist/quill.snow.css';
-import './TextEditor.css';
-import ReactQuill from 'react-quill';
-import EditorToolbar, { modules, formats } from './EditorToolbar';
-import DraftModel from './DraftModel';
-import { Button } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { MOCK_DRAFT } from '../../services/timeDifferent';
-import { UserContext } from '../../context/userContext';
-import axios from '../../config/axios';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from "react";
+import Dropdown from "./Dropdown";
+import { FaFileAlt } from "react-icons/fa";
+import { ImImages } from "react-icons/im";
+import { HiXCircle } from "react-icons/hi";
+import "react-quill/dist/quill.snow.css";
+import "./TextEditor.css";
+import ReactQuill from "react-quill";
+import EditorToolbar, { modules, formats } from "./EditorToolbar";
+import DraftModel from "./DraftModel";
+import { Button } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { timeDiff } from "../../services/timeDifferent";
+import { UserContext } from "../../context/userContext";
+import axios from "../../config/axios";
+import { useHistory } from "react-router-dom";
 function PostImg() {
   const { user } = useContext(UserContext);
   const [ToggleModel, setToggleModel] = useState(false);
   const [ToggleSaveDraft, setToggleSaveDraft] = useState(false);
   const history = useHistory();
   const [postContent, setPostContent] = useState({
-    title: '',
-    descriptions: '',
-    type: 'MAIN',
+    title: "",
+    descriptions: "",
+    type: "MAIN",
     notification: false,
     userId: user.id,
     communityId: null,
@@ -34,12 +34,11 @@ function PostImg() {
   const [selectFiles, setSelectFiles] = useState([]);
   const [url1, setUrl1] = useState([]);
 
-  // console.log('React quill logging :', postContent.descriptions);
   const handleChangePostContent = (e) => {
-    if (e.target.name === 'title') {
+    if (e.target.name === "title") {
       setTitleLength(e.target.value.length);
       setPostContent((cur) => ({ ...cur, title: e.target.value }));
-    } else if (e.target.name === 'notification') {
+    } else if (e.target.name === "notification") {
       setPostContent((cur) => ({
         ...cur,
         notification: !postContent.notification,
@@ -56,29 +55,30 @@ function PostImg() {
 
   const handleSubmitPostContent = async (e) => {
     try {
-      console.log('inSubmut', postContent);
+      console.log("inSubmut", postContent);
       console.log(url1);
       const formData = new FormData();
-      formData.append('title', postContent.title);
-      formData.append('descriptions', postContent.descriptions);
-      formData.append('type', postContent.type);
-      formData.append('status', postContent.status);
-      formData.append('notification', postContent.notification);
+      formData.append("title", postContent.title);
+      formData.append("descriptions", postContent.descriptions);
+      formData.append("type", postContent.type);
+      formData.append("status", postContent.status);
+      formData.append("notification", postContent.notification);
       if (postContent.communityId !== null) {
-        formData.append('communityId', postContent.communityId);
+        formData.append("communityId", postContent.communityId);
       }
       if (url1.length !== 0) {
-        console.log('Not plain post');
+        console.log("Not plain post");
         for (let i = 0; i < url1.length; i++) {
-          formData.append('cloudimage', url1[i]);
+          formData.append("cloudimage", url1[i]);
         }
       }
       for (var pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
+        console.log(pair[0] + ", " + pair[1]);
       }
-      const res = await axios.post('/posts/createpost', formData);
+      const res = await axios.post("/posts/createpost", formData);
       console.log(res.data.post);
-      alert('success');
+      alert("success");
+
       // history.push('/post/:postId') // push ไปหน้า post นั้นๆ และก็ fetch ข้อมูลมา
     } catch (err) {
       console.dir(err);
@@ -90,18 +90,17 @@ function PostImg() {
     newDraft.push(postContent);
     setDraftLists(newDraft);
     setPostContent({
-      id: 2,
-      title: '',
-      type: 'MAIN',
+      title: "",
+      descriptions: "",
+      type: "MAIN",
       notification: false,
-      userId: '',
+      userId: user.id,
       communityId: null,
       postTarget: false,
-      target: 'u/Content_Avatar001',
-      updatedAt: '2021-10-17 16:38:39',
+      status: true,
     });
 
-    window.location.reload();
+    // window.location.reload();
   };
 
   const handleEditPost = (id) => {
@@ -118,15 +117,14 @@ function PostImg() {
     setDraftLists(newEdit);
     setToggleSaveDraft(false);
     setPostContent({
-      id: 2,
-      title: '',
-      description: '',
-      type: 'MAIN',
+      title: "",
+      descriptions: "",
+      type: "MAIN",
       notification: false,
-      userId: '',
+      userId: user.id,
       communityId: null,
       postTarget: false,
-      target: 'u/Content_Avatar001',
+      status: true,
     });
   };
 
@@ -194,9 +192,9 @@ function PostImg() {
           <div class="grid grid-cols-2 ">
             <label
               className={`group relative ${
-                postContent.type === 'MAIN'
-                  ? 'border-b-2 border-blue-600 '
-                  : 'border-r border-b'
+                postContent.type === "MAIN"
+                  ? "border-b-2 border-blue-600 "
+                  : "border-r border-b"
               }  rounded-tl-lg py-3 px-4 flex items-center justify-center text-sm font-medium  hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer`}
             >
               <input
@@ -217,9 +215,9 @@ function PostImg() {
 
             <label
               className={`group relative ${
-                postContent.type === 'IMG'
-                  ? 'border-b-2 border-blue-600'
-                  : 'border-l border-b'
+                postContent.type === "IMG"
+                  ? "border-b-2 border-blue-600"
+                  : "border-l border-b"
               }  rounded-tr-lg py-3 px-4 flex items-center justify-center text-sm font-medium  hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer`}
             >
               <input
@@ -252,21 +250,21 @@ function PostImg() {
             />
             <div
               className={`absolute right-0 mr-10 text-xs top-4 pt-0.5  ${
-                titleLength === 100 ? 'text-red-600' : ''
+                titleLength === 100 ? "text-red-600" : ""
               }`}
             >{`${titleLength} / 100 `}</div>
           </div>
 
-          {postContent.type === 'MAIN' ? (
+          {postContent.type === "MAIN" ? (
             <div className="bg-white w-full border-l border-r">
               <div className="w-11/12 mx-auto bg-gray-50">
-                <EditorToolbar toolbarId={'t1'} />
+                <EditorToolbar toolbarId={"t1"} />
                 <ReactQuill
                   theme="snow"
                   value={postContent.descriptions}
                   onChange={hanldeChangeContent}
-                  placeholder={'Write something awesome...'}
-                  modules={modules('t1')}
+                  placeholder={"Write something awesome..."}
+                  modules={modules("t1")}
                   formats={formats}
                 />
               </div>
@@ -275,7 +273,7 @@ function PostImg() {
             // Drag and Drop
             <div className="bg-white w-full">
               <div className="w-11/12 mx-auto bg-gray-50 h-12 shadow">
-                {url1[0]?.type === 'video/mp4' ? (
+                {url1[0]?.type === "video/mp4" ? (
                   <Button
                     onClick={() => {
                       setUrl1([]);
@@ -300,7 +298,7 @@ function PostImg() {
                 )}
               </div>
               <div className=" w-11/12 mx-auto bg-gray-50  shadow mt-1 flex  items-center overflow-x-scroll">
-                {url1[0]?.type === 'video/mp4'
+                {url1[0]?.type === "video/mp4"
                   ? selectFiles.map((item) => (
                       <video key={item} className="w-11/12 mx-auto" controls>
                         <source src={item} />
@@ -336,7 +334,7 @@ function PostImg() {
                 {ToggleSaveDraft ? (
                   <button
                     onClick={() => handleSaveEdit(postContent.id)}
-                    className="border-2 border-blue-500 rounded-full font-semibold my-5 text-blue-500 px-4  transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white mr-6  "
+                    className="border-2 border-yellow-500 rounded-full font-semibold my-5 text-yellow-500 px-4  transition duration-300 ease-in-out hover:bg-yellow-500 hover:text-black mr-6  "
                   >
                     Save Edit
                   </button>
@@ -352,12 +350,12 @@ function PostImg() {
                 <button
                   onClick={handleSubmitPostContent}
                   className={`${
-                    postContent.postTarget && postContent.title !== ''
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-200 cursor-not-allowed'
+                    postContent.postTarget && postContent.title !== ""
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200 cursor-not-allowed"
                   }  rounded-full font-semibold my-5  px-4 py-1 transition duration-300 ease-in-out`}
                   disabled={
-                    postContent.postTarget && postContent.title !== ''
+                    postContent.postTarget && postContent.title !== ""
                       ? false
                       : true
                   }

@@ -1,6 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { HiChevronUp, HiChevronDown, HiOutlineAnnotation, HiOutlineBookmark, HiOutlineEye } from "react-icons/hi";
+import {
+  HiChevronUp,
+  HiChevronDown,
+  HiOutlineAnnotation,
+  HiOutlineBookmark,
+  HiOutlineEye,
+} from "react-icons/hi";
 import axios from "../../config/axios";
 import { UserContext } from "../../context/userContext";
 import ReactHtmlParser from "react-html-parser";
@@ -8,8 +14,8 @@ import { HiOutlineUserCircle } from "react-icons/hi";
 
 function FeedBox2({ item }) {
   const { arrUserCommu } = useContext(UserContext);
-  const username = arrUserCommu.find(user => user.id === item.userId);
-  const handleHide = async e => {};
+  const username = arrUserCommu.find((user) => user.id === item.userId);
+  const handleHide = async (e) => {};
   const location = useLocation();
 
   return (
@@ -20,7 +26,9 @@ function FeedBox2({ item }) {
           <button className="w-full flex justify-center">
             <HiChevronUp className="w-7 h-7" />
           </button>
-          <div className="flex justify-center text-sm font-light">{item.like}</div>
+          <div className="flex justify-center text-sm font-light">
+            {item.like}
+          </div>
           <button className="w-full flex justify-center">
             <HiChevronDown className="w-7 h-7" />
           </button>
@@ -38,7 +46,7 @@ function FeedBox2({ item }) {
             <span className="flex text-sm w-full items-center">
               {/* <span className="font-semibold mr-2">{item.Community.name}</span> */}
               <div className="overflow-ellipsis text-xs font-light flex flex-wrap">
-                {`Posted by ${username.username} 15 hours ago`}
+                {`Posted by ${username?.username} 15 hours ago`}
               </div>
             </span>
           </div>
@@ -58,7 +66,11 @@ function FeedBox2({ item }) {
               <HiOutlineBookmark />
               <span className="text-sm ml-1 font-light">save</span>
             </button>
-            <button className="flex items-center mr-4" type="button" onClick={handleHide}>
+            <button
+              className="flex items-center mr-4"
+              type="button"
+              onClick={handleHide}
+            >
               <HiOutlineEye />
               <span className="text-sm ml-1 font-light">hide</span>
             </button>

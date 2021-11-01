@@ -1,50 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { HiChevronDown, HiOutlineUserCircle } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
-import { UserContext } from '../../context/userContext';
-import DropdownCard from './DropdownCard';
+import React, { useContext, useState } from "react";
+import { HiChevronDown, HiOutlineUserCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
+import { UserContext } from "../../context/userContext";
+import DropdownCard from "./DropdownCard";
 
-const MOCK_DATA = [
-  {
-    id: 1,
-    name: ' r/javascript',
-    members: '10,000',
-    imgUrl: 'https://randomuser.me/api/portraits/men/85.jpg',
-  },
-  {
-    id: 2,
-    name: ' r/dota2',
-    members: '100,000',
-    imgUrl: 'https://randomuser.me/api/portraits/men/65.jpg',
-  },
-  {
-    id: 3,
-    name: ' r/css',
-    members: '9,000',
-    imgUrl: 'https://randomuser.me/api/portraits/men/60.jpg',
-  },
-  {
-    id: 4,
-    name: ' r/tailwind',
-    members: '12,000',
-    imgUrl: 'https://randomuser.me/api/portraits/men/50.jpg',
-  },
-  {
-    id: 5,
-    name: ' r/tailwind',
-    members: '12,000',
-    imgUrl: 'https://randomuser.me/api/portraits/men/20.jpg',
-  },
-];
-
-const MOCK_USER = {
-  id: 1,
-  imgUrl: 'https://randomuser.me/api/portraits/men/62.jpg',
-  username: 'u/Content_Avatar007',
-};
 function Dropdown({ setPostContent }) {
   const [toggleDropdown, setToggleDropdown] = useState(false);
-  const [postTarget, setPostTarget] = useState({ img: '', name: '' });
+  const [postTarget, setPostTarget] = useState({ img: "", name: "" });
   const { user, Commu } = useContext(UserContext);
   const handleSelectTargetPost = (url, name) => {
     setPostTarget((cur) => ({ ...cur, img: url, name }));
@@ -133,7 +95,7 @@ function Dropdown({ setPostContent }) {
                           MY COMMUNITIES
                         </div>
                         <Link
-                          to={'/'}
+                          to={"/"}
                           className="rounded-full text-xs font-bold  text-blue-500  px-4 py-1   transition duration-300 ease-in-out hover:bg-gray-300 "
                         >
                           Create New
