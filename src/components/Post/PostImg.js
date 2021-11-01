@@ -17,6 +17,8 @@ import { useHistory } from "react-router-dom";
 function PostImg() {
   const { user } = useContext(UserContext);
   const [ToggleModel, setToggleModel] = useState(false);
+  const [postTarget, setPostTarget] = useState({ img: "", name: "" });
+  const [editPostId, setEditPostId] = useState(0);
   const [ToggleSaveDraft, setToggleSaveDraft] = useState(false);
   const history = useHistory();
   const [postContent, setPostContent] = useState({
@@ -27,7 +29,7 @@ function PostImg() {
     userId: user.id,
     communityId: null,
     postTarget: false,
-    status: true,
+    status: true, // เดี๋ยวกลับมาแก้
   });
   const [draftLists, setDraftLists] = useState([]);
   const [titleLength, setTitleLength] = useState(0);
@@ -140,36 +142,89 @@ function PostImg() {
     }
   };
 
-  const handleEditPost = (id) => {
-    const idx = draftLists.findIndex((item) => item.id === id);
-    setPostContent((cur) => ({ ...cur, ...draftLists[idx] }));
+  const handleEditPost = (id, obj) => {
+    setEditPostId(id);
+    setPostContent({
+      title: obj.title,
+      descriptions: obj.descriptions,
+      type: obj.type.toLowerCase() === "main" ? "MAIN" : "IMG",
+      notification: obj.allowNotification,
+      userId: obj.userId,
+      communityId: obj.communityId,
+      postTarget: false,
+      status: true,
+    });
+    if (obj.communityId === null) {
+      setPostTarget((cur) => ({
+        ...cur,
+        img: user.profileUrl,
+        name: user.username,
+      }));
+    } else {
+      setPostTarget((cur) => ({
+        ...cur,
+        img: obj.Community.profileUrl,
+        name: obj.Community.name,
+      }));
+    }
     setToggleModel(false);
     setToggleSaveDraft(true);
   };
 
-  const handleSaveEdit = (id) => {
-    const newEdit = draftLists.map((item) =>
-      item.id === id ? { ...item, ...postContent } : item
-    );
-    setDraftLists(newEdit);
-    setToggleSaveDraft(false);
-    setPostContent({
-      title: "",
-      descriptions: "",
-      type: "MAIN",
-      notification: false,
-      userId: user.id,
-      communityId: null,
-      postTarget: false,
-      status: true,
-    });
+  const handleSaveEdit = async () => {
+    try {
+      console.log(editPostId);
+      console.log("afteredit", postContent);
+      const formData = new FormData();
+      formData.append("title", postContent.title);
+      formData.append("descriptions", postContent.descriptions);
+      formData.append("type", postContent.type);
+      formData.append("status", postContent.status);
+      formData.append("notification", postContent.notification);
+      if (postContent.communityId !== null) {
+        formData.append("communityId", postContent.communityId);
+      }
+      if (url1.length !== 0) {
+        console.log("Not plain post");
+        for (let i = 0; i < url1.length; i++) {
+          formData.append("cloudimage", url1[i]);
+        }
+      }
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
+      const res = await axios.put(`/posts/drafts/${editPostId}`, formData);
+      alert(res.data.messasge);
+      const newEdit = draftLists.map((item) =>
+        item.id === editPostId ? { ...item, ...postContent } : item
+      );
+      setDraftLists(newEdit);
+      setToggleSaveDraft(false);
+      setPostContent({
+        title: "",
+        descriptions: "",
+        type: "MAIN",
+        notification: false,
+        userId: user.id,
+        communityId: null,
+        postTarget: false,
+        status: true,
+      });
+    } catch (err) {
+      console.dir(err);
+    }
   };
 
-  const handleRemoveDraft = (id) => {
-    const idx = draftLists.findIndex((item) => item.id === id);
-    const newArr = [...draftLists];
-    newArr.splice(idx, 1);
-    setDraftLists(newArr);
+  const handleRemoveDraft = async (id) => {
+    try {
+      await axios.delete(`/posts/drafts/${id}`);
+      const idx = draftLists.findIndex((item) => item.id === id);
+      const newArr = [...draftLists];
+      newArr.splice(idx, 1);
+      setDraftLists(newArr);
+    } catch (err) {
+      console.dir(err);
+    }
   };
 
   const handleFiles = (e) => {
@@ -215,7 +270,11 @@ function PostImg() {
           </div>
         </div>
         {/* Dropdown on click */}
-        <Dropdown setPostContent={setPostContent} />
+        <Dropdown
+          setPostContent={setPostContent}
+          postTarget={postTarget}
+          setPostTarget={setPostTarget}
+        />
         {ToggleModel && (
           <DraftModel
             setToggleModel={setToggleModel}
@@ -362,6 +421,7 @@ function PostImg() {
                   type="checkbox"
                   name="notification"
                   onChange={handleChangePostContent}
+                  checked={postContent.notification}
                 />
                 <label className="text-xs font-medium">
                   Send me post reply notifications
@@ -370,7 +430,7 @@ function PostImg() {
               <div>
                 {ToggleSaveDraft ? (
                   <button
-                    onClick={() => handleSaveEdit(postContent.id)}
+                    onClick={handleSaveEdit}
                     className="border-2 border-yellow-500 rounded-full font-semibold my-5 text-yellow-500 px-4  transition duration-300 ease-in-out hover:bg-yellow-500 hover:text-black mr-6  "
                   >
                     Save Edit

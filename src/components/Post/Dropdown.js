@@ -4,9 +4,8 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 import DropdownCard from "./DropdownCard";
 
-function Dropdown({ setPostContent }) {
+function Dropdown({ setPostContent, setPostTarget, postTarget }) {
   const [toggleDropdown, setToggleDropdown] = useState(false);
-  const [postTarget, setPostTarget] = useState({ img: "", name: "" });
   const { user, Commu } = useContext(UserContext);
   const handleSelectTargetPost = (url, name) => {
     setPostTarget((cur) => ({ ...cur, img: url, name }));
