@@ -1,22 +1,14 @@
-import axios from '../../config/axios';
-import React, { useState, useEffect } from 'react';
-import {
-  HiOutlinePhotograph,
-  HiOutlineTrash,
-  HiOutlineScissors,
-  HiOutlineUpload,
-  HiOutlineX,
-} from 'react-icons/hi';
-import { useParams, useHistory } from 'react-router-dom';
-import { sizeHeight } from '@mui/system';
-import EditRule from './EditRule';
+import axios from "../../config/axios";
+import React, { useState, useEffect } from "react";
+import { HiOutlinePhotograph, HiOutlineX } from "react-icons/hi";
+import { useParams, useHistory } from "react-router-dom";
+import RuleComponent from "./RuleComponent";
 
 export default function EditCommunity() {
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(`communities/rules/${id}`);
-        // console.log('Rule', res.data.rules);
         setRuleLists(res.data.rules);
       } catch (err) {
         console.dir(err);
@@ -27,16 +19,14 @@ export default function EditCommunity() {
   const history = useHistory();
   const { id, name } = useParams(); // communityId , community name
   const [ruleLists, setRuleLists] = useState([]);
-  const [descriptions, setDescriptions] = useState('');
+  const [descriptions, setDescriptions] = useState("");
   const [profileUrl, setProfileUrl] = useState(null);
   const [bannerUrl, setBannerUrl] = useState(null);
   const [showProfile, setShowProfile] = useState(null);
   const [showBanner, setShowBanner] = useState(null);
   const [toggleAddRule, setToggleAddRule] = useState(false);
-  const [rule, setRule] = useState('');
-  const [onEditRule, setOnEditRule] = useState(false);
-  const [showEditInput, setShowEditInput] = useState(false);
-  const [error, setError] = useState('');
+  const [rule, setRule] = useState("");
+  const [error, setError] = useState("");
 
   const handleChangeDescription = (e) => {
     setDescriptions(e.target.value);
@@ -63,10 +53,10 @@ export default function EditCommunity() {
     try {
       const formData = new FormData();
       if (profileUrl) {
-        formData.append('profileimage', profileUrl);
-        formData.append('descriptions', descriptions);
+        formData.append("profileimage", profileUrl);
+        formData.append("descriptions", descriptions);
       } else {
-        formData.append('descriptions', descriptions);
+        formData.append("descriptions", descriptions);
       }
 
       const res = await axios.put(`/communities/profile/${id}`, formData);
@@ -97,12 +87,12 @@ export default function EditCommunity() {
     try {
       const formData = new FormData();
       if (profileUrl && showBanner !== null) {
-        formData.append('bannerimage', bannerUrl);
+        formData.append("bannerimage", bannerUrl);
         const res = await axios.put(`/communities/banner/${id}`, formData);
-        alert('Success');
+        alert("Success");
         // history.push(`/community/${name}/${id}`);
       } else {
-        alert('nothing');
+        alert("nothing");
       }
     } catch (err) {
       console.dir(err);
@@ -110,9 +100,9 @@ export default function EditCommunity() {
   };
   console.log(rule);
   const handleChangeRules = (e) => {
-    setError('');
-    if (e.target.value === '') {
-      setError('Rule is required');
+    setError("");
+    if (e.target.value === "") {
+      setError("Rule is required");
     }
     setRule(e.target.value);
   };
@@ -120,20 +110,31 @@ export default function EditCommunity() {
   const handleAddNewRule = async (e) => {
     e.preventDefault();
     try {
-      if (rule === '') {
-        setError('Rule is required');
+      if (rule === "") {
+        setError("Rule is required");
       }
       const res = await axios.post(`/communities/rules/${id}`, { rule });
       console.log(res.data);
-      setRule('');
+      setRule("");
       setRuleLists((cur) => [...cur, res.data.rule]);
     } catch (err) {
       console.dir(err);
     }
   };
 
-  const deleteRuleList = (id) => {
-    //Delete from rule list and axios to db
+  const deleteRuleList = async (id) => {
+    console.log(id);
+    const newRuleLists = ruleLists.filter((item) => item.id !== id);
+    setRuleLists(newRuleLists);
+    await axios.delete(`/communities/${id}`);
+  };
+  const editRuleList = async (id, newRule) => {
+    console.log(id);
+    console.log(newRule);
+    const idx = ruleLists.findIndex((item) => item.id === id);
+    const arrRule = [...ruleLists];
+    arrRule[idx].ruleDetail = newRule;
+    setRuleLists(arrRule);
   };
   return (
     <div className="w-full mt-3">
@@ -323,7 +324,7 @@ export default function EditCommunity() {
               {!toggleAddRule ? (
                 <button
                   onClick={() => {
-                    setError('');
+                    setError("");
                     setToggleAddRule((cur) => !cur);
                   }}
                   className="inline-flex justify-center py-1 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-black bg-yellow-300 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -365,19 +366,13 @@ export default function EditCommunity() {
 
             <ul className=" text-lg  text-gray-700 divide-y divide-gray-200 ">
               {ruleLists.map((item, idx) => (
-                <li
-                  key={item.id}
-                  className="grid grid-cols-4 gap-4 my-5"
-                  onClick={() => setShowEditInput(true)}
-                >
-                  <div className="col-span-3">
-                    <div className="flex ml-3 text-sm font-semibold">{`${
-                      idx + 1
-                    }. ${item.ruleDetail}`}</div>
-
-                    <EditRule item={item} deleteRuleList={deleteRuleList} />
-                  </div>
-                </li>
+                <RuleComponent
+                  key={idx}
+                  item={item}
+                  idx={idx}
+                  deleteRuleList={deleteRuleList}
+                  editRuleList={editRuleList}
+                />
               ))}
             </ul>
           </div>
