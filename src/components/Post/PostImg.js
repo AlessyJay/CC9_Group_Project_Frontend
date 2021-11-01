@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Dropdown from "./Dropdown";
-import { FaFileAlt } from "react-icons/fa";
+import { FaAsymmetrik, FaFileAlt } from "react-icons/fa";
 import { ImImages } from "react-icons/im";
 import { HiXCircle } from "react-icons/hi";
 import "react-quill/dist/quill.snow.css";
@@ -33,6 +33,19 @@ function PostImg() {
   const [titleLength, setTitleLength] = useState(0);
   const [selectFiles, setSelectFiles] = useState([]);
   const [url1, setUrl1] = useState([]);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const res = await axios.get(`/posts/drafts`);
+        console.log("draft", res.data.draftLists);
+        setDraftLists(res.data.draftLists);
+      } catch (err) {
+        console.dir(err);
+      }
+    };
+    fetch();
+  }, []);
 
   const handleChangePostContent = (e) => {
     if (e.target.name === "title") {
@@ -85,22 +98,46 @@ function PostImg() {
     }
   };
 
-  const handleSaveDraftList = () => {
-    const newDraft = [...draftLists];
-    newDraft.push(postContent);
-    setDraftLists(newDraft);
-    setPostContent({
-      title: "",
-      descriptions: "",
-      type: "MAIN",
-      notification: false,
-      userId: user.id,
-      communityId: null,
-      postTarget: false,
-      status: true,
-    });
-
-    // window.location.reload();
+  const handleSaveDraftList = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("title", postContent.title);
+      formData.append("descriptions", postContent.descriptions);
+      formData.append("type", postContent.type);
+      formData.append("status", postContent.status);
+      formData.append("notification", postContent.notification);
+      if (postContent.communityId !== null) {
+        formData.append("communityId", postContent.communityId);
+      }
+      if (url1.length !== 0) {
+        console.log("Not plain post");
+        for (let i = 0; i < url1.length; i++) {
+          formData.append("cloudimage", url1[i]);
+        }
+      }
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
+      const res = await axios.post("posts/drafts/createdraft", formData);
+      console.log(res.data.post);
+      alert("success");
+      // history.push('/post/:postId') // push ไปหน้า post นั้นๆ และก็ fetch ข้อมูลมา
+      const newDraft = [...draftLists];
+      newDraft.push(res.data.post);
+      setDraftLists(newDraft);
+      setPostContent({
+        title: "",
+        descriptions: "",
+        type: "MAIN",
+        notification: false,
+        userId: user.id,
+        communityId: null,
+        postTarget: false,
+        status: true,
+      });
+    } catch (err) {
+      console.dir(err);
+    }
   };
 
   const handleEditPost = (id) => {
