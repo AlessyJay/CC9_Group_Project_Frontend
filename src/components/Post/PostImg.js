@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import Dropdown from "./Dropdown";
-import { FaAsymmetrik, FaFileAlt } from "react-icons/fa";
+import { FaFileAlt } from "react-icons/fa";
 import { ImImages } from "react-icons/im";
-import { HiXCircle } from "react-icons/hi";
 import "react-quill/dist/quill.snow.css";
 import "./TextEditor.css";
 import ReactQuill from "react-quill";
@@ -10,7 +9,6 @@ import EditorToolbar, { modules, formats } from "./EditorToolbar";
 import DraftModel from "./DraftModel";
 import { Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { timeDiff } from "../../services/timeDifferent";
 import { UserContext } from "../../context/userContext";
 import axios from "../../config/axios";
 import { useHistory } from "react-router-dom";
@@ -22,7 +20,6 @@ function PostImg() {
   const [ToggleSaveDraft, setToggleSaveDraft] = useState(false);
   const history = useHistory();
   const [postContent, setPostContent] = useState({
-    title: "",
     descriptions: "",
     type: "MAIN",
     notification: false,
@@ -93,7 +90,6 @@ function PostImg() {
       const res = await axios.post("/posts/createpost", formData);
       console.log(res.data.post);
       alert("success");
-
       // history.push('/post/:postId') // push ไปหน้า post นั้นๆ และก็ fetch ข้อมูลมา
     } catch (err) {
       console.dir(err);
@@ -127,7 +123,8 @@ function PostImg() {
       const newDraft = [...draftLists];
       newDraft.push(res.data.post);
       setDraftLists(newDraft);
-      setPostContent({
+      setPostContent((cur) => ({
+        ...cur,
         title: "",
         descriptions: "",
         type: "MAIN",
@@ -136,24 +133,28 @@ function PostImg() {
         communityId: null,
         postTarget: false,
         status: true,
-      });
+      }));
+      setTitleLength(0);
     } catch (err) {
       console.dir(err);
     }
   };
 
   const handleEditPost = (id, obj) => {
-    setEditPostId(id);
-    setPostContent({
+    console.log("objjjj", obj);
+    setPostContent((cur) => ({
+      ...cur,
       title: obj.title,
       descriptions: obj.descriptions,
       type: obj.type.toLowerCase() === "main" ? "MAIN" : "IMG",
       notification: obj.allowNotification,
       userId: obj.userId,
       communityId: obj.communityId,
-      postTarget: false,
+      postTarget: true,
       status: true,
-    });
+    }));
+    setEditPostId(id);
+    setTitleLength(obj.title.length);
     if (obj.communityId === null) {
       setPostTarget((cur) => ({
         ...cur,
