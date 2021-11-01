@@ -16,8 +16,6 @@ function UserProfile() {
       <div className=" grid grid-cols-7 gap-6">
         <div className="col-start-2 col-span-3 ">
           <Popular />
-          <FeedBox />
-          <FeedBox />
         </div>
         <div className="col-span-2">
           <ProfileSide user={user} />

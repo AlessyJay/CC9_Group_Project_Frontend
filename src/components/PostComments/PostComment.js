@@ -1,24 +1,39 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
-import { HiChevronUp, HiChevronDown, HiOutlineAnnotation, HiOutlineBookmark, HiOutlineEye } from "react-icons/hi";
+import {
+  HiChevronUp,
+  HiChevronDown,
+  HiOutlineAnnotation,
+  HiOutlineBookmark,
+  HiOutlineEye,
+  HiOutlineUserCircle,
+} from "react-icons/hi";
 import UserComment from "./UserComment";
+import ReactHtmlParser from "react-html-parser";
+import { UserContext } from "../../context/userContext";
+import axios from "../../config/axios";
+import { timeDiff } from "../../services/timeDifferent";
+import { useParams } from "react-router-dom";
 
-function PostComment() {
+function PostComment({ item }) {
+  const { user, arrUserCommu } = useContext(UserContext);
   const [text, setText] = useState({
-    name: " r/tailwind",
-    imgUrl: "https://randomuser.me/api/portraits/men/20.jpg",
     comment: "",
   });
-  const [data, setData] = useState([]);
+
+  console.log(item);
 
   const handleSubmitForm = e => {
     e.preventDefault();
-    const newArr = [...data];
-    newArr.push(text);
-    setData(newArr);
+    axios
+      .post("/comments", {
+        userToNoti: item.userId,
+        postId: item.id,
+        commentDetails: text.comment,
+      })
+      .then(res => console.log(res))
+      .catch(err => console.dir(err));
     setText({
-      name: " r/tailwind",
-      imgUrl: "https://randomuser.me/api/portraits/men/20.jpg",
       comment: "",
     });
   };
@@ -43,21 +58,32 @@ function PostComment() {
         <div className="w-full">
           <div className="flex">
             <div className="flex  p-2">
-              <img className="rounded-full h-6 w-6" alt="A" src="https://randomuser.me/api/portraits/men/85.jpg" />
+              {/* {item.Community.profileUrl ? (
+                <img className="rounded-full h-6 w-6" alt="A" src={item.Community.profileUrl} />
+              ) : (
+                <HiOutlineUserCircle className="rounded-full h-6 w-6" />
+              )} */}
             </div>
             <span className="flex text-sm w-full items-center">
-              <span className="font-semibold mr-2">r/javascript</span>
+              {/* <span className="font-semibold mr-2">{item.Community.name}</span>
               <div className="overflow-ellipsis text-xs font-light flex flex-wrap">
-                Posted byu/logicspock 15 hours ago
-              </div>
+                Posted by <span className="font-semibold mx-2">{item.User.username}</span> {timeDiff(item.createdAt)}{" "}
+                ago
+              </div> */}
             </span>
           </div>
 
-          <div className="p-1">Title Content</div>
+          <div className="p-1">{item.title}</div>
           <div className="overflow-ellipsis  font-light text-sm p-1 pt-0 mb-2 break-words">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book.
+            {item.descriptions ? (
+              ReactHtmlParser(item.descriptions)
+            ) : item.imageUrl ? (
+              item.imageUrl.map(item => <img src={item} alt="" />)
+            ) : (
+              <video className="w-11/12 mx-auto" controls>
+                <source src={item.videoUrl} />
+              </video>
+            )}
           </div>
 
           <div className="p-2 flex">
@@ -75,33 +101,35 @@ function PostComment() {
             </button>
           </div>
 
-          <div className="p-2 pr-4">
-            <p className="mb-2 text-sm">Comment as DueNeighborhood6317</p>
-            <form onSubmit={handleSubmitForm}>
-              <textarea
-                value={text.comment}
-                className="bg-gray-100 w-full font-light text-sm shadow rounded-sm outline-none appearance-none p-2 h-36 break-words"
-                style={{ minHeight: "122px" }}
-                onChange={handleComment}
-              />
-              <button
-                className={`${
-                  text.comment ? "bg-blue-500 text-white" : "bg-gray-200 cursor-not-allowed"
-                }  rounded-full text-sm px-2 py-1 mt-1 transition duration-300 ease-in-out`}
-                disabled={text.comment ? false : true}
-              >
-                comment
-              </button>
-            </form>
-          </div>
+          {user ? (
+            <div className="p-2 pr-4">
+              <p className="mb-2 text-sm">{`Comment as ${user.username}`}</p>
+              <form onSubmit={handleSubmitForm}>
+                <textarea
+                  value={text.comment}
+                  className="bg-gray-100 w-full font-light text-sm shadow rounded-sm outline-none appearance-none p-2 h-36 break-words"
+                  style={{ minHeight: "122px" }}
+                  onChange={handleComment}
+                />
+                <button
+                  className={`${
+                    text.comment ? "bg-blue-500 text-white" : "bg-gray-200 cursor-not-allowed"
+                  }  rounded-full text-sm px-2 py-1 mt-1 transition duration-300 ease-in-out`}
+                  disabled={text.comment ? false : true}
+                >
+                  comment
+                </button>
+              </form>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
 
       <div className="mx-9 my-2 pr-4 pb-1 border-b-2 border-gray-100"></div>
       <div className="pr-4 pb-4 mt-4 mr-4 ml-2">
-        {data.map((item, index) => (
-          <UserComment key={index} item={item} />
-        ))}
+        {item.comment ? item.comment.map((item, index) => <UserComment key={index} item={item} user={user} />) : <></>}
       </div>
     </div>
   );

@@ -117,6 +117,8 @@ function Header() {
     setUser(null);
   };
 
+  console.log(Commu);
+
   return (
     <div>
       <div className="bg-white shadow ">

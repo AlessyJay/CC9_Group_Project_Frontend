@@ -3,22 +3,22 @@ import CommunityHeader from "../components/Community/CommunityHeader";
 import CreatePostAndCommunity from "../components/newsFeed/CreatePostAndCommunity";
 import Footer from "../components/Footer/Footer";
 import CreateBar from "../components/Community/CreateBar";
-import FeedBox from "../components/newsFeed/FeedBox";
+import FeedBox2 from "../components/newsFeed/FeedBox2";
 import AboutCommu from "../components/Community/AboutCommu";
 import PostComment from "../components/PostComments/PostComment";
 import { useParams } from "react-router-dom";
 import PostingtoOurweb from "../components/Community/PostingtoOurweb";
-
 import axios from "../config/axios";
 
 function CommunityPage() {
   const { id, name } = useParams();
   const [community, setCommunity] = useState([]);
+  const [communityPosts, setCommunityPosts] = useState([]);
 
   useEffect(() => {
     axios
       .get(`/communities/posts/${id}`)
-      .then(res => console.log(res.data))
+      .then(res => setCommunityPosts(res.data.postList))
       .catch(err => console.dir(err));
     axios
       .get(`/communities/${id}`)
@@ -26,12 +26,16 @@ function CommunityPage() {
       .catch(err => console.dir(err));
   }, []);
 
+  console.log(communityPosts);
+
   return (
     <div className="bg-gray-200">
       <CommunityHeader community={community} />
       <div className=" grid grid-cols-7 gap-6">
         <div className="col-start-2 col-span-3 ">
-          <PostComment />
+          {communityPosts.map((item, index) => (
+            <FeedBox2 item={item} key={index} />
+          ))}
         </div>
         <div className="col-span-2">
           <AboutCommu name={name} id={id} />
