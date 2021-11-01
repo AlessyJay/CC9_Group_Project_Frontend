@@ -58,18 +58,18 @@ function PostComment({ item }) {
         <div className="w-full">
           <div className="flex">
             <div className="flex  p-2">
-              {/* {item.Community.profileUrl ? (
-                <img className="rounded-full h-6 w-6" alt="A" src={item.Community.profileUrl} />
+              {item?.Community?.profileUrl ? (
+                <img className="rounded-full h-6 w-6" alt="A" src={item?.Community?.profileUrl} />
               ) : (
                 <HiOutlineUserCircle className="rounded-full h-6 w-6" />
-              )} */}
+              )}
             </div>
             <span className="flex text-sm w-full items-center">
-              {/* <span className="font-semibold mr-2">{item.Community.name}</span>
+              <span className="font-semibold mr-2">{item?.Community?.name}</span>
               <div className="overflow-ellipsis text-xs font-light flex flex-wrap">
-                Posted by <span className="font-semibold mx-2">{item.User.username}</span> {timeDiff(item.createdAt)}{" "}
+                Posted by <span className="font-semibold mx-2">{item?.User?.username}</span> {timeDiff(item.createdAt)}{" "}
                 ago
-              </div> */}
+              </div>
             </span>
           </div>
 
