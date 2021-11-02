@@ -13,7 +13,7 @@ function PostPage() {
   const [post, setPost] = useState([]);
   const [comment, setComment] = useState([]);
   const { id, communityHostId } = useParams();
-
+  console.log("Comment", comment);
   useEffect(() => {
     const run = async () => {
       try {
@@ -27,10 +27,28 @@ function PostPage() {
     run();
   }, []);
 
+  const handleUpdateComment = (id, newText) => {
+    const arrComment = [...comment];
+    const idx = comment.findIndex((item) => item.id === id);
+    arrComment[idx]["commentDetails"] = newText;
+    setComment(arrComment);
+  };
+
+  const deleteComemnt = (id) => {
+    console.log(id);
+    const arrComment = comment.filter((item) => item.id !== id);
+    setComment(arrComment);
+  };
   return (
     <div className="bg-gray-200 grid grid-cols-7 gap-6 ">
       <div className="col-start-2 col-span-3 ">
-        <PostComment item={post} comment={comment} setComment={setComment} />
+        <PostComment
+          item={post}
+          comment={comment}
+          setComment={setComment}
+          handleUpdateComment={handleUpdateComment}
+          deleteComemnt={deleteComemnt}
+        />
       </div>
       <div className="col-span-2">
         {/* <AboutCommu /> */}

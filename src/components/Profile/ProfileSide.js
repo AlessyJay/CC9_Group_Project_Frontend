@@ -1,17 +1,62 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { HiOutlineCamera } from "react-icons/hi";
-
+import axios from "../../config/axios";
+import { UserContext } from "../../context/userContext";
 function ProfileSide({ user }) {
+  const { setUser } = useContext(UserContext);
+  const [profileUrl, setProfileUrl] = useState(null);
+  const [bannerUrl, setBannerUrl] = useState(null);
+  const [showProfile, setShowProfile] = useState(user.profileUrl);
+  const [showBanner, setShowBanner] = useState(user.bannerUrl);
+
+  const handleChangeProfile = async (e) => {
+    try {
+      if (!e.target.files || e.target.files.length === 0) {
+        setProfileUrl(null);
+        return;
+      }
+      if (e.target.files) {
+        console.log(e.target.files);
+        const files = URL.createObjectURL(e.target.files[0]);
+        setShowProfile(files);
+        const formData = new FormData();
+        formData.append("profileimage", e.target.files[0]);
+        const res = await axios.put(`users/updateProfile`, formData);
+        alert(res.data.message);
+      }
+      setProfileUrl(e.target.files[0]);
+      setUser((cur) => ({
+        ...cur,
+        profileUrl: URL.createObjectURL(e.target.files[0]),
+      }));
+      // URL.revokeObjectURL(e.target.files[0]);
+    } catch (err) {
+      console.dir(err);
+    }
+  };
+
+  const handleChangeBanner = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setBannerUrl(null);
+      return;
+    }
+    if (e.target.files) {
+      const files = URL.createObjectURL(e.target.files[0]);
+      setShowBanner(files);
+    }
+    URL.revokeObjectURL(e.target.files[0]);
+    setBannerUrl(e.target.files[0]);
+  };
   return (
     <div className=" bg-white max-w-xs mt-4 shadow rounded-sm hidden md:block">
-      <div className="group shadow relative rounded-sm w-full h-28 bg-cover text-xl font-semibold flex p-3 text-white bg-blue-300 rounded-b-none">
+      <div className="group shadow relative rounded-sm w-full h-28 bg-cover text-xl font-semibold flex p-3 text-white bg-blue-500 rounded-b-none">
         <div className="group">
           {user.profileUrl ? (
             <img
               className="rounded-sm h-20 w-20 shadow absolute -bottom-5 left-4 border-2 border-gray-200 "
               alt="A"
-              src={user.profileUrl}
+              src={showProfile}
             />
           ) : (
             <img
@@ -25,7 +70,13 @@ function ProfileSide({ user }) {
               <label htmlFor="pic">
                 <HiOutlineCamera className="text-blue-500" />
               </label>
-              <input id="pic" type="file" hidden />
+              <input
+                id="pic"
+                type="file"
+                name="profile"
+                hidden
+                onChange={handleChangeProfile}
+              />
             </button>
           </div>
         </div>
@@ -34,7 +85,13 @@ function ProfileSide({ user }) {
             <label htmlFor="pic">
               <HiOutlineCamera className="text-blue-500" />
             </label>
-            <input id="pic" type="file" hidden />
+            <input
+              id="pic"
+              type="file"
+              name="banner"
+              hidden
+              onChange={handleChangeBanner}
+            />
           </button>
         </div>
       </div>
