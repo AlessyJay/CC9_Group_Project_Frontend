@@ -1,14 +1,24 @@
-import { useState } from "react";
-import useValidate from "../../services/useValidate";
-import validate from "../../services/ValidateForm";
+import axios from "../../config/axios";
+import { useContext, useState } from "react";
 import { HiOutlinePhotograph } from "react-icons/hi";
-
+import { UserContext } from "../../context/userContext";
 export default function Editprofile() {
+  const { user, setUser } = useContext(UserContext);
   const [selectedImaProfile, setSelectedImgProfile] = useState();
   const [selectedImaCover, setSelectedImgCover] = useState();
+  const [username, setUsername] = useState(user.username);
+  const [description, setDescription] = useState(user.description);
 
   const [displayPro, setdisplayPro] = useState(false);
   const [displayCov, setdisplayCov] = useState(false);
+
+  const handleChangeUsername = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const handleChangeDescription = (e) => {
+    setDescription(e.target.value);
+  };
 
   const displayHandlerPro = () => {
     setdisplayPro(true);
@@ -18,12 +28,13 @@ export default function Editprofile() {
   };
 
   // This function will be triggered when the file field change
-  const imageProfileChange = e => {
+  const imageProfileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImgProfile(e.target.files[0]);
     }
+    console.log(e.target.files[0]);
   };
-  const imageCoverChange = e => {
+  const imageCoverChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImgCover(e.target.files[0]);
       console.log(e.target.files[0]);
@@ -40,116 +51,130 @@ export default function Editprofile() {
     setdisplayCov(false);
   };
 
-  const upLoadedImgPro = e => {
+  const upLoadedImgPro = (e) => {
     imageProfileChange(e);
     displayHandlerPro();
   };
-  const upLoadedImgCov = cover => {
+  const upLoadedImgCov = (cover) => {
     imageCoverChange(cover);
     displayHandlerCov();
   };
 
-  const { values, errors, handleChange, handleSubmit } = useValidate(test, validate);
+  const handleSubmitProfile = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
 
-  function test() {
-    console.log("No errors, submit callback called!");
-  }
+      if (selectedImaProfile) {
+        formData.append("profileimage", selectedImaProfile);
+        formData.append("description", description);
+
+        const res = await axios.put(`/users/updateProfile`, formData);
+        alert(res.data.message);
+        setUser((cur) => ({
+          ...cur,
+          description: description,
+          profileUrl: URL.createObjectURL(selectedImaProfile),
+        }));
+      } else {
+        formData.append("description", description);
+        const res = await axios.put(`/users/updateProfile`, formData);
+        alert(res.data.message);
+        setUser((cur) => ({
+          ...cur,
+          description: description,
+        }));
+      }
+    } catch (err) {
+      console.dir(err);
+    }
+  };
+  const handleSubmitBanner = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+
+      if (selectedImaCover) {
+        formData.append("bannerimage", selectedImaCover);
+        const res = await axios.put(`/updateBanner`, formData);
+        alert(res.data.message);
+        setUser((cur) => ({
+          ...cur,
+          bannerUrl: URL.createObjectURL(selectedImaCover),
+        }));
+      }
+    } catch (err) {
+      console.dir(err);
+    }
+  };
   return (
     <div className="w-full mt-3">
       <div className="mt-5 md:mt-0 md:col-span-2">
         <div className="shadow sm:rounded-md sm:overflow-hidden">
-          <form action="#" method="POST" onSubmit={handleSubmit} noValidate>
+          <form onSubmit={handleSubmitProfile}>
             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
               <div className="grid grid-cols-3 gap-6"></div>
 
               {/*  Display name*/}
               <div className="col-span-6 sm:col-span-4">
-                <div className="block text-xl font-bold font-small text-gray-700"> Display name</div>
-                <label htmlFor="display-name" className="block text-xs font-small text-gray-500">
-                  Set a display name. This does not change your username.
+                <div className="block text-xl font-bold font-small text-gray-700">
+                  Username
+                </div>
+                <label
+                  htmlFor="display-name"
+                  className="block text-xs font-small text-gray-500"
+                >
+                  Your username can not changed.
                 </label>
                 <input
-                  value={values.displayname || ""}
+                  value={username}
                   maxLength="30"
-                  required
                   type="text"
-                  name="displayname"
-                  id="displayname"
-                  autoComplete="displayname"
-                  placeholder="Display name"
-                  onChange={handleChange}
+                  disabled
+                  name="username"
+                  id="display-name"
+                  placeholder={user.username}
                   className="outline-none pl-2 mt-1  focus:ring-blue-500 focus:border-blue-500 block w-full h-9 shadow-sm sm:text-sm border-gray-300 rounded-md "
                 />
-                {errors.displayname && <p className="block text-xs font-small text-red-500">{errors.displayname}</p>}
-                <div className="block text-xs font-small text-gray-500"> 30 Characters remaining</div>
-              </div>
-              {/* firstname lastname */}
 
-              <div className="col-span-6 sm:col-span-4  ">
-                <label htmlFor="firstname" className="block text-xl font-bold font-small text-gray-700">
-                  {" "}
-                  Firstname
-                </label>
-
-                <input
-                  value={values.firstname || ""}
-                  maxLength="150"
-                  required
-                  type="text"
-                  name="firstname"
-                  id="firstname"
-                  autoComplete="firstname"
-                  placeholder="firstname"
-                  onChange={handleChange}
-                  className="outline-none pl-2 mt-1  focus:ring-blue-500 focus:border-blue-500 block w-full h-9 shadow-sm sm:text-sm border-gray-300 rounded-md "
-                />
-                {errors.firstname && <p className="block text-xs font-small text-red-500">{errors.firstname}</p>}
-              </div>
-              <div className="col-span-6 sm:col-span-4 ">
-                <label htmlFor="lastname" className="block text-xl font-bold font-small text-gray-700">
-                  {" "}
-                  Lastname
-                </label>
-
-                <input
-                  value={values.lastname || ""}
-                  maxLength="150"
-                  required
-                  type="text"
-                  name="lastname"
-                  id="lastname"
-                  autoComplete="lastname"
-                  placeholder="lastname"
-                  onChange={handleChange}
-                  className="outline-none pl-2 mt-1  focus:ring-blue-500 focus:border-blue-500 block w-full h-9 shadow-sm sm:text-sm border-gray-300 rounded-md "
-                />
-                {errors.firstname && <p className="block text-xs font-small text-red-500">{errors.lastname}</p>}
+                {/* <div className="block text-xs font-small text-gray-500">
+                  {`${30 - username.length}`}/30 Characters remaining
+                </div> */}
               </div>
 
               {/* About (optional) */}
               <div>
-                <div className="block text-xl font-bold font-small text-gray-700"> About</div>
+                <div className="block text-xl font-bold font-small text-gray-700">
+                  About
+                </div>
                 <label htmlFor="about" className="block text-xs  text-gray-500">
                   A brief description of yourself shown on your profile.
                 </label>
                 <div className="mt-1">
                   <textarea
                     id="about"
-                    name="about"
+                    name="description"
                     rows={3}
                     className="outline-none pl-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full h-20  sm:text-sm border border-gray-300 rounded-md"
                     placeholder="About(optional)"
-                    defaultValue={""}
+                    value={description}
+                    onChange={handleChangeDescription}
                   />
                 </div>
 
-                <div className="block text-xs font-small text-gray-500">200 Characters remaining</div>
+                <div className="block text-xs font-small text-gray-500">
+                  {`${200 - description.length}`}/200 Characters remaining
+                </div>
               </div>
 
               {/* up img */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">Avatar image</label>
-                <div className="block text-xs font-small text-gray-500">Images must be .png or .jpg format</div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Avatar image
+                </label>
+                <div className="block text-xs font-small text-gray-500">
+                  Images must be .png or .jpg format
+                </div>
                 <div className="">
                   {/* up img Profile */}
                   <div>
@@ -219,12 +244,16 @@ export default function Editprofile() {
           </form>
 
           {/* up img cover */}
-          <form action="#" method="POST" onSubmit={handleSubmit} noValidate>
+          <form onSubmit={handleSubmitBanner}>
             {/* up img cover */}
             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
               <div className="col-span-2">
-                <label className="block text-sm font-medium text-gray-700">Banner image</label>
-                <div className="block text-xs font-small text-gray-500">Images must be .png or .jpg format</div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Banner image
+                </label>
+                <div className="block text-xs font-small text-gray-500">
+                  Images must be .png or .jpg format
+                </div>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   <div className="space-y-1 text-center">
                     {displayCov ? (
@@ -250,14 +279,20 @@ export default function Editprofile() {
                               onChange={upLoadedImgCov}
                             />
                           </label>
-                          <div className={displayCov}>or Upload Banner Image</div>
+                          <div className={displayCov}>
+                            or Upload Banner Image
+                          </div>
                         </div>
                       </div>
                     )}
 
                     {selectedImaCover && (
                       <div className="mt-10 flex flex-col">
-                        <img src={URL.createObjectURL(selectedImaCover)} className="max-w-full max-h-56" alt="Thumb" />
+                        <img
+                          src={URL.createObjectURL(selectedImaCover)}
+                          className="max-w-full max-h-56"
+                          alt="Thumb"
+                        />
                         <button
                           onClick={removeImageCov}
                           className="mt-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 "
