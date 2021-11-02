@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import { HiChevronUp, HiChevronDown, HiOutlineAnnotation, HiOutlineBookmark, HiOutlineEye } from "react-icons/hi";
 import axios from "../../config/axios";
 import { UserContext } from "../../context/userContext";
@@ -7,10 +7,11 @@ import ReactHtmlParser from "react-html-parser";
 import { HiOutlineUserCircle } from "react-icons/hi";
 
 function FeedBox2({ item }) {
-  const { arrUserCommu } = useContext(UserContext);
-  const username = arrUserCommu.find(user => user.id === item.userId);
+  console.log(item);
+
   const handleHide = async e => {};
   const location = useLocation();
+  const history = useHistory();
 
   return (
     <>
@@ -38,21 +39,35 @@ function FeedBox2({ item }) {
             <span className="flex text-sm w-full items-center">
               {/* <span className="font-semibold mr-2">{item.Community.name}</span> */}
               <div className="overflow-ellipsis text-xs font-light flex flex-wrap">
-                {`Posted by ${username.username} 15 hours ago`}
+                {`Posted by ${item.User.username} 15 hours ago`}
               </div>
             </span>
           </div>
           <Link to="/#" className="w-full">
             <div className="p-1">{item.title}</div>
             <div className=" max-h-64 overflow-y-scroll font-light text-sm p-1 pt-0 mb-2 bg-white ">
-              {ReactHtmlParser(item.descriptions)}
+              {item.descriptions ? (
+                ReactHtmlParser(item.descriptions)
+              ) : item.imageUrl ? (
+                item.imageUrl.map(item => <img src={item} alt="" />)
+              ) : (
+                <video className="w-11/12 mx-auto" controls>
+                  <source src={item.videoUrl} />
+                </video>
+              )}
             </div>
           </Link>
 
           <div className="p-2 flex">
             <button className="flex items-center mr-4">
               <HiOutlineAnnotation />
-              <span className="text-sm ml-1 font-light">comment</span>
+              <span
+                onClick={() => history.push(`/posts/${item.Community.userId}/${item.id}`)}
+                className="text-sm ml-1 font-light"
+              >
+                <span className="text-xs mr-1">{item.Comments.length}</span>
+                comment
+              </span>
             </button>
             <button className="flex items-center mr-4">
               <HiOutlineBookmark />

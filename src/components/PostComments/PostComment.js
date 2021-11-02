@@ -23,7 +23,7 @@ function PostComment({ item, comment, setComment }) {
     commentDetails: "",
   });
 
-  console.log(comment);
+  console.log(item);
 
   const handleSubmitForm = e => {
     e.preventDefault();
