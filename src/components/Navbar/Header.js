@@ -275,7 +275,7 @@ function Header() {
                       <>
                         <div className="flex items-center px-4 py-2 w-full justify-center">
                           {user.profileUrl ? (
-                            <img className="rounded-full h-8 mr-2" alt="A" src={user.profileUrl} />
+                            <img className="rounded-full h-8 w-8 mr-2" alt="A" src={user.profileUrl} />
                           ) : (
                             <div className="mr-1">
                               <HiOutlineUserCircle className="w-7 h-7" />

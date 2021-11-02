@@ -20,14 +20,6 @@ function CommuSideCard({ item, index }) {
           </span>
         </div>
       </Link>
-      <div>
-        <button
-          type="button"
-          className=" max-w-sm text-sm  border-2 border-blue-500 rounded-full font-semibold  text-blue-500 px-2  transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white  "
-        >
-          Join
-        </button>
-      </div>
     </div>
   );
 }

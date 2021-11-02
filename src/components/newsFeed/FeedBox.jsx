@@ -59,8 +59,11 @@ function FeedBox({ item }) {
                 {item.Community.name}
               </span>
               <div className=" cursor-pointer overflow-ellipsis text-xs font-light flex flex-wrap">
-                Posted by <span className="font-semibold mx-2">{item.User.username}</span> {timeDiff(item.createdAt)}{" "}
-                ago
+                Posted by{" "}
+                <span onClick={() => history.push(`/user/${item.User.id}`)} className="font-semibold mx-2">
+                  {item.User.username}
+                </span>{" "}
+                {timeDiff(item.createdAt)} ago
               </div>
             </span>
           </div>

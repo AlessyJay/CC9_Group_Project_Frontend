@@ -5,15 +5,15 @@ import Footer from "../components/Footer/Footer";
 import CreateBar from "../components/Community/CreateBar";
 import FeedBox2 from "../components/newsFeed/FeedBox2";
 import AboutCommu from "../components/Community/AboutCommu";
-import PostComment from "../components/PostComments/PostComment";
 import { useParams } from "react-router-dom";
-import PostingtoOurweb from "../components/Community/PostingtoOurweb";
 import axios from "../config/axios";
+import CommunityRules from "../components/Community/CommunityRules";
 
 function CommunityPage() {
   const { id, name } = useParams();
   const [community, setCommunity] = useState([]);
   const [communityPosts, setCommunityPosts] = useState([]);
+  const [rules, setRules] = useState([]);
 
   useEffect(() => {
     axios
@@ -24,13 +24,12 @@ function CommunityPage() {
       .get(`/communities/${id}`)
       .then(res => setCommunity(res.data.community))
       .catch(err => console.dir(err));
+    axios.get(`/communities/rules/${id}`).then(res => setRules(res.data.rules));
   }, []);
-
-  console.log(communityPosts);
 
   return (
     <div className="bg-gray-200">
-      <CommunityHeader community={community} />
+      <CommunityHeader id={id} community={community} />
       <div className=" grid grid-cols-7 gap-6">
         <div className="col-start-2 col-span-3 ">
           {communityPosts.map((item, index) => (
@@ -38,8 +37,8 @@ function CommunityPage() {
           ))}
         </div>
         <div className="col-span-2">
-          <AboutCommu name={name} id={id} />
-          <PostingtoOurweb />
+          <AboutCommu name={name} id={id} community={community} />
+          <CommunityRules rules={rules} />
           <CreatePostAndCommunity />
           <Footer />
         </div>

@@ -20,42 +20,12 @@ const timeDiff = value => {
   }
 };
 
-const MOCK_DRAFT = [
-  {
-    id: 1,
-    title: "Test01",
-    target: "u/Content_Avatar001",
-    updatedAt: "2021-10-21 16:38:39",
-  },
-  // {
-  //   id: 2,
-  //   title: "Content001",
-  //   target: "u/Content_Avatar001",
-  //   updatedAt: "2021-10-18 16:38:39",
-  // },
-  // {
-  //   id: 3,
-  //   title: "TContent002",
-  //   target: "u/Content_Avatar001",
-  //   updatedAt: "2021-10-17 16:38:39",
-  // },
-  // {
-  //   id: 4,
-  //   title: "Test0555",
-  //   target: "r/Content_Avatar001",
-  //   updatedAt: "2021-10-16 16:38:39",
-  // },
-  // {
-  //   id: 5,
-  //   title: "testedit",
-  //   target: "r/Content_Avatar001",
-  //   description: "testetst",
-  //   type: "post",
-  //   notification: false,
-  //   userId: "",
-  //   communityId: null,
-  //   postTarget: true,
-  //   updatedAt: "2021-10-16 16:38:39",
-  // },
-];
-export { timeDiff, MOCK_DRAFT };
+const formatDate = date => {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+  }).format(date);
+};
+
+export { timeDiff, formatDate };

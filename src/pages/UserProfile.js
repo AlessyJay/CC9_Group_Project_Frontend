@@ -9,6 +9,7 @@ import Popular from "../components/newsFeed/Popular";
 
 function UserProfile() {
   const { user } = useContext(UserContext);
+  console.log(user);
 
   return (
     <div className="bg-gray-200">

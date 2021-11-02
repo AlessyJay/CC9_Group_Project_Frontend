@@ -3,34 +3,6 @@ import Card from "@mui/material/Card";
 import CommuSideCard from "./CommuSideCard";
 import axios from "../../config/axios";
 
-const MOCK_DATA = [
-  {
-    name: "r/javascript",
-    members: "10,000",
-    imgUrl: "https://randomuser.me/api/portraits/men/85.jpg",
-  },
-  {
-    name: "r/dota2",
-    members: "100,000",
-    imgUrl: "https://randomuser.me/api/portraits/men/65.jpg",
-  },
-  {
-    name: "r/css",
-    members: "9,000",
-    imgUrl: "https://randomuser.me/api/portraits/men/60.jpg",
-  },
-  {
-    name: "r/tailwind",
-    members: "12,000",
-    imgUrl: "https://randomuser.me/api/portraits/men/50.jpg",
-  },
-  {
-    name: "r/tailwind",
-    members: "12,000",
-    imgUrl: "https://randomuser.me/api/portraits/men/20.jpg",
-  },
-];
-
 export default function MediaCard({ listCommunity }) {
   console.log(listCommunity);
   return (

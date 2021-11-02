@@ -23,7 +23,13 @@ function PostComment({ item, comment, setComment }) {
     commentDetails: "",
   });
 
-  console.log(item);
+  useEffect(() => {
+    setText({
+      userId: user?.id,
+      User: { username: user?.username, profileUrl: user?.profileUrl },
+      commentDetails: "",
+    });
+  }, [user]);
 
   const handleSubmitForm = e => {
     e.preventDefault();
