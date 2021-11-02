@@ -98,7 +98,7 @@ export default function EditCommunity() {
       console.dir(err);
     }
   };
-  console.log(rule);
+
   const handleChangeRules = (e) => {
     setError("");
     if (e.target.value === "") {

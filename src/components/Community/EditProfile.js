@@ -3,29 +3,23 @@ import { useContext, useState } from "react";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { UserContext } from "../../context/userContext";
 export default function Editprofile() {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [selectedImaProfile, setSelectedImgProfile] = useState();
   const [selectedImaCover, setSelectedImgCover] = useState();
   const [username, setUsername] = useState(user.username);
-  const [resText, setResText] = useState("");
+  const [description, setDescription] = useState(user.description);
+
   const [displayPro, setdisplayPro] = useState(false);
   const [displayCov, setdisplayCov] = useState(false);
-  const [error, setError] = useState({ username: "" });
 
   const handleChangeUsername = (e) => {
-    setResText("");
-    setError((cur) => ({ ...cur, username: "" }));
     setUsername(e.target.value);
   };
-  const handleCheckUsername = async (e) => {
-    try {
-      const res = await axios.post("/users/check/username", { username });
-      setResText(res.data.message);
-    } catch (err) {
-      console.dir(err);
-      setError((cur) => ({ ...cur, username: err.response.data.message }));
-    }
+
+  const handleChangeDescription = (e) => {
+    setDescription(e.target.value);
   };
+
   const displayHandlerPro = () => {
     setdisplayPro(true);
   };
@@ -38,6 +32,7 @@ export default function Editprofile() {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImgProfile(e.target.files[0]);
     }
+    console.log(e.target.files[0]);
   };
   const imageCoverChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -65,12 +60,58 @@ export default function Editprofile() {
     displayHandlerCov();
   };
 
-  const handleSubmit = (e) => {};
+  const handleSubmitProfile = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+
+      if (selectedImaProfile) {
+        formData.append("profileimage", selectedImaProfile);
+        formData.append("description", description);
+
+        const res = await axios.put(`/users/updateProfile`, formData);
+        alert(res.data.message);
+        setUser((cur) => ({
+          ...cur,
+          description: description,
+          profileUrl: URL.createObjectURL(selectedImaProfile),
+        }));
+      } else {
+        formData.append("description", description);
+        const res = await axios.put(`/users/updateProfile`, formData);
+        alert(res.data.message);
+        setUser((cur) => ({
+          ...cur,
+          description: description,
+        }));
+      }
+    } catch (err) {
+      console.dir(err);
+    }
+  };
+  const handleSubmitBanner = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+
+      if (selectedImaCover) {
+        formData.append("bannerimage", selectedImaCover);
+        const res = await axios.put(`/updateBanner`, formData);
+        alert(res.data.message);
+        setUser((cur) => ({
+          ...cur,
+          bannerUrl: URL.createObjectURL(selectedImaCover),
+        }));
+      }
+    } catch (err) {
+      console.dir(err);
+    }
+  };
   return (
     <div className="w-full mt-3">
       <div className="mt-5 md:mt-0 md:col-span-2">
         <div className="shadow sm:rounded-md sm:overflow-hidden">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmitProfile}>
             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
               <div className="grid grid-cols-3 gap-6"></div>
 
@@ -83,33 +124,22 @@ export default function Editprofile() {
                   htmlFor="display-name"
                   className="block text-xs font-small text-gray-500"
                 >
-                  Change a new username .
+                  Your username can not changed.
                 </label>
                 <input
                   value={username}
                   maxLength="30"
-                  required
                   type="text"
+                  disabled
                   name="username"
                   id="display-name"
-                  placeholder="Display name"
-                  onChange={handleChangeUsername}
-                  onBlur={handleCheckUsername}
+                  placeholder={user.username}
                   className="outline-none pl-2 mt-1  focus:ring-blue-500 focus:border-blue-500 block w-full h-9 shadow-sm sm:text-sm border-gray-300 rounded-md "
                 />
-                {resText && (
-                  <p className="block text-xs font-small italic text-green-600">
-                    {resText}
-                  </p>
-                )}
-                {error.username && (
-                  <p className="block text-xs font-small italic text-red-600">
-                    {error.username}
-                  </p>
-                )}
-                <div className="block text-xs font-small text-gray-500">
+
+                {/* <div className="block text-xs font-small text-gray-500">
                   {`${30 - username.length}`}/30 Characters remaining
-                </div>
+                </div> */}
               </div>
 
               {/* About (optional) */}
@@ -123,16 +153,17 @@ export default function Editprofile() {
                 <div className="mt-1">
                   <textarea
                     id="about"
-                    name="descriptions"
+                    name="description"
                     rows={3}
                     className="outline-none pl-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full h-20  sm:text-sm border border-gray-300 rounded-md"
                     placeholder="About(optional)"
-                    value={user.description}
+                    value={description}
+                    onChange={handleChangeDescription}
                   />
                 </div>
 
                 <div className="block text-xs font-small text-gray-500">
-                  200 Characters remaining
+                  {`${200 - description.length}`}/200 Characters remaining
                 </div>
               </div>
 
@@ -213,7 +244,7 @@ export default function Editprofile() {
           </form>
 
           {/* up img cover */}
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmitBanner}>
             {/* up img cover */}
             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
               <div className="col-span-2">
