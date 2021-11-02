@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { HiX } from "react-icons/hi";
 import DraftCard from "./DraftCard";
-import { MOCK_DRAFT } from "../../services/timeDifferent";
 
-function DraftModel({ setToggleModel, draftLists, handleEditPost, handleRemoveDraft }) {
+function DraftModel({
+  setToggleModel,
+  draftLists,
+  handleEditPost,
+  handleRemoveDraft,
+}) {
   return (
     <div className="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-90 filter z-30">
       <div className="bg-white rounded-lg w-2/4 max-w-2/4">
@@ -20,7 +24,7 @@ function DraftModel({ setToggleModel, draftLists, handleEditPost, handleRemoveDr
           </div>
 
           {draftLists &&
-            draftLists.map(item => (
+            draftLists.map((item) => (
               <DraftCard
                 key={item.id}
                 item={item}
