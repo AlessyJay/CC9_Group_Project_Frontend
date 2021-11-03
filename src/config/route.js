@@ -11,6 +11,7 @@ import UserProfileSave from "../pages/UserProfileSave";
 import UserProfileHidden from "../pages/UserProfileHidden";
 import OtherProfilePage from "../pages/OtherProfilePage";
 import PostPage from "../pages/PostPage";
+import MainpageGuest from "../pages/MainpageGuest";
 
 const routes = {
   user: {
@@ -89,7 +90,7 @@ const routes = {
       },
       {
         path: "/",
-        component: Mainpage,
+        component: MainpageGuest,
       },
     ],
     redirect: "/",

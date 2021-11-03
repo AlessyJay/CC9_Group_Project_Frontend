@@ -6,7 +6,12 @@ function ProfileSide({ user }) {
   console.log(user);
   return (
     <div className=" bg-white max-w-xs mt-4 shadow rounded-sm hidden md:block">
-      <div className="group shadow relative rounded-sm w-full h-28 bg-cover text-xl font-semibold flex p-3 text-white bg-blue-300 rounded-b-none">
+      <div
+        className="group shadow relative rounded-sm w-full h-28 bg-cover text-xl font-semibold flex p-3 text-white bg-blue-300 rounded-b-none"
+        style={{
+          backgroundImage: `url(${user.bannerUrl})`,
+        }}
+      >
         <div className="group">
           {user.profileUrl ? (
             <img

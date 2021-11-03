@@ -13,23 +13,52 @@ function Mainpage() {
   const [postMain, setPostMain] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("/feeds/allcommunity")
-      .then((res) => setListCommunity(res.data.communityLists));
-    axios.get("/feeds/mainpage").then((res) => setPostMain(res.data.feedLists));
+    axios.get("/feeds/allcommunity").then(res => setListCommunity(res.data.communityLists));
+    axios.get("/feeds/mainpage").then(res => setPostMain(res.data.feedLists));
   }, []);
+  console.log(postMain);
 
-  const clickHidepost = (id) => {
-    const newPostMain = postMain.filter((item) => item.id !== id);
+  const newArr = postMain.map((item, index) => {
+    // return item.UserInteractions.filter(item2 => item2.userId === user.id && item2.isHided === false);
+    if (item.UserInteractions.length === 0) {
+      // console.log(item.UserInteractions.length);
+      return item;
+    } else {
+      const idx = item.UserInteractions.findIndex(item2 => {
+        console.log(index, "item2.userId === user.id", item2.userId === user.id);
+        console.log(index, "item2.userId, user.id)", item2.userId, user.id);
+        console.log(index, "item2.isHided", item2.isHided);
+        console.log(index, "item2.userId === user.id && item2.isHided", item2.userId === user.id && item2.isHided);
+        if (item2.userId === user.id && item2.isHided) return true;
+        return false;
+      });
+      // const idx = item.UserInteractions.findIndex(item2 => item2.userId === user.id && item2.isHided);
+      console.log("idx", idx);
+      if (idx === -1) {
+        return item;
+      }
+    }
+    return null;
+  });
+  console.log(newArr);
+
+  const clickHidepost = id => {
+    const newPostMain = postMain.filter(item => item.id !== id);
     setPostMain(newPostMain);
   };
+
   return (
     <div className="bg-gray-200 grid grid-cols-7 gap-6 ">
       <div className="col-start-2 col-span-3 ">
         <Popular />
-        {postMain.map((item, index) => (
+        {/* {postMain.map((item, index) => (
           <FeedBox key={index} item={item} clickHidepost={clickHidepost} />
-        ))}
+        ))} */}
+        {/* {postMain.map((item, index) => {
+          if (item.UserInteractions.filter(item2 => item2.userId === user.id && item2.isHided === false)) {
+            <FeedBox key={index} item={item} clickHidepost={clickHidepost} />;
+          }
+        })} */}
       </div>
       <div className="col-span-2">
         <SideCard listCommunity={listCommunity} />
