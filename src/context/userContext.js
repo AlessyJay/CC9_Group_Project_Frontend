@@ -35,10 +35,6 @@ function UserContextPervider({ children }) {
         .get("/feeds/usercommunitys")
         .then((res) => setCommu(res.data.communityLists))
         .catch((err) => console.dir(err));
-      // axios
-      //   .get("/notification")
-      //   .then(res => setUserNotification(res.data.notification))
-      //   .catch(err => console.log(err));
     }
   }, [user]);
   useEffect(() => {
@@ -54,6 +50,7 @@ function UserContextPervider({ children }) {
       fetch();
     }
   }, [user]);
+
   return (
     <UserContext.Provider
       value={{
@@ -64,6 +61,8 @@ function UserContextPervider({ children }) {
         getNewToken,
         userInteraction,
         setUserInteraction,
+        setUserNotification,
+        userNotification,
       }}
     >
       {children}
