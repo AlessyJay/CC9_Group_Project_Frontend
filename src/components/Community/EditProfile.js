@@ -12,11 +12,11 @@ export default function Editprofile() {
   const [displayPro, setdisplayPro] = useState(false);
   const [displayCov, setdisplayCov] = useState(false);
 
-  const handleChangeUsername = (e) => {
+  const handleChangeUsername = e => {
     setUsername(e.target.value);
   };
 
-  const handleChangeDescription = (e) => {
+  const handleChangeDescription = e => {
     setDescription(e.target.value);
   };
 
@@ -28,13 +28,13 @@ export default function Editprofile() {
   };
 
   // This function will be triggered when the file field change
-  const imageProfileChange = (e) => {
+  const imageProfileChange = e => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImgProfile(e.target.files[0]);
     }
     console.log(e.target.files[0]);
   };
-  const imageCoverChange = (e) => {
+  const imageCoverChange = e => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImgCover(e.target.files[0]);
       console.log(e.target.files[0]);
@@ -51,16 +51,16 @@ export default function Editprofile() {
     setdisplayCov(false);
   };
 
-  const upLoadedImgPro = (e) => {
+  const upLoadedImgPro = e => {
     imageProfileChange(e);
     displayHandlerPro();
   };
-  const upLoadedImgCov = (cover) => {
+  const upLoadedImgCov = cover => {
     imageCoverChange(cover);
     displayHandlerCov();
   };
 
-  const handleSubmitProfile = async (e) => {
+  const handleSubmitProfile = async e => {
     e.preventDefault();
     try {
       const formData = new FormData();
@@ -71,7 +71,7 @@ export default function Editprofile() {
 
         const res = await axios.put(`/users/updateProfile`, formData);
         alert(res.data.message);
-        setUser((cur) => ({
+        setUser(cur => ({
           ...cur,
           description: description,
           profileUrl: URL.createObjectURL(selectedImaProfile),
@@ -80,7 +80,7 @@ export default function Editprofile() {
         formData.append("description", description);
         const res = await axios.put(`/users/updateProfile`, formData);
         alert(res.data.message);
-        setUser((cur) => ({
+        setUser(cur => ({
           ...cur,
           description: description,
         }));
@@ -89,7 +89,7 @@ export default function Editprofile() {
       console.dir(err);
     }
   };
-  const handleSubmitBanner = async (e) => {
+  const handleSubmitBanner = async e => {
     e.preventDefault();
     try {
       const formData = new FormData();
@@ -98,7 +98,7 @@ export default function Editprofile() {
         formData.append("bannerimage", selectedImaCover);
         const res = await axios.put(`/updateBanner`, formData);
         alert(res.data.message);
-        setUser((cur) => ({
+        setUser(cur => ({
           ...cur,
           bannerUrl: URL.createObjectURL(selectedImaCover),
         }));
@@ -117,13 +117,8 @@ export default function Editprofile() {
 
               {/*  Display name*/}
               <div className="col-span-6 sm:col-span-4">
-                <div className="block text-xl font-bold font-small text-gray-700">
-                  Username
-                </div>
-                <label
-                  htmlFor="display-name"
-                  className="block text-xs font-small text-gray-500"
-                >
+                <div className="block text-xl font-bold font-small text-gray-700">Username</div>
+                <label htmlFor="display-name" className="block text-xs font-small text-gray-500">
                   Your username can not changed.
                 </label>
                 <input
@@ -144,9 +139,7 @@ export default function Editprofile() {
 
               {/* About (optional) */}
               <div>
-                <div className="block text-xl font-bold font-small text-gray-700">
-                  About
-                </div>
+                <div className="block text-xl font-bold font-small text-gray-700">About</div>
                 <label htmlFor="about" className="block text-xs  text-gray-500">
                   A brief description of yourself shown on your profile.
                 </label>
@@ -163,18 +156,14 @@ export default function Editprofile() {
                 </div>
 
                 <div className="block text-xs font-small text-gray-500">
-                  {`${200 - description.length}`}/200 Characters remaining
+                  {`${200 - description?.length ? description?.length : 0}`}/200 Characters remaining
                 </div>
               </div>
 
               {/* up img */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Avatar image
-                </label>
-                <div className="block text-xs font-small text-gray-500">
-                  Images must be .png or .jpg format
-                </div>
+                <label className="block text-sm font-medium text-gray-700">Avatar image</label>
+                <div className="block text-xs font-small text-gray-500">Images must be .png or .jpg format</div>
                 <div className="">
                   {/* up img Profile */}
                   <div>
@@ -248,12 +237,8 @@ export default function Editprofile() {
             {/* up img cover */}
             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
               <div className="col-span-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Banner image
-                </label>
-                <div className="block text-xs font-small text-gray-500">
-                  Images must be .png or .jpg format
-                </div>
+                <label className="block text-sm font-medium text-gray-700">Banner image</label>
+                <div className="block text-xs font-small text-gray-500">Images must be .png or .jpg format</div>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   <div className="space-y-1 text-center">
                     {displayCov ? (
@@ -279,20 +264,14 @@ export default function Editprofile() {
                               onChange={upLoadedImgCov}
                             />
                           </label>
-                          <div className={displayCov}>
-                            or Upload Banner Image
-                          </div>
+                          <div className={displayCov}>or Upload Banner Image</div>
                         </div>
                       </div>
                     )}
 
                     {selectedImaCover && (
                       <div className="mt-10 flex flex-col">
-                        <img
-                          src={URL.createObjectURL(selectedImaCover)}
-                          className="max-w-full max-h-56"
-                          alt="Thumb"
-                        />
+                        <img src={URL.createObjectURL(selectedImaCover)} className="max-w-full max-h-56" alt="Thumb" />
                         <button
                           onClick={removeImageCov}
                           className="mt-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 "
