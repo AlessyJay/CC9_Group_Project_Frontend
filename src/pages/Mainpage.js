@@ -25,10 +25,10 @@ function Mainpage() {
       return item;
     } else {
       const idx = item.UserInteractions.findIndex(item2 => {
-        console.log(index, "item2.userId === user.id", item2.userId === user.id);
-        console.log(index, "item2.userId, user.id)", item2.userId, user.id);
-        console.log(index, "item2.isHided", item2.isHided);
-        console.log(index, "item2.userId === user.id && item2.isHided", item2.userId === user.id && item2.isHided);
+        // console.log(index, "item2.userId === user.id", item2.userId === user.id);
+        // console.log(index, "item2.userId, user.id)", item2.userId, user.id);
+        // console.log(index, "item2.isHided", item2.isHided);
+        // console.log(index, "item2.userId === user.id && item2.isHided", item2.userId === user.id && item2.isHided);
         if (item2.userId === user.id && item2.isHided) return true;
         return false;
       });
@@ -51,14 +51,7 @@ function Mainpage() {
     <div className="bg-gray-200 grid grid-cols-7 gap-6 ">
       <div className="col-start-2 col-span-3 ">
         <Popular />
-        {/* {postMain.map((item, index) => (
-          <FeedBox key={index} item={item} clickHidepost={clickHidepost} />
-        ))} */}
-        {/* {postMain.map((item, index) => {
-          if (item.UserInteractions.filter(item2 => item2.userId === user.id && item2.isHided === false)) {
-            <FeedBox key={index} item={item} clickHidepost={clickHidepost} />;
-          }
-        })} */}
+        {newArr.map((item, index) => item && <FeedBox key={index} item={item} clickHidepost={clickHidepost} />)}
       </div>
       <div className="col-span-2">
         <SideCard listCommunity={listCommunity} />
