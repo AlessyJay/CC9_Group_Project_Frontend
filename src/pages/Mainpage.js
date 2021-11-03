@@ -47,9 +47,12 @@ function Mainpage() {
     <div className="bg-gray-200 grid grid-cols-7 gap-6 ">
       <div className="col-start-2 col-span-3 ">
         <Popular />
-        {newArr.map((item, index) => (
-          <FeedBox key={index} item={item} clickHidepost={clickHidepost} />
-        ))}
+        {newArr.map(
+          (item, index) =>
+            item && (
+              <FeedBox key={index} item={item} clickHidepost={clickHidepost} />
+            )
+        )}
       </div>
       <div className="col-span-2">
         <SideCard listCommunity={listCommunity} />

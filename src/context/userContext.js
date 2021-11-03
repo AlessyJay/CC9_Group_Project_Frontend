@@ -8,7 +8,7 @@ function UserContextPervider({ children }) {
   const [userNotification, setUserNotification] = useState([]);
   const [arrUserCommu, setArrUserCommu] = useState([]);
   const [Commu, setCommu] = useState([]);
-
+  const [userInteraction, setUserInteraction] = useState([]);
   const getNewToken = async () => {
     try {
       await axios
@@ -41,12 +41,30 @@ function UserContextPervider({ children }) {
       //   .catch(err => console.log(err));
     }
   }, [user]);
-
-  console.log(Commu);
-
+  useEffect(() => {
+    if (user) {
+      const fetch = async () => {
+        try {
+          const res = await axios.get("/posts/getaction");
+          setUserInteraction(res.data.action);
+        } catch (err) {
+          console.dir(err);
+        }
+      };
+      fetch();
+    }
+  }, [user]);
   return (
     <UserContext.Provider
-      value={{ user, setUser, arrUserCommu, Commu, getNewToken }}
+      value={{
+        user,
+        setUser,
+        arrUserCommu,
+        Commu,
+        getNewToken,
+        userInteraction,
+        setUserInteraction,
+      }}
     >
       {children}
     </UserContext.Provider>
