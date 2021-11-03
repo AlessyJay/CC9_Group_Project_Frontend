@@ -96,7 +96,7 @@ export default function Editprofile() {
 
       if (selectedImaCover) {
         formData.append("bannerimage", selectedImaCover);
-        const res = await axios.put(`/updateBanner`, formData);
+        const res = await axios.put(`/users/updateBanner`, formData);
         alert(res.data.message);
         setUser(cur => ({
           ...cur,

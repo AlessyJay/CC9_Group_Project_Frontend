@@ -15,7 +15,13 @@ import axios from "../../config/axios";
 import { timeDiff } from "../../services/timeDifferent";
 import { useParams } from "react-router-dom";
 
-function PostComment({ item, comment, setComment }) {
+function PostComment({
+  item,
+  comment,
+  setComment,
+  handleUpdateComment,
+  deleteComemnt,
+}) {
   const { user } = useContext(UserContext);
   const [text, setText] = useState({
     userId: user?.id,
@@ -31,7 +37,7 @@ function PostComment({ item, comment, setComment }) {
     });
   }, [user]);
 
-  const handleSubmitForm = e => {
+  const handleSubmitForm = (e) => {
     e.preventDefault();
     axios
       .post("/comments", {
@@ -39,8 +45,8 @@ function PostComment({ item, comment, setComment }) {
         postId: item.id,
         commentDetails: text.commentDetails,
       })
-      .then(res => console.log(res))
-      .catch(err => console.dir(err));
+      .then((res) => console.log(res))
+      .catch((err) => console.dir(err));
     const newArr = [...comment];
     newArr.push(text);
     setComment(newArr);
@@ -51,8 +57,8 @@ function PostComment({ item, comment, setComment }) {
     });
   };
 
-  const handleComment = e => {
-    setText(cur => ({ ...cur, commentDetails: e.target.value }));
+  const handleComment = (e) => {
+    setText((cur) => ({ ...cur, commentDetails: e.target.value }));
   };
 
   return (
@@ -72,16 +78,25 @@ function PostComment({ item, comment, setComment }) {
           <div className="flex">
             <div className="flex  p-2">
               {item?.Community?.profileUrl ? (
-                <img className="rounded-full h-6 w-6" alt="A" src={item?.Community?.profileUrl} />
+                <img
+                  className="rounded-full h-6 w-6"
+                  alt="A"
+                  src={item?.Community?.profileUrl}
+                />
               ) : (
                 <HiOutlineUserCircle className="rounded-full h-6 w-6" />
               )}
             </div>
             <span className="flex text-sm w-full items-center">
-              <span className="font-semibold mr-2">{item?.Community?.name}</span>
+              <span className="font-semibold mr-2">
+                {item?.Community?.name}
+              </span>
               <div className="overflow-ellipsis text-xs font-light flex flex-wrap">
-                Posted by <span className="font-semibold mx-2">{item?.User?.username}</span> {timeDiff(item.createdAt)}{" "}
-                ago
+                Posted by{" "}
+                <span className="font-semibold mx-2">
+                  {item?.User?.username}
+                </span>{" "}
+                {timeDiff(item.createdAt)} ago
               </div>
             </span>
           </div>
@@ -91,7 +106,7 @@ function PostComment({ item, comment, setComment }) {
             {item.descriptions ? (
               ReactHtmlParser(item.descriptions)
             ) : item.imageUrl ? (
-              item.imageUrl.map(item => <img src={item} alt="" />)
+              item.imageUrl.map((item) => <img src={item} alt="" />)
             ) : (
               <video className="w-11/12 mx-auto" controls>
                 <source src={item.videoUrl} />
@@ -126,7 +141,9 @@ function PostComment({ item, comment, setComment }) {
                 />
                 <button
                   className={`${
-                    text.commentDetails ? "bg-blue-500 text-white" : "bg-gray-200 cursor-not-allowed"
+                    text.commentDetails
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200 cursor-not-allowed"
                   }  rounded-full text-sm px-2 py-1 mt-1 transition duration-300 ease-in-out`}
                   disabled={text.commentDetails ? false : true}
                 >
@@ -142,7 +159,18 @@ function PostComment({ item, comment, setComment }) {
 
       <div className="mx-9 my-2 pr-4 pb-1 border-b-2 border-gray-100"></div>
       <div className="pr-4 pb-4 mt-4 mr-4 ml-2">
-        {comment ? comment.map((item, index) => <UserComment key={index} item={item} />) : <></>}
+        {comment ? (
+          comment.map((item, index) => (
+            <UserComment
+              key={index}
+              item={item}
+              handleUpdateComment={handleUpdateComment}
+              deleteComemnt={deleteComemnt}
+            />
+          ))
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
