@@ -7,6 +7,7 @@ function DraftModel({
   draftLists,
   handleEditPost,
   handleRemoveDraft,
+  setPostDraft,
 }) {
   return (
     <div className="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-90 filter z-30">
@@ -30,6 +31,7 @@ function DraftModel({
                 item={item}
                 handleEditPost={handleEditPost}
                 handleRemoveDraft={handleRemoveDraft}
+                setPostDraft={setPostDraft}
               />
             ))}
           <hr />
