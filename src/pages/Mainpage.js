@@ -26,6 +26,7 @@ function Mainpage() {
         if (item2.userId === user.id && item2.isHided) return true;
         return false;
       });
+
       console.log("idx", idx);
       if (idx === -1) {
         return item;

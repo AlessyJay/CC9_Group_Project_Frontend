@@ -1,6 +1,8 @@
 import { Badge, Typography } from "@mui/material";
-import React, { useState } from "react";
+import axios from "../../config/axios";
+import React, { useState, useEffect, useContext } from "react";
 import { HiBell } from "react-icons/hi";
+import { UserContext } from "../../context/userContext";
 import NotificateCard from "./NotificateCard";
 
 const DATA = [
@@ -37,6 +39,21 @@ const DATA = [
 ];
 
 function NotificationHead() {
+  const { user, userNotification, setUserNotification } = useContext(UserContext);
+  useEffect(() => {
+    const fetchNoti = async () => {
+      try {
+        const res = await axios.get(`/notifications`);
+        setUserNotification(res.data.notification);
+      } catch (err) {
+        console.dir(err);
+      }
+    };
+    // fetchNoti();
+  }, []);
+
+  // console.log(userNotification);
+
   return (
     <div className="block">
       <div className="group  flex items-center ">
@@ -48,7 +65,7 @@ function NotificationHead() {
                 className="  flex items-center justify-center w-full rounded-md py-2 text-sm font-medium  "
                 id="options-menu"
               >
-                <Badge badgeContent={DATA.length} color="primary" overlap="circular">
+                <Badge badgeContent={userNotification?.length} color="primary" overlap="circular">
                   <HiBell className="h-6 w-6 hover:text-gray-400" />
                 </Badge>
               </button>
@@ -60,9 +77,7 @@ function NotificationHead() {
                   <div className="text-xs font-bold text-gray-500">Notifications</div>
                 </div>
 
-                {DATA.map(item => (
-                  <NotificateCard key={item.name} item={item} />
-                ))}
+                {/* {userNotification ? userNotification.map(item => <NotificateCard key={item.id} item={item} />) : null} */}
               </div>
             </div>
           </div>

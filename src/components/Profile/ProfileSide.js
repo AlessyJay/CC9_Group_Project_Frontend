@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import { HiOutlineCamera } from "react-icons/hi";
 import axios from "../../config/axios";
 import { UserContext } from "../../context/userContext";
+import { formatDate } from "../../services/timeDifferent";
 function ProfileSide() {
   const { user, setUser, getNewToken } = useContext(UserContext);
   const [showProfile, setShowProfile] = useState(user.profileUrl);
   const [showBanner, setShowBanner] = useState(user.bannerUrl);
   console.log("profileUrl", user.profileUrl);
-  const handleChangeProfile = async e => {
+  const handleChangeProfile = async (e) => {
     try {
       if (!e.target.files || e.target.files.length === 0) {
         return;
@@ -21,31 +22,40 @@ function ProfileSide() {
         formData.append("profileimage", e.target.files[0]);
         const res = await axios.put(`users/updateProfile`, formData);
         alert(res.data.message);
+        setUser((cur) => ({
+          ...cur,
+          profileUrl: URL.createObjectURL(e.target.files[0]),
+        }));
+        URL.revokeObjectURL(e.target.files[0]);
+        getNewToken();
       }
-      setUser(cur => ({
-        ...cur,
-        profileUrl: URL.createObjectURL(e.target.files[0]),
-      }));
-      URL.revokeObjectURL(e.target.files[0]);
-      getNewToken();
     } catch (err) {
       console.dir(err);
     }
   };
 
-  const handleChangeBanner = e => {
-    if (!e.target.files || e.target.files.length === 0) {
-      return;
+  const handleChangeBanner = async (e) => {
+    try {
+      if (!e.target.files || e.target.files.length === 0) {
+        return;
+      }
+      if (e.target.files) {
+        const files = URL.createObjectURL(e.target.files[0]);
+        setShowBanner(files);
+        const formData = new FormData();
+        formData.append("bannerimage", e.target.files[0]);
+        const res = await axios.put(`users/updateBanner`, formData);
+        alert(res.data.message);
+        setUser((cur) => ({
+          ...cur,
+          bannerUrl: URL.createObjectURL(e.target.files[0]),
+        }));
+        URL.revokeObjectURL(e.target.files[0]);
+        getNewToken();
+      }
+    } catch (err) {
+      console.dir(err);
     }
-    if (e.target.files) {
-      const files = URL.createObjectURL(e.target.files[0]);
-      setShowBanner(files);
-    }
-    setUser(cur => ({
-      ...cur,
-      bannerUrl: URL.createObjectURL(e.target.files[0]),
-    }));
-    URL.revokeObjectURL(e.target.files[0]);
   };
   return (
     <div className=" bg-white max-w-xs mt-4 shadow rounded-sm hidden md:block">
@@ -74,7 +84,13 @@ function ProfileSide() {
               <label htmlFor="picprofile" className="cursor-pointer ">
                 <HiOutlineCamera className="text-blue-500" />
               </label>
-              <input id="picprofile" type="file" name="profile" hidden onChange={handleChangeProfile} />
+              <input
+                id="picprofile"
+                type="file"
+                name="profile"
+                hidden
+                onChange={handleChangeProfile}
+              />
             </button>
           </div>
         </div>
@@ -83,7 +99,13 @@ function ProfileSide() {
             <label htmlFor="picbanner" className="cursor-pointer ">
               <HiOutlineCamera className="text-blue-500" />
             </label>
-            <input id="picbanner" type="file" name="banner" hidden onChange={handleChangeBanner} />
+            <input
+              id="picbanner"
+              type="file"
+              name="banner"
+              hidden
+              onChange={handleChangeBanner}
+            />
           </button>
         </div>
       </div>
@@ -104,7 +126,9 @@ function ProfileSide() {
         </Link>
       </div>
       <div className="mt-2 mx-8 border-b-2 text-sm border-gray-100"></div>
-      <div className="mx-8 py-4 text-sm">Created Jul 31, 2013</div>
+      <div className="mx-8 py-4 text-sm">{`Created :: ${
+        user.createdAt ? formatDate(new Date(user.createdAt)) : null
+      }`}</div>
     </div>
   );
 }

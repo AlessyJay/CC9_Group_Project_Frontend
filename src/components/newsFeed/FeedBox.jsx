@@ -1,6 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
-import { HiChevronUp, HiChevronDown, HiOutlineAnnotation, HiOutlineBookmark, HiOutlineEye } from "react-icons/hi";
+import {
+  HiChevronUp,
+  HiChevronDown,
+  HiOutlineAnnotation,
+  HiOutlineBookmark,
+  HiOutlineEye,
+  HiThumbUp,
+} from "react-icons/hi";
 import axios from "../../config/axios";
 import { UserContext } from "../../context/userContext";
 import ReactHtmlParser from "react-html-parser";
@@ -8,6 +15,10 @@ import { HiOutlineUserCircle } from "react-icons/hi";
 import { timeDiff } from "../../services/timeDifferent";
 
 function FeedBox({ item, clickHidepost }) {
+  //userInteraction => array ของ เลข post ที่ user กดไลค์
+  const { userInteraction, setUserInteraction } = useContext(UserContext);
+  const [postLike, setPostLike] = useState(item.like);
+  const [isLiked, setIsLiked] = useState(userInteraction.includes(item.id));
   const handleHide = async e => {
     try {
       const res = await axios.post(`/posts/hidepost/${item.id}`, {
@@ -30,22 +41,46 @@ function FeedBox({ item, clickHidepost }) {
       console.dir(err);
     }
   };
-
   const history = useHistory();
   // const location = useLocation();
+  console.log(userInteraction);
+  const handleClicklike = async e => {
+    e.preventDefault();
+    try {
+      if (!isLiked) {
+        await axios.post(`/posts/likepost/${item.id}`, {
+          like: 1,
+          isLiked: true,
+        });
+        setIsLiked(true);
+        setUserInteraction(cur => [...cur, item.id]);
+        setPostLike(cur => cur + 1);
+        const res = await axios.get("/posts/getaction");
+        setUserInteraction(res.data.action);
+      } else {
+        await axios.post(`/posts/likepost/${item.id}`, {
+          like: -1,
+          isLiked: false,
+        });
+        setIsLiked(false);
+        setPostLike(cur => cur - 1);
+        const res = await axios.get("/posts/getaction");
+        setUserInteraction(res.data.action);
+      }
+    } catch (err) {
+      console.dir(err);
+    }
+  };
 
   return (
     <>
       <div className="w-96 md:w-full flex bg-white mb-2 shadow rounded-md">
         {/* Like section starts here */}
         <div className="bg-gray-100 w-10 rounded-md rounded-r-none flex-col items-center">
-          <button className="w-full flex justify-center">
-            <HiChevronUp className="w-7 h-7" />
+          <button className="w-full flex justify-center" onClick={handleClicklike}>
+            <HiThumbUp className={`w-5 h-5 mt-2 ${userInteraction.includes(item.id) ? "text-red-600" : ""}`} />
           </button>
-          <div className="flex justify-center text-sm font-light">{item.like}</div>
-          <button className="w-full flex justify-center">
-            <HiChevronDown className="w-7 h-7" />
-          </button>
+          <div className="flex justify-center text-sm font-light">{postLike}</div>
         </div>
 
         <div className="w-full">
