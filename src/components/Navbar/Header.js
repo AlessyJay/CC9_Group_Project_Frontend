@@ -108,8 +108,8 @@ function Header() {
     // console.log(location);
   }, [location.state]);
 
-  const handleSelectTarget = (name, icon) => {
-    setTarget(cur => ({ ...cur, name, icon }));
+  const handleSelectTarget = (name, icon, url) => {
+    setTarget(cur => ({ ...cur, name, icon, url }));
   };
 
   const handleLogOut = () => {
@@ -137,8 +137,8 @@ function Header() {
                   <div className="relative inline-block text-left">
                     <div className="flex h-8 items-center shadow-md bg-gray-50 ">
                       <div className="bg-gray-50 p-1">
-                        {Commu?.Community?.profileUrl ? (
-                          <img className="rounded-full w-5 h-5 mx-2" alt="A" src={Commu.Community.profileUrl} />
+                        {target.url ? (
+                          <img className="rounded-full w-5 h-5 mx-2" alt="A" src={target.url} />
                         ) : target.icon ? (
                           target.icon
                         ) : (
@@ -263,7 +263,6 @@ function Header() {
               <Link to="#">
                 <HiGlobeAlt className="h-6 w-6 mr-4" />
               </Link>
-
               {user && <NotificationHead />}
             </div>
 

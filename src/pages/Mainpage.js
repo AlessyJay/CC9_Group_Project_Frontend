@@ -16,7 +16,6 @@ function Mainpage() {
     axios.get("/feeds/allcommunity").then(res => setListCommunity(res.data.communityLists));
     axios.get("/feeds/mainpage").then(res => setPostMain(res.data.feedLists));
   }, []);
-  console.log(postMain);
 
   const newArr = postMain.map((item, index) => {
     if (item.UserInteractions.length === 0) {
@@ -34,7 +33,6 @@ function Mainpage() {
     }
     return null;
   });
-  console.log(newArr);
 
   const clickHidepost = id => {
     const newPostMain = postMain.filter(item => item.id !== id);
@@ -44,7 +42,7 @@ function Mainpage() {
   return (
     <div className="bg-gray-200 grid grid-cols-7 gap-6 ">
       <div className="col-start-2 col-span-3 ">
-        <Popular />
+        <Popular setPostMain={setPostMain} newArr={newArr} />
         {newArr.map((item, index) => item && <FeedBox key={index} item={item} clickHidepost={clickHidepost} />)}
       </div>
       <div className="col-span-2">

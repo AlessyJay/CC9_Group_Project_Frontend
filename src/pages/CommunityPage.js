@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CommunityHeader from "../components/Community/CommunityHeader";
 import CreatePostAndCommunity from "../components/newsFeed/CreatePostAndCommunity";
 import Footer from "../components/Footer/Footer";
@@ -8,8 +8,10 @@ import AboutCommu from "../components/Community/AboutCommu";
 import { useParams } from "react-router-dom";
 import axios from "../config/axios";
 import CommunityRules from "../components/Community/CommunityRules";
+import { UserContext } from "../context/userContext";
 
 function CommunityPage() {
+  const { user } = useContext(UserContext);
   const { id, name } = useParams();
   const [community, setCommunity] = useState([]);
   const [communityPosts, setCommunityPosts] = useState([]);
@@ -32,6 +34,7 @@ function CommunityPage() {
       <CommunityHeader id={id} community={community} />
       <div className=" grid grid-cols-7 gap-6">
         <div className="col-start-2 col-span-3 ">
+          {user && <CreateBar community={community} />}
           {communityPosts.map((item, index) => (
             <FeedBox2 item={item} key={index} />
           ))}
@@ -39,7 +42,7 @@ function CommunityPage() {
         <div className="col-span-2">
           <AboutCommu name={name} id={id} community={community} />
           <CommunityRules rules={rules} />
-          <CreatePostAndCommunity />
+
           <Footer />
         </div>
       </div>

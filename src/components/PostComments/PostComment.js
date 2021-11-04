@@ -7,6 +7,8 @@ import {
   HiOutlineBookmark,
   HiOutlineEye,
   HiOutlineUserCircle,
+  HiOutlinePencilAlt,
+  HiSave,
 } from "react-icons/hi";
 import UserComment from "./UserComment";
 import ReactHtmlParser from "react-html-parser";
@@ -15,19 +17,28 @@ import axios from "../../config/axios";
 import { timeDiff } from "../../services/timeDifferent";
 import { useParams } from "react-router-dom";
 
-function PostComment({
-  item,
-  comment,
-  setComment,
-  handleUpdateComment,
-  deleteComemnt,
-}) {
+function PostComment({ item, comment, setComment, handleUpdateComment, deleteComemnt }) {
   const { user } = useContext(UserContext);
   const [text, setText] = useState({
     userId: user?.id,
     User: { username: user?.username, profileUrl: user?.profileUrl },
     commentDetails: "",
   });
+  const [isEdiiting, setIsEdiiting] = useState(false);
+  const [newPost, setNewPost] = useState({});
+
+  const handleClickEdit = () => {
+    setNewPost(cur => ({ ...cur, ...item }));
+    setIsEdiiting(cur => !cur);
+  };
+
+  const handleSubmitEditForm = async e => {
+    e.preventDefault();
+    try {
+      if (newPost !== "") {
+      }
+    } catch (err) {}
+  };
 
   useEffect(() => {
     setText({
@@ -37,7 +48,7 @@ function PostComment({
     });
   }, [user]);
 
-  const handleSubmitForm = (e) => {
+  const handleSubmitForm = e => {
     e.preventDefault();
     axios
       .post("/comments", {
@@ -45,8 +56,8 @@ function PostComment({
         postId: item.id,
         commentDetails: text.commentDetails,
       })
-      .then((res) => console.log(res))
-      .catch((err) => console.dir(err));
+      .then(res => console.log(res))
+      .catch(err => console.dir(err));
     const newArr = [...comment];
     newArr.push(text);
     setComment(newArr);
@@ -57,8 +68,8 @@ function PostComment({
     });
   };
 
-  const handleComment = (e) => {
-    setText((cur) => ({ ...cur, commentDetails: e.target.value }));
+  const handleComment = e => {
+    setText(cur => ({ ...cur, commentDetails: e.target.value }));
   };
 
   return (
@@ -78,55 +89,66 @@ function PostComment({
           <div className="flex">
             <div className="flex  p-2">
               {item?.Community?.profileUrl ? (
-                <img
-                  className="rounded-full h-6 w-6"
-                  alt="A"
-                  src={item?.Community?.profileUrl}
-                />
+                <img className="rounded-full h-6 w-6" alt="A" src={item?.Community?.profileUrl} />
               ) : (
                 <HiOutlineUserCircle className="rounded-full h-6 w-6" />
               )}
             </div>
             <span className="flex text-sm w-full items-center">
-              <span className="font-semibold mr-2">
-                {item?.Community?.name}
-              </span>
+              <span className="font-semibold mr-2">{item?.Community?.name}</span>
               <div className="overflow-ellipsis text-xs font-light flex flex-wrap">
-                Posted by{" "}
-                <span className="font-semibold mx-2">
-                  {item?.User?.username}
-                </span>{" "}
-                {timeDiff(item.createdAt)} ago
+                Posted by <span className="font-semibold mx-2">{item?.User?.username}</span> {timeDiff(item.createdAt)}{" "}
+                ago
               </div>
             </span>
           </div>
 
           <div className="p-1">{item.title}</div>
-          <div className="overflow-ellipsis  font-light text-sm p-1 pt-0 mb-2 break-words">
-            {item.descriptions ? (
-              ReactHtmlParser(item.descriptions)
-            ) : item.imageUrl ? (
-              item.imageUrl.map((item) => <img src={item} alt="" />)
-            ) : (
-              <video className="w-11/12 mx-auto" controls>
-                <source src={item.videoUrl} />
-              </video>
-            )}
-          </div>
+          {isEdiiting ? (
+            <div className="p-2">
+              <form>
+                <textarea
+                  className="w-full"
+                  value={newPost.descriptions}
+                  onChange={e => setNewPost(cur => ({ ...cur, descriptions: e.target.value }))}
+                />
+              </form>
+            </div>
+          ) : (
+            <div className="overflow-ellipsis  font-light text-sm p-1 pt-0 mb-2 break-words">
+              {item.descriptions ? (
+                ReactHtmlParser(item.descriptions)
+              ) : item.imageUrl ? (
+                item.imageUrl.map(item => <img src={item} alt="" />)
+              ) : (
+                <video className="w-11/12 mx-auto" controls>
+                  <source src={item.videoUrl} />
+                </video>
+              )}
+            </div>
+          )}
 
           <div className="p-2 flex">
-            <button className="flex items-center mr-4">
-              <HiOutlineAnnotation />
-              <span className="text-sm ml-1 font-light">comment</span>
-            </button>
-            <button className="flex items-center mr-4">
-              <HiOutlineBookmark />
-              <span className="text-sm ml-1 font-light">save</span>
-            </button>
-            <button className="flex items-center mr-4">
-              <HiOutlineEye />
-              <span className="text-sm ml-1 font-light">hide</span>
-            </button>
+            {item?.userId === user?.id ? (
+              <>
+                {isEdiiting && (
+                  <button className="flex items-center mr-4">
+                    <HiSave />
+                    <span className="text-sm ml-1 font-light">Save</span>
+                  </button>
+                )}
+                <button
+                  onClick={handleClickEdit}
+                  disabled={item.imageUrl || item.videoUrl ? true : false}
+                  className="flex items-center mr-4"
+                >
+                  <HiOutlinePencilAlt />
+                  <span className="text-sm ml-1 font-light">Edit Post</span>
+                </button>
+              </>
+            ) : (
+              <></>
+            )}
           </div>
 
           {user ? (
@@ -141,9 +163,7 @@ function PostComment({
                 />
                 <button
                   className={`${
-                    text.commentDetails
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200 cursor-not-allowed"
+                    text.commentDetails ? "bg-blue-500 text-white" : "bg-gray-200 cursor-not-allowed"
                   }  rounded-full text-sm px-2 py-1 mt-1 transition duration-300 ease-in-out`}
                   disabled={text.commentDetails ? false : true}
                 >

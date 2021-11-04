@@ -12,7 +12,7 @@ function DropdownMenuComu({ item, handleSelectTarget }) {
 
   const handleToCommu = e => {
     history.push(`/community/${name}/${id}`);
-    handleSelectTarget(name, profileUrl);
+    handleSelectTarget(name, "", profileUrl);
   };
   return (
     <div onClick={handleToCommu}>

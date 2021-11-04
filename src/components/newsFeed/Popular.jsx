@@ -3,15 +3,32 @@ import React from "react";
 import Button from "@mui/material/Button";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import PublicIcon from "@mui/icons-material/Public";
+import axios from "../../config/axios";
 
-function Popular() {
+function Popular({ setPostMain, newArr }) {
   const buttonStyle = {
     height: "3rem",
     padding: "2%",
     width: "fit-content",
     margin: "1%",
   };
+
+  newArr ? console.log(newArr) : console.log("ddd");
+
+  const compareFn = (a, b) => {
+    if (a > b) {
+      return -1;
+    }
+    if (a > b) {
+      return 1;
+    }
+    return 0;
+  };
+
+  // const handleSortHot = () => {
+  //   const sortHot = newArr.filter(item => )
+
+  // };
 
   return (
     <>

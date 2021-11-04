@@ -27,18 +27,25 @@ function PostPage() {
     run();
   }, []);
 
+  const handleUpdataPost = newPost => {
+    setPost(cur => ({ ...cur, descriptions: newPost }));
+  };
+
   const handleUpdateComment = (id, newText) => {
     const arrComment = [...comment];
-    const idx = comment.findIndex((item) => item.id === id);
+    const idx = comment.findIndex(item => item.id === id);
     arrComment[idx]["commentDetails"] = newText;
     setComment(arrComment);
   };
 
-  const deleteComemnt = (id) => {
+  const deleteComemnt = id => {
     console.log(id);
-    const arrComment = comment.filter((item) => item.id !== id);
+    const arrComment = comment.filter(item => item.id !== id);
     setComment(arrComment);
   };
+
+  console.log(post);
+
   return (
     <div className="bg-gray-200 grid grid-cols-7 gap-6 ">
       <div className="col-start-2 col-span-3 ">
