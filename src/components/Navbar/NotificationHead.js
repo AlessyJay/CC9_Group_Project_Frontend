@@ -49,7 +49,7 @@ function NotificationHead() {
         console.dir(err);
       }
     };
-    // fetchNoti();
+    fetchNoti();
   }, []);
 
   // console.log(userNotification);
@@ -71,13 +71,13 @@ function NotificationHead() {
               </button>
             </div>
 
-            <div className="z-50 hidden group-hover:block origin-top-right absolute right-0 w-60 rounded-sm shadow-lg bg-white ">
+            <div className="z-50 hidden group-hover:block origin-top-right absolute right-0 w-60 rounded-sm shadow-lg bg-white max-h-96 overflow-y-scroll ">
               <div className="py-1 " role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                 <div className="flex justify-between  items-center mt-2 ml-5">
                   <div className="text-xs font-bold text-gray-500">Notifications</div>
                 </div>
 
-                {/* {userNotification ? userNotification.map(item => <NotificateCard key={item.id} item={item} />) : null} */}
+                {userNotification ? userNotification.map(item => <NotificateCard key={item.id} item={item} />) : null}
               </div>
             </div>
           </div>

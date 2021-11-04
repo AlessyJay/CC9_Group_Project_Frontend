@@ -90,8 +90,7 @@ const OTHER = [
 ];
 
 function Header() {
-  const { user, setUser, arrUserCommu, Commu, setUserInteraction } =
-    useContext(UserContext);
+  const { user, setUser, arrUserCommu, Commu, setUserInteraction } = useContext(UserContext);
 
   const [target, setTarget] = useState({ name: "", icon: "" });
   const [showLogin, setShowLogin] = useState(false);
@@ -110,7 +109,7 @@ function Header() {
   }, [location.state]);
 
   const handleSelectTarget = (name, icon) => {
-    setTarget((cur) => ({ ...cur, name, icon }));
+    setTarget(cur => ({ ...cur, name, icon }));
   };
 
   const handleLogOut = () => {
@@ -139,11 +138,7 @@ function Header() {
                     <div className="flex h-8 items-center shadow-md bg-gray-50 ">
                       <div className="bg-gray-50 p-1">
                         {Commu?.Community?.profileUrl ? (
-                          <img
-                            className="rounded-full w-5 h-5 mx-2"
-                            alt="A"
-                            src={Commu.Community.profileUrl}
-                          />
+                          <img className="rounded-full w-5 h-5 mx-2" alt="A" src={Commu.Community.profileUrl} />
                         ) : target.icon ? (
                           target.icon
                         ) : (
@@ -171,13 +166,11 @@ function Header() {
                           <input
                             className="bg-gray-100 w-full h-7 px-2 mx-3 shadow appearance-none outline-none"
                             placeholder="Fillter"
-                            onChange={(e) => setFilter(e.target.value)}
+                            onChange={e => setFilter(e.target.value)}
                           />
                         </div>
                         <div className="flex justify-between  items-center mt-2 ml-5">
-                          <div className="text-xs font-bold text-gray-500">
-                            My Commnities
-                          </div>
+                          <div className="text-xs font-bold text-gray-500">My Commnities</div>
                         </div>
                         <Link
                           to="#"
@@ -194,47 +187,27 @@ function Header() {
                           </div>
                         </Link>
                         {/* Community Dropdown Menu */}
-                        {Commu.filter((item) => {
+                        {Commu.filter(item => {
                           if (filter === "") {
                             return item;
-                          } else if (
-                            item.Community.name
-                              .toLowerCase()
-                              .includes(filter.toLowerCase())
-                          ) {
+                          } else if (item.Community.name.toLowerCase().includes(filter.toLowerCase())) {
                             return item;
                           }
                         }).map((item, index) => (
-                          <DropdownMenuComu
-                            key={index}
-                            item={item}
-                            handleSelectTarget={handleSelectTarget}
-                          />
+                          <DropdownMenuComu key={index} item={item} handleSelectTarget={handleSelectTarget} />
                         ))}
                       </div>
                       <div className="flex justify-between  items-center mt-2 ml-5">
-                        <div className="text-xs font-bold text-gray-500">
-                          Feeds
-                        </div>
+                        <div className="text-xs font-bold text-gray-500">Feeds</div>
                       </div>
-                      {FEEDS.map((item) => (
-                        <DropdownMenu
-                          key={item.name}
-                          item={item}
-                          handleSelectTarget={handleSelectTarget}
-                        />
+                      {FEEDS.map(item => (
+                        <DropdownMenu key={item.name} item={item} handleSelectTarget={handleSelectTarget} />
                       ))}
                       <div className="flex justify-between  items-center mt-2 ml-5">
-                        <div className="text-xs font-bold text-gray-500">
-                          Other
-                        </div>
+                        <div className="text-xs font-bold text-gray-500">Other</div>
                       </div>
-                      {OTHER.map((item) => (
-                        <DropdownMenu
-                          key={item.name}
-                          item={item}
-                          handleSelectTarget={handleSelectTarget}
-                        />
+                      {OTHER.map(item => (
+                        <DropdownMenu key={item.name} item={item} handleSelectTarget={handleSelectTarget} />
                       ))}
                     </div>
                   </div>
@@ -253,7 +226,7 @@ function Header() {
                     type="text"
                     id="search"
                     placeholder="Search something.."
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={e => setSearch(e.target.value)}
                     value={search}
                   />
                 </div>
@@ -261,28 +234,16 @@ function Header() {
                   {/* Search Card */}
                   {search
                     ? arrUserCommu
-                        .filter((item) => {
+                        .filter(item => {
                           if (
-                            (item?.name &&
-                              item?.name
-                                .toLowerCase()
-                                .includes(search.toLowerCase())) ||
-                            (item?.username &&
-                              item?.username
-                                .toLowerCase()
-                                .includes(search.toLowerCase()))
+                            (item?.name && item?.name.toLowerCase().includes(search.toLowerCase())) ||
+                            (item?.username && item?.username.toLowerCase().includes(search.toLowerCase()))
                           ) {
                             console.log(item);
                             return item;
                           }
                         })
-                        .map((item, index) => (
-                          <SearchCard
-                            setSearch={setSearch}
-                            key={index}
-                            item={item}
-                          />
-                        ))
+                        .map((item, index) => <SearchCard setSearch={setSearch} key={index} item={item} />)
                     : ""}
                 </div>
               </div>
@@ -303,7 +264,7 @@ function Header() {
                 <HiGlobeAlt className="h-6 w-6 mr-4" />
               </Link>
 
-              <NotificationHead />
+              {user && <NotificationHead />}
             </div>
 
             {/* Login menu */}
@@ -315,31 +276,18 @@ function Header() {
                       <>
                         <div className="flex items-center px-4 py-2 w-full justify-center">
                           {user.profileUrl ? (
-                            <img
-                              className="rounded-full h-8 w-8 mr-2"
-                              alt="A"
-                              src={user.profileUrl}
-                            />
+                            <img className="rounded-full h-8 w-8 mr-2" alt="A" src={user.profileUrl} />
                           ) : (
                             <div className="mr-1">
                               <HiOutlineUserCircle className="w-7 h-7" />
                             </div>
                           )}
-                          <div className="pr-4 font-extralight cursor-pointer">
-                            {user.username}
-                          </div>
+                          <div className="pr-4 font-extralight cursor-pointer">{user.username}</div>
                         </div>
                         <div className="z-50 hidden group-hover:block origin-top-right absolute right-0 w-56 rounded-sm shadow-lg bg-white  ring-1 ring-black ring-opacity-5">
-                          <div
-                            className="py-1 "
-                            role="menu"
-                            aria-orientation="vertical"
-                            aria-labelledby="options-menu"
-                          >
+                          <div className="py-1 " role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                             <div className="flex justify-between  items-center mt-2 ml-5">
-                              <div className="text-xs font-bold text-gray-500">
-                                My Service
-                              </div>
+                              <div className="text-xs font-bold text-gray-500">My Service</div>
                             </div>
                             <Link
                               to={`/profile/${user.id}`}
@@ -376,10 +324,7 @@ function Header() {
                                 <div className="mr-2">
                                   <HiOutlineLogout className="w-5 h-5" />
                                 </div>
-                                <span
-                                  onClick={handleLogOut}
-                                  className="flex flex-col text-sm"
-                                >
+                                <span onClick={handleLogOut} className="flex flex-col text-sm">
                                   <span>Log out</span>
                                 </span>
                               </div>
@@ -389,10 +334,7 @@ function Header() {
                       </>
                     ) : (
                       <div className="flex items-center w-48">
-                        <ButtonLogin
-                          setShowLogin={setShowLogin}
-                          setShowRegister={setShowRegister}
-                        />
+                        <ButtonLogin setShowLogin={setShowLogin} setShowRegister={setShowRegister} />
                       </div>
                     )}
 
@@ -403,12 +345,7 @@ function Header() {
                         setShowResetpass={setShowResetpass}
                       />
                     )}
-                    {showRegister && (
-                      <Register
-                        setShowRegister={setShowRegister}
-                        setShowLogin={setShowLogin}
-                      />
-                    )}
+                    {showRegister && <Register setShowRegister={setShowRegister} setShowLogin={setShowLogin} />}
                     {showResetpass && (
                       <ResetPassword
                         setShowResetpass={setShowResetpass}
@@ -436,10 +373,7 @@ function Header() {
             >
               Home
             </Link>
-            <Link
-              className="text-gray-800 dark:text-white block px-3 py-2 rounded-md text-base font-medium"
-              to="/#"
-            >
+            <Link className="text-gray-800 dark:text-white block px-3 py-2 rounded-md text-base font-medium" to="/#">
               Gallery
             </Link>
             <Link

@@ -9,7 +9,7 @@ function ProfileSide() {
   const [showProfile, setShowProfile] = useState(user.profileUrl);
   const [showBanner, setShowBanner] = useState(user.bannerUrl);
   console.log("profileUrl", user.profileUrl);
-  const handleChangeProfile = async (e) => {
+  const handleChangeProfile = async e => {
     try {
       if (!e.target.files || e.target.files.length === 0) {
         return;
@@ -22,7 +22,7 @@ function ProfileSide() {
         formData.append("profileimage", e.target.files[0]);
         const res = await axios.put(`users/updateProfile`, formData);
         alert(res.data.message);
-        setUser((cur) => ({
+        setUser(cur => ({
           ...cur,
           profileUrl: URL.createObjectURL(e.target.files[0]),
         }));
@@ -34,7 +34,7 @@ function ProfileSide() {
     }
   };
 
-  const handleChangeBanner = async (e) => {
+  const handleChangeBanner = async e => {
     try {
       if (!e.target.files || e.target.files.length === 0) {
         return;
@@ -46,7 +46,7 @@ function ProfileSide() {
         formData.append("bannerimage", e.target.files[0]);
         const res = await axios.put(`users/updateBanner`, formData);
         alert(res.data.message);
-        setUser((cur) => ({
+        setUser(cur => ({
           ...cur,
           bannerUrl: URL.createObjectURL(e.target.files[0]),
         }));
@@ -60,7 +60,7 @@ function ProfileSide() {
   return (
     <div className=" bg-white max-w-xs mt-4 shadow rounded-sm hidden md:block">
       <div
-        className="group shadow relative rounded-sm w-full h-28 bg-cover text-xl font-semibold flex p-3  text-white  rounded-b-none"
+        className="group shadow relative rounded-sm w-full h-28 bg-cover text-xl font-semibold flex p-3 bg-blue-300  text-white  rounded-b-none"
         style={{
           backgroundImage: `url(${user.bannerUrl})`,
         }}
@@ -84,13 +84,7 @@ function ProfileSide() {
               <label htmlFor="picprofile" className="cursor-pointer ">
                 <HiOutlineCamera className="text-blue-500" />
               </label>
-              <input
-                id="picprofile"
-                type="file"
-                name="profile"
-                hidden
-                onChange={handleChangeProfile}
-              />
+              <input id="picprofile" type="file" name="profile" hidden onChange={handleChangeProfile} />
             </button>
           </div>
         </div>
@@ -99,13 +93,7 @@ function ProfileSide() {
             <label htmlFor="picbanner" className="cursor-pointer ">
               <HiOutlineCamera className="text-blue-500" />
             </label>
-            <input
-              id="picbanner"
-              type="file"
-              name="banner"
-              hidden
-              onChange={handleChangeBanner}
-            />
+            <input id="picbanner" type="file" name="banner" hidden onChange={handleChangeBanner} />
           </button>
         </div>
       </div>

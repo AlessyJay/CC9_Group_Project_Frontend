@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { HiOutlineCamera } from "react-icons/hi";
 
 function ProfileSide({ user }) {
-  console.log(user);
   return (
     <div className=" bg-white max-w-xs mt-4 shadow rounded-sm hidden md:block">
       <div
