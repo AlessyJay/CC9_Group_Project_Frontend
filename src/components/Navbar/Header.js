@@ -302,8 +302,7 @@ function Header() {
               <Link to="#">
                 <HiGlobeAlt className="h-6 w-6 mr-4" />
               </Link>
-
-              <NotificationHead />
+              {user && <NotificationHead />}
             </div>
 
             {/* Login menu */}

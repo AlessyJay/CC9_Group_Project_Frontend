@@ -42,15 +42,17 @@ function NotificationHead() {
   const { user, userNotification, setUserNotification } =
     useContext(UserContext);
   useEffect(() => {
-    const fetchNoti = async () => {
-      try {
-        const res = await axios.get(`/notifications`);
-        setUserNotification(res.data.notification);
-      } catch (err) {
-        console.dir(err);
-      }
-    };
-    fetchNoti();
+    if (user) {
+      const fetchNoti = async () => {
+        try {
+          const res = await axios.get(`/notifications`);
+          setUserNotification(res.data.notification);
+        } catch (err) {
+          console.dir(err);
+        }
+      };
+      fetchNoti();
+    }
   }, []);
 
   return (
