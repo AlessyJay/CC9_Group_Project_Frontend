@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { timeDiff } from "../../services/timeDifferent";
 
-function NotificateCard({ item }) {
+function NotificateCard({ item, updatedseenNoti }) {
   const history = useHistory();
   console.log("cardNoti", item);
   const {
@@ -15,11 +15,14 @@ function NotificateCard({ item }) {
     },
   } = item;
   const handleClickGoToPost = () => {
+    updatedseenNoti(item.id);
     history.push(`/posts/${communityUserId}/${postId}`);
   };
   return (
     <div
-      className="cursor-pointer block  px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+      className={`cursor-pointer block  px-4 py-2 text-md  ${
+        !item.isSeen ? "bg-blue-100" : "bg-gray-100"
+      } text-gray-700  hover:text-gray-900`}
       onClick={handleClickGoToPost}
     >
       <div className="flex max-w-sm w-full">

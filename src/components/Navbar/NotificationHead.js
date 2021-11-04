@@ -54,7 +54,19 @@ function NotificationHead() {
       fetchNoti();
     }
   }, []);
+  const updatedseenNoti = async (id) => {
+    const newNotiList = userNotification.map((item) => {
+      if (item.id === id) {
+        return { ...item, isSeen: true };
+      }
+      return item;
+    });
+    setUserNotification(newNotiList);
+    const res = await axios.put(`/notifications/${id}`);
+    alert(res.data.message);
+  };
 
+  // const amount = userNotification.filter((item) => item.isSeen === false);
   return (
     <div className="block">
       <div className="group  flex items-center ">
@@ -67,7 +79,10 @@ function NotificationHead() {
                 id="options-menu"
               >
                 <Badge
-                  badgeContent={userNotification.length}
+                  badgeContent={
+                    userNotification.filter((item) => item.isSeen === false)
+                      .length
+                  }
                   color="primary"
                   overlap="circular"
                 >
@@ -90,7 +105,11 @@ function NotificationHead() {
                 </div>
 
                 {userNotification.map((item) => (
-                  <NotificateCard key={item.id} item={item} />
+                  <NotificateCard
+                    key={item.id}
+                    item={item}
+                    updatedseenNoti={updatedseenNoti}
+                  />
                 ))}
               </div>
             </div>
