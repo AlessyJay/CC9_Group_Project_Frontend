@@ -32,7 +32,8 @@ function PostImg() {
   const [titleLength, setTitleLength] = useState(0);
   const [selectFiles, setSelectFiles] = useState([]);
   const [url1, setUrl1] = useState([]);
-
+  const [postDraft, setPostDraft] = useState({ status: false, draftId: "" });
+  console.log(postDraft, "click edit draft and prepare data for delete");
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -79,18 +80,42 @@ function PostImg() {
         formData.append("communityId", postContent.communityId);
       }
       if (url1.length !== 0) {
-        console.log("Not plain post");
+        // console.log("Not plain post");
         for (let i = 0; i < url1.length; i++) {
           formData.append("cloudimage", url1[i]);
         }
       }
-      for (var pair of formData.entries()) {
-        console.log(pair[0] + ", " + pair[1]);
+      // for (var pair of formData.entries()) {
+      //   console.log(pair[0] + ", " + pair[1]);
+      // }
+      if (!postDraft.status) {
+        const res = await axios.post("/posts/createpost", formData);
+        console.log(res.data.post);
+        if (res.data.post.communityId !== null) {
+          const res2 = await axios.get(
+            `/communities/${postContent.communityId}`
+          );
+          history.push(
+            `/posts/${res2.data.community.userId}/${res.data.post.id}`
+          );
+        } else {
+          history.push(`/posts/${res.data.post.userId}/${res.data.post.id}`);
+        }
+      } else {
+        const res = await axios.post("/posts/createpost", formData);
+        await axios.delete(`/posts/drafts/${postDraft.draftId}`);
+        if (res.data.post.communityId !== null) {
+          const res2 = await axios.get(
+            `/communities/${postContent.communityId}`
+          );
+          history.push(
+            `/posts/${res2.data.community.userId}/${res.data.post.id}`
+          );
+        } else {
+          history.push(`/posts/${res.data.post.userId}/${res.data.post.id}`);
+        }
       }
-      const res = await axios.post("/posts/createpost", formData);
-      console.log(res.data.post);
       alert("success");
-      // history.push('/post/:postId') // push ไปหน้า post นั้นๆ และก็ fetch ข้อมูลมา
     } catch (err) {
       console.dir(err);
     }
@@ -282,6 +307,7 @@ function PostImg() {
             draftLists={draftLists}
             handleEditPost={handleEditPost}
             handleRemoveDraft={handleRemoveDraft}
+            setPostDraft={setPostDraft}
           />
         )}
         {/* Main  */}

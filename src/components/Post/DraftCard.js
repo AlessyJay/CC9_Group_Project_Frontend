@@ -2,15 +2,19 @@ import React, { useContext } from "react";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { UserContext } from "../../context/userContext";
 import { timeDiff } from "../../services/timeDifferent";
-function DraftCard({ item, handleEditPost, handleRemoveDraft }) {
+function DraftCard({ item, handleEditPost, handleRemoveDraft, setPostDraft }) {
   const { user } = useContext(UserContext);
-  console.log("Draftcard", item);
   const { title, communityId, updatedAt } = item;
   const textTime = timeDiff(updatedAt);
   return (
     <div className="flex justift-between w-full hover:bg-gray-200 p-1 border-b">
       <div className="px-2 flex items-center ml-2 cursor-pointer">
-        <FaRegEdit onClick={() => handleEditPost(item.id, item)} />
+        <FaRegEdit
+          onClick={() => {
+            setPostDraft((cur) => ({ cur, status: true, draftId: item.id }));
+            handleEditPost(item.id, item);
+          }}
+        />
       </div>
       <div className="w-full ml-2">
         <p className="font-semibold text-sm">{title}</p>
