@@ -13,22 +13,22 @@ function ProfileBar({ user, page }) {
         >
           OVERVIEW
         </Link>
-        <Link
+        {/* <Link
           to={`/profile/${user.id}/posts`}
           className={`py-2 px-2 hover:bg-gray-100 border-b-2 mr-4 ${
             page === 2 ? "border-blue-500 text-blue-500" : "hover:border-blue-500 hover:text-blue-500"
           }`}
         >
           POSTS
-        </Link>
-        <Link
+        </Link> */}
+        {/* <Link
           to={`/profile/${user.id}/comments`}
           className={`py-2 px-2 hover:bg-gray-100 border-b-2 mr-4 ${
             page === 3 ? "border-blue-500 text-blue-500" : "hover:border-blue-500 hover:text-blue-500"
           }`}
         >
           COMMENTS
-        </Link>
+        </Link> */}
         <Link
           to={`/profile/${user.id}/save`}
           className={`py-2 px-2 hover:bg-gray-100 border-b-2 mr-4 ${

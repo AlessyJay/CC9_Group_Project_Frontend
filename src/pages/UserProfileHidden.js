@@ -1,22 +1,41 @@
-import React, { useContext } from "react";
-import CreateBar from "../components/Community/CreateBar";
-import FeedBox from "../components/newsFeed/FeedBox";
+import React, { useContext, useEffect, useState } from "react";
 import ProfileBar from "../components/Profile/ProfileBar";
 import ProfileSide from "../components/Profile/ProfileSide";
 import Footer from "../components/Footer/Footer";
 import { UserContext } from "../context/userContext";
-import Popular from "../components/newsFeed/Popular";
-import PostComment from "../components/PostComments/PostComment";
+import axios from "../config/axios";
+import HiddenBox from "../components/Profile/HiddenBox";
 
 function UserProfileHidden() {
   const { user } = useContext(UserContext);
+  const [hidedList, setHidedList] = useState([]);
+
+  useEffect(() => {
+    axios.get("/feeds/userhidepost").then(res => setHidedList(res.data.feedLists));
+  }, []);
+
+  console.log(hidedList);
+
+  const handleClickUnhide = async (id, postId) => {
+    try {
+      const newHidedList = hidedList.filter(item => item.id !== id);
+      setHidedList(newHidedList);
+      await axios.post(`/posts/hidepost/${postId}`, { isHided: false });
+      alert("unhide");
+      console.log(id, postId);
+    } catch (err) {
+      console.dir(err);
+    }
+  };
 
   return (
     <div className="bg-gray-200">
       <ProfileBar user={user} page={5} />
       <div className=" grid grid-cols-7 gap-6">
         <div className="col-start-2 col-span-3 ">
-          <CreateBar />
+          {hidedList.map((item, index) => (
+            <HiddenBox key={index} item={item} handleClickUnhide={handleClickUnhide} />
+          ))}
         </div>
         <div className="col-span-2">
           <ProfileSide user={user} />

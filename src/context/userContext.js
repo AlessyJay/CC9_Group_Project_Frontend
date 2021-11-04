@@ -13,11 +13,11 @@ function UserContextPervider({ children }) {
     try {
       await axios
         .get("/users/newtoken")
-        .then((res) => {
+        .then(res => {
           console.log("token", res.data.token);
           setToken(res.data.token);
         })
-        .catch((err) => console.dir(err));
+        .catch(err => console.dir(err));
     } catch (err) {
       console.log(err);
     }
@@ -25,16 +25,16 @@ function UserContextPervider({ children }) {
   useEffect(() => {
     axios
       .get("/feeds/allusers-communitys")
-      .then((res) => setArrUserCommu(res.data.alldata))
-      .catch((err) => console.dir(err));
+      .then(res => setArrUserCommu(res.data.alldata))
+      .catch(err => console.dir(err));
   }, []);
 
   useEffect(() => {
     if (user) {
       axios
         .get("/feeds/usercommunitys")
-        .then((res) => setCommu(res.data.communityLists))
-        .catch((err) => console.dir(err));
+        .then(res => setCommu(res.data.communityLists))
+        .catch(err => console.dir(err));
       // axios
       //   .get("/notification")
       //   .then(res => setUserNotification(res.data.notification))
@@ -42,14 +42,8 @@ function UserContextPervider({ children }) {
     }
   }, [user]);
 
-  console.log(Commu);
-
   return (
-    <UserContext.Provider
-      value={{ user, setUser, arrUserCommu, Commu, getNewToken }}
-    >
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={{ user, setUser, arrUserCommu, Commu, getNewToken }}>{children}</UserContext.Provider>
   );
 }
 

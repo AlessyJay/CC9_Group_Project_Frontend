@@ -1,12 +1,6 @@
 import React, { useContext } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
-import {
-  HiChevronUp,
-  HiChevronDown,
-  HiOutlineAnnotation,
-  HiOutlineBookmark,
-  HiOutlineEye,
-} from "react-icons/hi";
+import { HiChevronUp, HiChevronDown, HiOutlineAnnotation, HiOutlineBookmark, HiOutlineEye } from "react-icons/hi";
 import axios from "../../config/axios";
 import { UserContext } from "../../context/userContext";
 import ReactHtmlParser from "react-html-parser";
@@ -14,7 +8,7 @@ import { HiOutlineUserCircle } from "react-icons/hi";
 import { timeDiff } from "../../services/timeDifferent";
 
 function FeedBox({ item, clickHidepost }) {
-  const handleHide = async (e) => {
+  const handleHide = async e => {
     try {
       const res = await axios.post(`/posts/hidepost/${item.id}`, {
         isHided: true,
@@ -25,7 +19,7 @@ function FeedBox({ item, clickHidepost }) {
       console.dir(err);
     }
   };
-  const handleClickSave = async (e) => {
+  const handleClickSave = async e => {
     try {
       e.preventDefault();
       const res = await axios.post(`/posts/savepost/${item.id}`, {
@@ -48,9 +42,7 @@ function FeedBox({ item, clickHidepost }) {
           <button className="w-full flex justify-center">
             <HiChevronUp className="w-7 h-7" />
           </button>
-          <div className="flex justify-center text-sm font-light">
-            {item.like}
-          </div>
+          <div className="flex justify-center text-sm font-light">{item.like}</div>
           <button className="w-full flex justify-center">
             <HiChevronDown className="w-7 h-7" />
           </button>
@@ -59,43 +51,28 @@ function FeedBox({ item, clickHidepost }) {
         <div className="w-full">
           <div className="flex">
             <div
-              onClick={() =>
-                history.push(
-                  `/community/${item.Community.name}/${item.communityId}`
-                )
-              }
+              onClick={() => history.push(`/community/${item.Community.name}/${item.communityId}`)}
               className=" cursor-pointer flex  p-2"
             >
               {item.Community.profileUrl ? (
-                <img
-                  className="rounded-full h-6 w-6"
-                  alt="A"
-                  src={item.Community.profileUrl}
-                />
+                <img className="rounded-full h-6 w-6" alt="A" src={item.Community.profileUrl} />
               ) : (
                 <HiOutlineUserCircle className="rounded-full h-6 w-6" />
               )}
             </div>
             <span className="flex text-sm w-full items-center">
               <span
-                onClick={() =>
-                  history.push(
-                    `/community/${item.Community.name}/${item.communityId}`
-                  )
-                }
+                onClick={() => history.push(`/community/${item.Community.name}/${item.communityId}`)}
                 className="cursor-pointer font-semibold mr-2"
               >
                 {item.Community.name}
               </span>
               <div className=" cursor-pointer overflow-ellipsis text-xs font-light flex flex-wrap">
                 Posted by{" "}
-                <span
-                  onClick={() => history.push(`/user/${item.User.id}`)}
-                  className="font-semibold mx-2"
-                >
+                <span onClick={() => history.push(`/user/${item.User.id}`)} className="font-semibold mx-2">
                   {item.User.username}
                 </span>
-                {timeDiff(item.createdAt)} ago
+                {item?.createdAt ? timeDiff(item?.createdAt) : null} ago
               </div>
             </span>
           </div>
@@ -105,7 +82,7 @@ function FeedBox({ item, clickHidepost }) {
               {item.descriptions ? (
                 ReactHtmlParser(item.descriptions)
               ) : item.imageUrl ? (
-                item.imageUrl.map((item) => <img src={item} alt="" />)
+                item.imageUrl.map(item => <img src={item} alt="" />)
               ) : (
                 <video className="w-11/12 mx-auto" controls>
                   <source src={item.videoUrl} />
@@ -118,27 +95,18 @@ function FeedBox({ item, clickHidepost }) {
             <button className="flex items-center mr-4">
               <HiOutlineAnnotation />
               <span
-                onClick={() =>
-                  history.push(`/posts/${item.Community.userId}/${item.id}`)
-                }
+                onClick={() => history.push(`/posts/${item.Community.userId}/${item.id}`)}
                 className="text-sm ml-1 font-light"
               >
                 <span className="text-xs mr-1">{item.Comments.length}</span>
                 comment
               </span>
             </button>
-            <button
-              className="flex items-center mr-4"
-              onClick={handleClickSave}
-            >
+            <button className="flex items-center mr-4" onClick={handleClickSave}>
               <HiOutlineBookmark />
               <span className="text-sm ml-1 font-light">save</span>
             </button>
-            <button
-              className="flex items-center mr-4"
-              type="button"
-              onClick={handleHide}
-            >
+            <button className="flex items-center mr-4" type="button" onClick={handleHide}>
               <HiOutlineEye />
               <span className="text-sm ml-1 font-light">hide</span>
             </button>

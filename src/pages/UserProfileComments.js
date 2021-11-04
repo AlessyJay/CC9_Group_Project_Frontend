@@ -7,6 +7,7 @@ import Footer from "../components/Footer/Footer";
 import { UserContext } from "../context/userContext";
 import Popular from "../components/newsFeed/Popular";
 import PostComment from "../components/PostComments/PostComment";
+import axiox from "../config/axios";
 
 function UserProfileComments() {
   const { user } = useContext(UserContext);
@@ -17,7 +18,7 @@ function UserProfileComments() {
       <div className=" grid grid-cols-7 gap-6">
         <div className="col-start-2 col-span-3 ">
           <CreateBar />
-          <PostComment />
+          {/* <PostComment /> */}
         </div>
         <div className="col-span-2">
           <ProfileSide user={user} />
