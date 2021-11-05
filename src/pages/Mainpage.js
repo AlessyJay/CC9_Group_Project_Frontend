@@ -6,6 +6,7 @@ import CreatePostAndCommunity from "../components/newsFeed/CreatePostAndCommunit
 import Footer from "../components/Footer/Footer";
 import { UserContext } from "../context/userContext";
 import axios from "../config/axios";
+import CreateBar from "../components/Community/CreateBar";
 
 function Mainpage() {
   const { user } = useContext(UserContext);
@@ -42,7 +43,7 @@ function Mainpage() {
   return (
     <div className="bg-gray-200 grid grid-cols-7 gap-6 ">
       <div className="col-start-2 col-span-3 ">
-        <Popular setPostMain={setPostMain} newArr={newArr} />
+        <CreateBar />
         {newArr.map((item, index) => item && <FeedBox key={index} item={item} clickHidepost={clickHidepost} />)}
       </div>
       <div className="col-span-2">

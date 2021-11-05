@@ -8,11 +8,11 @@ export default function MediaCard({ listCommunity }) {
   return (
     <Card className="max-w-xs mt-3 shadow rounded-sm hidden md:block">
       <div
-        className="w-full h-20 bg-cover text-xl font-bold  flex items-end p-1 text-gray-700 "
-        style={{
-          backgroundImage:
-            'url("https://images.pexels.com/photos/1298601/pexels-photo-1298601.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260")',
-        }}
+        className="w-full h-14 pl-3 bg-cover text-xl font-bold bg-blue-300  flex items-end p-1 text-gray-700 "
+        // style={{
+        //   backgroundImage:
+        //     'url("https://images.pexels.com/photos/1298601/pexels-photo-1298601.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260")',
+        // }}
       >
         Top Communities
       </div>

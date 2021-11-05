@@ -24,7 +24,7 @@ function DropdownMenuComu({ item, handleSelectTarget }) {
             <HiOutlineUserCircle className="rounded-full h-6 w-6 mr-4" />
           )}
           <span className="flex flex-col text-sm">
-            <span>{name}</span>
+            <span className="truncate text-sm font-light">{name}</span>
           </span>
         </div>
       </div>

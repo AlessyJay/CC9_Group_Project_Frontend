@@ -16,7 +16,7 @@ function CommuSideCard({ item, index }) {
             ) : (
               <HiOutlineUserCircle className="rounded-full h-7 w-7 mr-4" />
             )}
-            <span>{name}</span>
+            <span className="truncate text-sm flex items-center font-light">{name}</span>
           </span>
         </div>
       </Link>

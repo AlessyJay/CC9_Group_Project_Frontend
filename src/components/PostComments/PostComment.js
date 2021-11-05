@@ -26,6 +26,7 @@ function PostComment({ item, comment, setComment, handleUpdateComment, deleteCom
   });
   const [isEdiiting, setIsEdiiting] = useState(false);
   const [newPost, setNewPost] = useState({});
+  const { videoUrl } = item;
 
   const handleClickEdit = () => {
     setNewPost(cur => ({ ...cur, ...item }));
@@ -72,17 +73,13 @@ function PostComment({ item, comment, setComment, handleUpdateComment, deleteCom
     setText(cur => ({ ...cur, commentDetails: e.target.value }));
   };
 
+  console.log(item);
+
   return (
     <div className="bg-white">
       <div className="w-96 md:w-full flex bg-white mb-2 rounded-md mt-3">
         <div className="bg-white w-10 rounded-md rounded-r-none flex-col items-center">
-          <button className="w-full flex justify-center">
-            <HiChevronUp className="w-7 h-7" />
-          </button>
-          <div className="flex justify-center text-sm font-light">0</div>
-          <button className="w-full flex justify-center">
-            <HiChevronDown className="w-7 h-7" />
-          </button>
+          {/* <div className="flex justify-center text-sm font-light">{item.like}</div> */}
         </div>
 
         <div className="w-full">
@@ -122,7 +119,7 @@ function PostComment({ item, comment, setComment, handleUpdateComment, deleteCom
                 item.imageUrl.map(item => <img src={item} alt="" />)
               ) : (
                 <video className="w-11/12 mx-auto" controls>
-                  <source src={item.videoUrl} />
+                  <source src={videoUrl} />
                 </video>
               )}
             </div>

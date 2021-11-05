@@ -17,15 +17,12 @@ function MainpageGuest() {
     axios.get("/feeds/mainpage-guest").then(res => setPostMain(res.data.feedLists));
   }, []);
 
-  const clickHidepost = id => {
-    const newPostMain = postMain.filter(item => item.id !== id);
-  };
   return (
-    <div className="bg-gray-200 grid grid-cols-7 gap-6 ">
+    <div className="bg-gray-200 h-auto grid grid-cols-7 gap-6 ">
       <div className="col-start-2 col-span-3 ">
         <Popular />
         {postMain.map((item, index) => (
-          <FeedBox key={index} item={item} clickHidepost={clickHidepost} />
+          <FeedBox key={index} item={item} />
         ))}
       </div>
       <div className="col-span-2">

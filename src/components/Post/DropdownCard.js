@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../context/userContext";
+import { HiOutlineUserCircle } from "react-icons/hi";
 
 function DropdownCard({ item, handleSelectTargetPost, setPostContent }) {
   const { user } = useContext(UserContext);
@@ -11,21 +12,21 @@ function DropdownCard({ item, handleSelectTargetPost, setPostContent }) {
   const hanldeSelectCommunity = () => {
     handleSelectTargetPost(profileUrl, name);
     if (type === "PUBLIC") {
-      setPostContent((cur) => ({
+      setPostContent(cur => ({
         ...cur,
         communityId: id,
         status: true,
         postTarget: true,
       }));
     } else if (type === "RESTRICTED" && userId === user.id) {
-      setPostContent((cur) => ({
+      setPostContent(cur => ({
         ...cur,
         communityId: id,
         status: true,
         postTarget: true,
       }));
     } else {
-      setPostContent((cur) => ({
+      setPostContent(cur => ({
         ...cur,
         communityId: id,
         status: false,
@@ -40,16 +41,16 @@ function DropdownCard({ item, handleSelectTargetPost, setPostContent }) {
     >
       <div className="w-6 flex flex-col items-center mx-3">
         <div className="flex relative w-7 h-7 bg-orange-500 justify-center items-center m-1 mr-3  mt-1 rounded-full">
-          <img className="rounded-full w-7 h-7" alt="A" src={profileUrl} />
+          {profileUrl ? (
+            <img className="rounded-full w-7 h-7" alt="A" src={profileUrl} />
+          ) : (
+            <HiOutlineUserCircle className="rounded-full h-7 w-7" />
+          )}
         </div>
       </div>
       <div className="w-full items-start flex flex-col">
-        <div className="text-sm truncate w-full normal-case font-semibold -mt-1 text-black">
-          {name}
-        </div>
-        <div className="text-xs trunca  te w-full normal-case font-normal -mt-1 text-gray-500">
-          {amount} members
-        </div>
+        <div className="text-sm truncate w-full normal-case font-semibold -mt-1 text-black">{name}</div>
+        <div className="text-xs trunca  te w-full normal-case font-normal -mt-1 text-gray-500">{amount} members</div>
       </div>
     </div>
   );

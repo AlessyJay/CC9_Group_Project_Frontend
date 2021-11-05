@@ -42,7 +42,7 @@ export default function BasicCard() {
           <Link href="#" className="block  px-4 py-2 pb-0 text-gray-700 " role="menuitem">
             <div className="flex max-w-sm">
               <span className="flex flex-wrap w-full">
-                <span className="truncate text-sm">Abount</span>
+                <span className="truncate text-sm">About</span>
               </span>
             </div>
           </Link>

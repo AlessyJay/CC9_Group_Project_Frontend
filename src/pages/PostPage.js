@@ -27,9 +27,9 @@ function PostPage() {
     run();
   }, []);
 
-  const handleUpdataPost = newPost => {
-    setPost(cur => ({ ...cur, descriptions: newPost }));
-  };
+  // const handleUpdataPost = newPost => {
+  //   setPost(cur => ({ ...cur, descriptions: newPost }));
+  // };
 
   const handleUpdateComment = (id, newText) => {
     const arrComment = [...comment];

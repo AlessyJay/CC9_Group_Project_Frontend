@@ -1,36 +1,35 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/userContext";
 import axios from "../../config/axios";
 
 function CommunityHeader({ community, id }) {
   const { user } = useContext(UserContext);
   const { profileUrl, name, bannerUrl, Members } = community;
-  console.log(Members);
+  const [reload, setReload] = useState(true);
 
-  const handleJoinCommu = () => {
-    axios
-      .post(`/communities/member/${id}`)
-      .then(res => alert(res.data.message))
-      .catch(err => console.dir(err));
+  const handleJoinCommu = async () => {
+    const res = await axios.post(`/communities/member/${id}`);
+    alert(res.data.message);
+    await window.location.reload();
+  };
+
+  const handleLeaveCommu = async () => {
+    await axios.delete(`/communities/member/${id}`);
+    alert("Leaved");
+    await window.location.reload();
   };
 
   return (
     <div className="hidden md:block">
       {bannerUrl ? (
         <div
-          className="h-48 bg-cover "
+          className="h-32 bg-cover "
           style={{
             backgroundImage: `url(${bannerUrl})`,
           }}
         ></div>
       ) : (
-        <div
-          className="h-48 bg-cover "
-          style={{
-            backgroundImage:
-              'url("https://styles.redditmedia.com/t5_2s580/styles/bannerBackgroundImage_5l1s0k4rvbr71.png?width=4000&s=d1776868bd2be4fd46ee281efaa103cac7b6c2af")',
-          }}
-        ></div>
+        <div className=" h-32 bg-cover bg-blue-500"></div>
       )}
 
       <div className="grid grid-cols-7 gap-6 shadow bg-white">
@@ -53,6 +52,7 @@ function CommunityHeader({ community, id }) {
             {community.userId === user?.id ? null : !Members ? null : Members.find(item => item.userId === user?.id) ? (
               <div>
                 <button
+                  onClick={handleLeaveCommu}
                   type="button"
                   className=" max-w-sm text-sm mt-4 ml-11  border-2 border-blue-500 rounded-full font-semibold  text-blue-500 px-2  transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white  "
                 >

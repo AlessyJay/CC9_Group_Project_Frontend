@@ -62,7 +62,7 @@ function NotificationHead() {
     });
     setUserNotification(newNotiList);
     const res = await axios.put(`/notifications/${id}`);
-    alert(res.data.message);
+    // alert(res.data.message);
   };
 
   // const amount = userNotification.filter((item) => item.isSeen === false);

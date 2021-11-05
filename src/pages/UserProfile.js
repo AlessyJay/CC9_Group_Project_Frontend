@@ -31,7 +31,7 @@ function UserProfile() {
       <ProfileBar user={user} page={1} />
       <div className=" grid grid-cols-7 gap-6">
         <div className="col-start-2 col-span-3 ">
-          <Popular />
+          <div className="mt-4"></div>
           {overview.map((item, index) => (
             <FeedBox key={index} item={item} clickHidepost={clickHidepost} />
           ))}

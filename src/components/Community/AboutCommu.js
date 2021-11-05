@@ -23,10 +23,10 @@ function AboutCommu({ name, id, community }) {
         {descriptions ? (
           <p className="text-sm h-4/6 mb-5">{descriptions}</p>
         ) : (
-          <p className="text-sm h-4/6  mb-5">
-            A subreddit for news and discussion about Liverpool FC, a football club playing in the English Premier
-            League. Liverpool are one of the most decorated football clubs in all of world football, with 19 English
-            League Titles and 6 European Cups.
+          <p className="text-sm h-4/6 font-light mb-5">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book.
           </p>
         )}
         <h3>Member</h3>

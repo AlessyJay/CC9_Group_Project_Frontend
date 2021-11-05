@@ -16,11 +16,9 @@ export default function MediaCard() {
         }}
       ></div>
       <CardContent>
-        <div gutterBottom variant="h5" component="div" style={{ textAlign: "start" }}>
+        <div gutterBottom variant="h5" component="div" style={{ textAlign: "start" }} className="font-light text-sm">
           <p>Home</p>
-          <p className="text-sm">
-            Your personal Reddit frontpage. Come here to check in with your favorite communities.
-          </p>
+          <p className="text-sm">Your personal frontpage. Come here to check in with your favorite communities.</p>
         </div>
       </CardContent>
       <div className=" flex justify-center mx-2 pb-2">
