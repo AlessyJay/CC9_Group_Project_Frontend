@@ -8,6 +8,7 @@ import { UserContext } from "../../context/userContext";
 import { useContext } from "react";
 import { setToken } from "../../services/localStorage";
 import { HiOutlineX } from "react-icons/hi";
+import { Toast } from "../../services/alert";
 
 function Login({ setShowLogin, setShowRegister, setShowResetpass }) {
   const [error, setError] = useState("");
@@ -33,7 +34,10 @@ function Login({ setShowLogin, setShowRegister, setShowResetpass }) {
       setToken(res.data.token);
       setUser(jwtDecode(res.data.token));
       setShowLogin(false);
-      history.push("/");
+      Toast.fire({
+        icon: "success",
+        title: "Signed in successfully",
+      });
     } catch (err) {
       setError(err.response.data.message);
       console.log(err);

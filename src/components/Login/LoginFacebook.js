@@ -1,10 +1,11 @@
 import axios from "../../config/axios";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import FacebookLogin from "react-facebook-login";
 import { FaFacebookF } from "react-icons/fa";
 import { setToken } from "../../services/localStorage";
 import { UserContext } from "../../context/userContext";
 import jwtDecode from "jwt-decode";
+import { Toast } from "../../services/alert";
 
 function LoginFacebook({ setShowLogin }) {
   const { setUser } = useContext(UserContext);
@@ -27,6 +28,10 @@ function LoginFacebook({ setShowLogin }) {
     setToken(res.data.token);
     setUser(jwtDecode(res.data.token));
     setShowLogin(false);
+    Toast.fire({
+      icon: "success",
+      title: "Signed in successfully",
+    });
   };
   const onLoginSuccess = res => {
     console.log(res);

@@ -4,6 +4,7 @@ import { GoogleLogin, GoogleLogout } from "react-google-login";
 import { setToken } from "../../services/localStorage";
 import { UserContext } from "../../context/userContext";
 import jwtDecode from "jwt-decode";
+import { Toast } from "../../services/alert";
 
 const clientId = "53293005935-dgrkd5fp3429rbgk897j2n68sch99nrk.apps.googleusercontent.com";
 
@@ -26,6 +27,10 @@ function LoginGoogle({ setShowLogin }) {
     setToken(res.data.token);
     setUser(jwtDecode(res.data.token));
     setShowLogin(false);
+    Toast.fire({
+      icon: "success",
+      title: "Signed in successfully",
+    });
   };
 
   const onLoginFailure = res => {
