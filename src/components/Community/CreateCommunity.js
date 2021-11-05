@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
-import { validateCommuObject, validateInput } from '../../services/validations';
-import { HiOutlineX, HiUserGroup, HiLockOpen } from 'react-icons/hi';
-import axios from '../../config/axios';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from "react";
+import { validateCommuObject, validateInput } from "../../services/validations";
+import { HiOutlineX, HiUserGroup, HiLockOpen } from "react-icons/hi";
+import axios from "../../config/axios";
+import { useHistory } from "react-router-dom";
+
 export default function CreateCommunity({ setShowCreatecommunity }) {
   const history = useHistory();
-  const [communityInput, setCommunityInput] = useState({ name: '', type: '' });
+  const [communityInput, setCommunityInput] = useState({ name: "", type: "" });
   const [error, setError] = useState({});
   const [nameLength, setNameLength] = useState(0);
-  const [responseText, setResponseText] = useState('');
+  const [responseText, setResponseText] = useState("");
 
   const handleChangeInput = (e) => {
     const errMessage = validateInput(e.target.name, e.target.value);
     setError((cur) => ({ ...cur, [e.target.name]: errMessage }));
-    setResponseText('');
-    if (e.target.name === 'name') {
+    setResponseText("");
+    if (e.target.name === "name") {
       setError((cur) => ({
         ...cur,
-        checkname: '',
+        checkname: "",
       }));
       setNameLength(e.target.value.length);
     }
@@ -25,9 +26,9 @@ export default function CreateCommunity({ setShowCreatecommunity }) {
     setCommunityInput((cur) => ({ ...cur, [e.target.name]: e.target.value }));
   };
   const handleCheckCommunityName = async (e) => {
-    if (e.target.value !== '') {
+    if (e.target.value !== "") {
       try {
-        const res = await axios.post('/communities/checkname', {
+        const res = await axios.post("/communities/checkname", {
           name: communityInput.name,
         });
         setResponseText(res.data.message);
@@ -43,7 +44,7 @@ export default function CreateCommunity({ setShowCreatecommunity }) {
     if (Object.keys(errMessage).length === 0) {
       try {
         console.log(communityInput);
-        const res = await axios.post('/communities/', communityInput);
+        const res = await axios.post("/communities/", communityInput);
         history.push(
           `/community/${res.data.community.name}/${res.data.community.id}`
         );
@@ -108,7 +109,7 @@ export default function CreateCommunity({ setShowCreatecommunity }) {
                 )}
                 <div
                   className={`block text-xs font-small text-gray-500 ${
-                    nameLength === 30 ? 'text-red-600' : ''
+                    nameLength === 30 ? "text-red-600" : ""
                   }`}
                 >
                   {`${30 - nameLength} /30 Characters remaining`}

@@ -39,7 +39,8 @@ const DATA = [
 ];
 
 function NotificationHead() {
-  const { user, userNotification, setUserNotification } = useContext(UserContext);
+  const { user, userNotification, setUserNotification } =
+    useContext(UserContext);
   useEffect(() => {
     if (user) {
       const fetchNoti = async () => {
@@ -53,8 +54,8 @@ function NotificationHead() {
       fetchNoti();
     }
   }, []);
-  const updatedseenNoti = async id => {
-    const newNotiList = userNotification.map(item => {
+  const updatedseenNoti = async (id) => {
+    const newNotiList = userNotification.map((item) => {
       if (item.id === id) {
         return { ...item, isSeen: true };
       }
@@ -78,7 +79,10 @@ function NotificationHead() {
                 id="options-menu"
               >
                 <Badge
-                  badgeContent={userNotification.filter(item => item.isSeen === false).length}
+                  badgeContent={
+                    userNotification.filter((item) => item.isSeen === false)
+                      .length
+                  }
                   color="primary"
                   overlap="circular"
                 >
@@ -88,13 +92,24 @@ function NotificationHead() {
             </div>
 
             <div className="z-50 hidden group-hover:block origin-top-right absolute right-0 w-60 rounded-sm shadow-lg bg-white max-h-96 overflow-y-scroll ">
-              <div className="py-1 " role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+              <div
+                className="py-1 "
+                role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="options-menu"
+              >
                 <div className="flex justify-between  items-center mt-2 ml-5">
-                  <div className="text-xs font-bold text-gray-500">Notifications</div>
+                  <div className="text-xs font-bold text-gray-500">
+                    Notifications
+                  </div>
                 </div>
 
-                {userNotification.map(item => (
-                  <NotificateCard key={item.id} item={item} updatedseenNoti={updatedseenNoti} />
+                {userNotification.map((item) => (
+                  <NotificateCard
+                    key={item.id}
+                    item={item}
+                    updatedseenNoti={updatedseenNoti}
+                  />
                 ))}
               </div>
             </div>

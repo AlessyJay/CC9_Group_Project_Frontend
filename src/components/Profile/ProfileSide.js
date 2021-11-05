@@ -4,12 +4,13 @@ import { HiOutlineCamera } from "react-icons/hi";
 import axios from "../../config/axios";
 import { UserContext } from "../../context/userContext";
 import { formatDate } from "../../services/timeDifferent";
+import { Toast2 } from "../../services/alert";
 function ProfileSide() {
   const { user, setUser, getNewToken } = useContext(UserContext);
   const [showProfile, setShowProfile] = useState(user.profileUrl);
   const [showBanner, setShowBanner] = useState(user.bannerUrl);
   console.log("profileUrl", user.profileUrl);
-  const handleChangeProfile = async e => {
+  const handleChangeProfile = async (e) => {
     try {
       if (!e.target.files || e.target.files.length === 0) {
         return;
@@ -21,8 +22,11 @@ function ProfileSide() {
         const formData = new FormData();
         formData.append("profileimage", e.target.files[0]);
         const res = await axios.put(`users/updateProfile`, formData);
-        alert(res.data.message);
-        setUser(cur => ({
+        Toast2.fire({
+          icon: "success",
+          title: "Profile has been updated",
+        });
+        setUser((cur) => ({
           ...cur,
           profileUrl: URL.createObjectURL(e.target.files[0]),
         }));
@@ -34,7 +38,7 @@ function ProfileSide() {
     }
   };
 
-  const handleChangeBanner = async e => {
+  const handleChangeBanner = async (e) => {
     try {
       if (!e.target.files || e.target.files.length === 0) {
         return;
@@ -45,8 +49,11 @@ function ProfileSide() {
         const formData = new FormData();
         formData.append("bannerimage", e.target.files[0]);
         const res = await axios.put(`users/updateBanner`, formData);
-        alert(res.data.message);
-        setUser(cur => ({
+        Toast2.fire({
+          icon: "success",
+          title: "Banner has been updated",
+        });
+        setUser((cur) => ({
           ...cur,
           bannerUrl: URL.createObjectURL(e.target.files[0]),
         }));
@@ -84,7 +91,13 @@ function ProfileSide() {
               <label htmlFor="picprofile" className="cursor-pointer ">
                 <HiOutlineCamera className="text-blue-500" />
               </label>
-              <input id="picprofile" type="file" name="profile" hidden onChange={handleChangeProfile} />
+              <input
+                id="picprofile"
+                type="file"
+                name="profile"
+                hidden
+                onChange={handleChangeProfile}
+              />
             </button>
           </div>
         </div>
@@ -93,7 +106,13 @@ function ProfileSide() {
             <label htmlFor="picbanner" className="cursor-pointer ">
               <HiOutlineCamera className="text-blue-500" />
             </label>
-            <input id="picbanner" type="file" name="banner" hidden onChange={handleChangeBanner} />
+            <input
+              id="picbanner"
+              type="file"
+              name="banner"
+              hidden
+              onChange={handleChangeBanner}
+            />
           </button>
         </div>
       </div>

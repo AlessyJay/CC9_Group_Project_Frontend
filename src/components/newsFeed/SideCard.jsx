@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import Card from "@mui/material/Card";
 import CommuSideCard from "./CommuSideCard";
-import axios from "../../config/axios";
 
 export default function MediaCard({ listCommunity }) {
   console.log(listCommunity);

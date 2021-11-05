@@ -8,7 +8,7 @@ function AboutCommu({ name, id, community }) {
 
   const history = useHistory();
   const { amount, descriptions, userId, createdAt } = community;
-  console.log(community);
+  // console.log(community);
 
   const handleClickEditCommunity = () => {
     history.push(`/community/${name}/${id}/edit`);
@@ -24,9 +24,10 @@ function AboutCommu({ name, id, community }) {
           <p className="text-sm h-4/6 mb-5">{descriptions}</p>
         ) : (
           <p className="text-sm h-4/6 font-light mb-5">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book.
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book.
           </p>
         )}
         <h3>Member</h3>
@@ -45,7 +46,9 @@ function AboutCommu({ name, id, community }) {
           <></>
         )}
       </div>
-      <div className="mx-8 py-4 text-sm">{`Created ${createdAt ? formatDate(new Date(createdAt)) : null}`} </div>
+      <div className="mx-8 py-4 text-sm">
+        {`Created ${createdAt ? formatDate(new Date(createdAt)) : null}`}
+      </div>
     </div>
   );
 }

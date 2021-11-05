@@ -1,10 +1,8 @@
-import React, { useContext } from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import axios from "../../config/axios";
-import { UserContext } from "../../context/userContext";
-import ReactHtmlParser from "react-html-parser";
-import { HiOutlineUserCircle, HiOutlineAnnotation } from "react-icons/hi";
+
+import { HiOutlineUserCircle } from "react-icons/hi";
 import { timeDiff } from "../../services/timeDifferent";
 
 function SaveBox({ item, handleClickunSave }) {
@@ -30,21 +28,30 @@ function SaveBox({ item, handleClickunSave }) {
           <div className="flex">
             <div className=" cursor-pointer flex  p-2">
               {profileUrl ? (
-                <img className="rounded-full h-6 w-6" alt="A" src={profileUrl} />
+                <img
+                  className="rounded-full h-6 w-6"
+                  alt="A"
+                  src={profileUrl}
+                />
               ) : (
                 <HiOutlineUserCircle className="rounded-full h-6 w-6" />
               )}
             </div>
             <span className="flex text-sm w-full items-center">
               <span
-                onClick={() => history.push(`/community/${name}/${communityId}`)}
+                onClick={() =>
+                  history.push(`/community/${name}/${communityId}`)
+                }
                 className="cursor-pointer font-semibold mr-2"
               >
                 {name}
               </span>
               <div className=" cursor-pointer overflow-ellipsis text-xs font-light flex flex-wrap">
                 Posted by{" "}
-                <span onClick={() => history.push(`/user/${userid}`)} className="font-semibold mx-2">
+                <span
+                  onClick={() => history.push(`/user/${userid}`)}
+                  className="font-semibold mx-2"
+                >
                   {username}
                 </span>
                 {createdAt ? timeDiff(createdAt) : null} ago
@@ -56,7 +63,11 @@ function SaveBox({ item, handleClickunSave }) {
             <div className="ml-2 max-h-6 overflow-y-scroll font-light text-sm p-1 pt-0 mb-2 bg-white "></div>
           </Link>
           <div className="p-2 flex">
-            <button onClick={() => handleClickunSave(item.id, postid)} className="flex items-center mr-4" type="button">
+            <button
+              onClick={() => handleClickunSave(item.id, postid)}
+              className="flex items-center mr-4"
+              type="button"
+            >
               <HiOutlineExclamationCircle />
               <span className="text-sm ml-1 font-light">Unsave</span>
             </button>

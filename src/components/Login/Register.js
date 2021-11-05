@@ -4,7 +4,7 @@ import LoginFacebook from "./LoginFacebook";
 import LoginGoogle from "./LoginGoogle";
 import axios from "../../config/axios";
 import { HiOutlineX } from "react-icons/hi";
-
+import { Toast } from "../../services/alert";
 function Register({ setShowRegister, setShowLogin }) {
   const [error, setError] = useState({});
   const [registerObj, setRegisterObj] = useState({
@@ -14,11 +14,11 @@ function Register({ setShowRegister, setShowLogin }) {
     confirmpassword: "",
   });
 
-  const handleChangeInput = e => {
-    setRegisterObj(cur => ({ ...cur, [e.target.name]: e.target.value }));
+  const handleChangeInput = (e) => {
+    setRegisterObj((cur) => ({ ...cur, [e.target.name]: e.target.value }));
   };
   console.log(error);
-  const submitRegisterform = async e => {
+  const submitRegisterform = async (e) => {
     e.preventDefault();
     const errMessage = validateRegisterObject(registerObj);
     setError(errMessage);
@@ -27,10 +27,18 @@ function Register({ setShowRegister, setShowLogin }) {
         const res = await axios.post("/users/register", registerObj);
         setShowRegister(false);
         setShowLogin(true);
+        Toast.fire({
+          icon: "success",
+          title: "Success, Please login to continue",
+        });
       } catch (err) {
-        setError(cur => ({ ...cur, username: err.response.data.message }));
+        setError((cur) => ({ ...cur, username: err.response.data.message }));
         console.dir(err);
         console.log(err);
+        Toast.fire({
+          icon: "error",
+          title: "Failed !!",
+        });
       }
     }
   };
@@ -38,7 +46,10 @@ function Register({ setShowRegister, setShowLogin }) {
     <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-90 filter z-30">
       <div className="mx-auto p-24 pt-28 pb-28 bg-yellow-50 rounded-3xl shadow-md relative">
         <div className="absolute right-9 top-5">
-          <HiOutlineX className="w-7 h-7 cursor-pointer" onClick={() => setShowRegister(false)} />
+          <HiOutlineX
+            className="w-7 h-7 cursor-pointer"
+            onClick={() => setShowRegister(false)}
+          />
         </div>
         <div className="max-w-sm w-full mb-2">
           <LoginGoogle />
@@ -67,7 +78,11 @@ function Register({ setShowRegister, setShowLogin }) {
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
-                {error.email && <p className="text-red-600 text-xs italic mb-1">{error.email}</p>}
+                {error.email && (
+                  <p className="text-red-600 text-xs italic mb-1">
+                    {error.email}
+                  </p>
+                )}
               </div>
               <div>
                 <label for="email-address" className="sr-only">
@@ -83,7 +98,11 @@ function Register({ setShowRegister, setShowLogin }) {
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Username"
                 />
-                {error.username && <p className="text-red-600 text-xs italic mb-1">{error.username}</p>}
+                {error.username && (
+                  <p className="text-red-600 text-xs italic mb-1">
+                    {error.username}
+                  </p>
+                )}
               </div>
               <div>
                 <label for="password" className="sr-only">
@@ -98,7 +117,11 @@ function Register({ setShowRegister, setShowLogin }) {
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm mb-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
                 />
-                {error.password && <p className="text-red-600 text-xs italic mb-1">{error.password}</p>}
+                {error.password && (
+                  <p className="text-red-600 text-xs italic mb-1">
+                    {error.password}
+                  </p>
+                )}
               </div>
               <div>
                 <label for="confirmpassword" className="sr-only">
@@ -113,13 +136,20 @@ function Register({ setShowRegister, setShowLogin }) {
                   className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="Confirm Password"
                 />
-                {error.confirmpassword && <p className="text-red-600 text-xs italic">{error.confirmpassword}</p>}
+                {error.confirmpassword && (
+                  <p className="text-red-600 text-xs italic">
+                    {error.confirmpassword}
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="flex items-center justify-around">
               <div className="flex items-center">
-                <label for="remember-me" className="ml-7 mr-4 block text-sm text-gray-900">
+                <label
+                  for="remember-me"
+                  className="ml-7 mr-4 block text-sm text-gray-900"
+                >
                   Already have an account?
                 </label>
               </div>

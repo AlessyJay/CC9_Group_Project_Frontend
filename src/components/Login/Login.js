@@ -20,11 +20,11 @@ function Login({ setShowLogin, setShowRegister, setShowResetpass }) {
   const { setUser } = useContext(UserContext);
   const history = useHistory();
 
-  const handleChangeInput = e => {
-    setLoginObj(cur => ({ ...cur, [e.target.name]: e.target.value }));
+  const handleChangeInput = (e) => {
+    setLoginObj((cur) => ({ ...cur, [e.target.name]: e.target.value }));
   };
 
-  const submitLoginform = async e => {
+  const submitLoginform = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post("/users/login", {
@@ -42,6 +42,10 @@ function Login({ setShowLogin, setShowRegister, setShowResetpass }) {
       setError(err.response.data.message);
       console.log(err);
       console.dir(err);
+      Toast.fire({
+        icon: "error",
+        title: "Signed in failed",
+      });
     }
   };
 
@@ -50,7 +54,10 @@ function Login({ setShowLogin, setShowRegister, setShowResetpass }) {
     <div className=" flex py-12 px-4 sm:px-6 lg:px-8 flex-col  items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-90 filter z-30">
       <div className="mx-auto p-24 pt-28 pb-28 bg-yellow-50 rounded-3xl shadow-md relative">
         <div className="absolute right-9 top-5">
-          <HiOutlineX className="w-7 h-7 cursor-pointer" onClick={() => setShowLogin(false)} />
+          <HiOutlineX
+            className="w-7 h-7 cursor-pointer"
+            onClick={() => setShowLogin(false)}
+          />
         </div>
         <div className="max-w-sm w-full mb-2">
           <LoginGoogle setShowLogin={setShowLogin} />
@@ -107,7 +114,10 @@ function Login({ setShowLogin, setShowRegister, setShowResetpass }) {
                   type="checkbox"
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
-                <label for="remember-me" className="ml-2 mr-9 block text-sm text-gray-900">
+                <label
+                  for="remember-me"
+                  className="ml-2 mr-9 block text-sm text-gray-900"
+                >
                   Remember
                 </label>
               </div>
@@ -134,7 +144,10 @@ function Login({ setShowLogin, setShowRegister, setShowResetpass }) {
 
             <div className="flex items-center justify-around">
               <div className="flex items-center">
-                <label for="remember-me" className="ml-7 mr-4 block text-sm text-gray-900">
+                <label
+                  for="remember-me"
+                  className="ml-7 mr-4 block text-sm text-gray-900"
+                >
                   Don't have an account?
                 </label>
               </div>
