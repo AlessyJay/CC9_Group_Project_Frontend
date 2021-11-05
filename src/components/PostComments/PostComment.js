@@ -17,7 +17,13 @@ import axios from "../../config/axios";
 import { timeDiff } from "../../services/timeDifferent";
 import { useParams } from "react-router-dom";
 
-function PostComment({ item, comment, setComment, handleUpdateComment, deleteComemnt }) {
+function PostComment({
+  item,
+  comment,
+  setComment,
+  handleUpdateComment,
+  deleteComemnt,
+}) {
   const { user } = useContext(UserContext);
   const [text, setText] = useState({
     userId: user?.id,
@@ -29,11 +35,11 @@ function PostComment({ item, comment, setComment, handleUpdateComment, deleteCom
   const { videoUrl } = item;
 
   const handleClickEdit = () => {
-    setNewPost(cur => ({ ...cur, ...item }));
-    setIsEdiiting(cur => !cur);
+    setNewPost((cur) => ({ ...cur, ...item }));
+    setIsEdiiting((cur) => !cur);
   };
 
-  const handleSubmitEditForm = async e => {
+  const handleSubmitEditForm = async (e) => {
     e.preventDefault();
     try {
       if (newPost !== "") {
@@ -49,7 +55,7 @@ function PostComment({ item, comment, setComment, handleUpdateComment, deleteCom
     });
   }, [user]);
 
-  const handleSubmitForm = e => {
+  const handleSubmitForm = (e) => {
     e.preventDefault();
     axios
       .post("/comments", {
@@ -57,8 +63,8 @@ function PostComment({ item, comment, setComment, handleUpdateComment, deleteCom
         postId: item.id,
         commentDetails: text.commentDetails,
       })
-      .then(res => console.log(res))
-      .catch(err => console.dir(err));
+      .then((res) => console.log(res))
+      .catch((err) => console.dir(err));
     const newArr = [...comment];
     newArr.push(text);
     setComment(newArr);
@@ -69,8 +75,8 @@ function PostComment({ item, comment, setComment, handleUpdateComment, deleteCom
     });
   };
 
-  const handleComment = e => {
-    setText(cur => ({ ...cur, commentDetails: e.target.value }));
+  const handleComment = (e) => {
+    setText((cur) => ({ ...cur, commentDetails: e.target.value }));
   };
 
   console.log(item);
@@ -86,16 +92,25 @@ function PostComment({ item, comment, setComment, handleUpdateComment, deleteCom
           <div className="flex">
             <div className="flex  p-2">
               {item?.Community?.profileUrl ? (
-                <img className="rounded-full h-6 w-6" alt="A" src={item?.Community?.profileUrl} />
+                <img
+                  className="rounded-full h-6 w-6"
+                  alt="A"
+                  src={item?.Community?.profileUrl}
+                />
               ) : (
                 <HiOutlineUserCircle className="rounded-full h-6 w-6" />
               )}
             </div>
             <span className="flex text-sm w-full items-center">
-              <span className="font-semibold mr-2">{item?.Community?.name}</span>
+              <span className="font-semibold mr-2">
+                {item?.Community?.name}
+              </span>
               <div className="overflow-ellipsis text-xs font-light flex flex-wrap">
-                Posted by <span className="font-semibold mx-2">{item?.User?.username}</span> {timeDiff(item.createdAt)}{" "}
-                ago
+                Posted by{" "}
+                <span className="font-semibold mx-2">
+                  {item?.User?.username}
+                </span>{" "}
+                {timeDiff(item.createdAt)} ago
               </div>
             </span>
           </div>
@@ -107,7 +122,12 @@ function PostComment({ item, comment, setComment, handleUpdateComment, deleteCom
                 <textarea
                   className="w-full"
                   value={newPost.descriptions}
-                  onChange={e => setNewPost(cur => ({ ...cur, descriptions: e.target.value }))}
+                  onChange={(e) =>
+                    setNewPost((cur) => ({
+                      ...cur,
+                      descriptions: e.target.value,
+                    }))
+                  }
                 />
               </form>
             </div>
@@ -116,7 +136,7 @@ function PostComment({ item, comment, setComment, handleUpdateComment, deleteCom
               {item.descriptions ? (
                 ReactHtmlParser(item.descriptions)
               ) : item.imageUrl ? (
-                item.imageUrl.map(item => <img src={item} alt="" />)
+                item.imageUrl.map((item) => <img src={item} alt="" />)
               ) : (
                 <video className="w-11/12 mx-auto" controls>
                   <source src={videoUrl} />
@@ -160,7 +180,9 @@ function PostComment({ item, comment, setComment, handleUpdateComment, deleteCom
                 />
                 <button
                   className={`${
-                    text.commentDetails ? "bg-blue-500 text-white" : "bg-gray-200 cursor-not-allowed"
+                    text.commentDetails
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200 cursor-not-allowed"
                   }  rounded-full text-sm px-2 py-1 mt-1 transition duration-300 ease-in-out`}
                   disabled={text.commentDetails ? false : true}
                 >
