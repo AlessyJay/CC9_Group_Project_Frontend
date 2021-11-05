@@ -103,16 +103,16 @@ function FeedBox({ item, clickHidepost }) {
             <div
               onClick={() =>
                 history.push(
-                  `/community/${item.Community.name}/${item.communityId}`
+                  `/community/${item.Community?.name}/${item.communityId}`
                 )
               }
               className=" cursor-pointer flex  p-2"
             >
-              {item.Community.profileUrl ? (
+              {item.Community?.profileUrl ? (
                 <img
                   className="rounded-full h-6 w-6"
                   alt="A"
-                  src={item.Community.profileUrl}
+                  src={item.Community?.profileUrl}
                 />
               ) : (
                 <HiOutlineUserCircle className="rounded-full h-6 w-6" />
@@ -122,26 +122,29 @@ function FeedBox({ item, clickHidepost }) {
               <span
                 onClick={() =>
                   history.push(
-                    `/community/${item.Community.name}/${item.communityId}`
+                    `/community/${item.Community?.name}/${item.communityId}`
                   )
                 }
-                className="cursor-pointer font-semibold mr-2"
+                className="cursor-pointer font-semibold mr-2 hover:underline"
               >
-                {item.Community.name}
+                {item.Community?.name}
               </span>
               <div className=" cursor-pointer overflow-ellipsis text-xs font-light flex flex-wrap">
-                Posted by{" "}
+                Posted by
                 <span
                   onClick={() => history.push(`/user/${item.User.id}`)}
-                  className="font-semibold mx-2"
+                  className="font-semibold mx-2 hover:underline"
                 >
-                  {item.User.username}
+                  {item.User?.username}
                 </span>
                 {item?.createdAt ? timeDiff(item?.createdAt) : null} ago
               </div>
             </span>
           </div>
-          <Link to="/#" className="w-full">
+          <Link
+            to={`/posts/${item.Community?.userId}/${item.id}`}
+            className="w-full"
+          >
             <div className="p-1 text-xl ml-3">{item.title}</div>
             <div className="ml-2 max-h-64 overflow-y-scroll font-light text-sm p-1 pt-0 mb-2 bg-white ">
               {item.descriptions ? (
