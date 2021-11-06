@@ -21,6 +21,23 @@ function UserProfile() {
       .catch(err => console.dir(err));
   }, []);
 
+  const newArr = overview.map((item, index) => {
+    if (item.UserInteractions.length === 0) {
+      return item;
+    } else {
+      const idx = item.UserInteractions.findIndex(item2 => {
+        if (item2.userId === user.id && item2.isHided) return true;
+        return false;
+      });
+
+      console.log("idx", idx);
+      if (idx === -1) {
+        return item;
+      }
+    }
+    return null;
+  });
+
   const clickHidepost = id => {
     const newOverview = overview.filter(item => item.id !== id);
     setOverview(newOverview);
@@ -32,9 +49,7 @@ function UserProfile() {
       <div className=" grid grid-cols-7 gap-6">
         <div className="col-start-2 col-span-3 ">
           <div className="mt-4"></div>
-          {overview.map((item, index) => (
-            <FeedBox key={index} item={item} clickHidepost={clickHidepost} />
-          ))}
+          {newArr.map((item, index) => item && <FeedBox key={index} item={item} clickHidepost={clickHidepost} />)}
         </div>
         <div className="col-span-2">
           <ProfileSide user={user} />

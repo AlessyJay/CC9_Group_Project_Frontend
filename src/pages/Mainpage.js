@@ -40,11 +40,33 @@ function Mainpage() {
     setPostMain(newPostMain);
   };
 
+  const handleSortPostsbyDate = () => {
+    const sortByDate = postMain
+      .sort((a, b) => {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime;
+      })
+      .reverse();
+    return setPostMain(sortByDate);
+  };
+
+  console.log(newArr);
+
   return (
     <div className="bg-gray-200 grid grid-cols-7 gap-6 ">
       <div className="col-start-2 col-span-3 ">
         <CreateBar />
-        {newArr.map((item, index) => item && <FeedBox key={index} item={item} clickHidepost={clickHidepost} />)}
+        {/* <Popular handleSortPostsbyDate={handleSortPostsbyDate} /> */}
+        {/* {newArr.map((item, index) => item && <FeedBox key={index} item={item} clickHidepost={clickHidepost} />)} */}
+        {newArr
+          .sort((a, b) => {
+            if (a || b === null) {
+              return 0;
+            } else {
+              return new Date(a?.createdAt).getTime() - new Date(b?.createdAt).getTime;
+            }
+          })
+          .reverse()
+          .map((item, index) => item && <FeedBox key={index} item={item} clickHidepost={clickHidepost} />)}
       </div>
       <div className="col-span-2">
         <SideCard listCommunity={listCommunity} />

@@ -3,9 +3,8 @@ import React from "react";
 import Button from "@mui/material/Button";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import axios from "../../config/axios";
 
-function Popular({ setPostMain, newArr }) {
+function Popular({ handleSortPostsbyDate }) {
   const buttonStyle = {
     height: "3rem",
     padding: "2%",
@@ -19,7 +18,8 @@ function Popular({ setPostMain, newArr }) {
         <Button startIcon={<LocalFireDepartmentIcon />} style={buttonStyle}>
           Hot
         </Button>
-        <Button startIcon={<AccessTimeIcon />} style={buttonStyle}>
+
+        <Button onClick={handleSortPostsbyDate} startIcon={<AccessTimeIcon />} style={buttonStyle}>
           New
         </Button>
       </div>

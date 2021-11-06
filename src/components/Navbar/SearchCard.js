@@ -31,7 +31,7 @@ function SearchCard({ item, setSearch }) {
               <HiOutlineUserCircle className="rounded-full h-6 w-6 mr-4" />
             )}
           </div>
-          <span className="flex flex-col text-sm">
+          <span className="cursor-pointer flex flex-col text-sm">
             <span>{name || username}</span>
           </span>
         </div>
