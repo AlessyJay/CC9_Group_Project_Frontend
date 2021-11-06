@@ -6,8 +6,7 @@ const UserContext = createContext();
 function UserContextPervider({ children }) {
   const [user, setUser] = useState(initialUser);
   const [userNotification, setUserNotification] = useState([]);
-  const [arrUserCommu, setArrUserCommu] = useState([]);
-  const [Commu, setCommu] = useState([]);
+
   const [userInteraction, setUserInteraction] = useState([]);
   const getNewToken = async () => {
     try {
@@ -22,21 +21,7 @@ function UserContextPervider({ children }) {
       console.log(err);
     }
   };
-  useEffect(() => {
-    axios
-      .get("/feeds/allusers-communitys")
-      .then(res => setArrUserCommu(res.data.alldata))
-      .catch(err => console.dir(err));
-  }, []);
 
-  useEffect(() => {
-    if (user) {
-      axios
-        .get("/feeds/usercommunitys")
-        .then(res => setCommu(res.data.communityLists))
-        .catch(err => console.dir(err));
-    }
-  }, [user]);
   useEffect(() => {
     if (user) {
       const fetch = async () => {
@@ -56,8 +41,6 @@ function UserContextPervider({ children }) {
       value={{
         user,
         setUser,
-        arrUserCommu,
-        Commu,
         getNewToken,
         userInteraction,
         setUserInteraction,

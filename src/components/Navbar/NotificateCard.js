@@ -30,9 +30,7 @@ function NotificateCard({ item, updatedseenNoti }) {
         <span className="flex flex-wrap text-xs w-40">
           <span className="font-semibold">{`${username} commented on a post you followed!.`}</span>
           {/* <span className="truncate text-xs">{title.toLowerCase()}</span> */}
-          <span className="truncate text-xs text-gray-400">
-            {timeDiff(createdAt)} agos
-          </span>
+          <span className="truncate text-xs text-gray-400">{timeDiff(createdAt)} agos</span>
         </span>
       </div>
     </div>

@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer/Footer";
 import { useParams } from "react-router-dom";
 import axios from "../config/axios";
 import OtherUserProfileSide from "../components/Profile/OtherUserProlieSide";
 import FeedBox from "../components/newsFeed/FeedBox";
-import FeedBox2 from "../components/newsFeed/FeedBox2";
 import Popular from "../components/newsFeed/Popular";
 
 function OtherProfilePage() {
@@ -17,10 +16,6 @@ function OtherProfilePage() {
   }, [id]);
 
   console.log(postLists);
-
-  // const clickHidepost = id => {
-  //   const newOverview = postLists.filter(item => item.id !== id);
-  // };
 
   return (
     <div className="bg-gray-200">

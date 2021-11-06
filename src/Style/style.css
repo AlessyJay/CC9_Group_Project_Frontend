@@ -17,6 +17,14 @@ html {
   background-color: #e5e7eb;
 }
 
+.btnhover:hover span {
+  display: none;
+}
+
+.btnhover:hover::before {
+  content: "Leave";
+}
+
 .likeBtn {
   background: none;
   border: none;

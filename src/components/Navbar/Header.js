@@ -23,9 +23,10 @@ import SearchCard from "./SearchCard";
 import { removeToken } from "../../services/localStorage";
 import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import ResetPassword from "../Login/ResetPassword";
 import ConfiremResetPassword from "../Login/ConfiremResetPassword";
+import axios from "../../config/axios";
 
 const MOCK_DATA = [
   {
@@ -90,7 +91,7 @@ const OTHER = [
 ];
 
 function Header() {
-  const { user, setUser, arrUserCommu, Commu, setUserInteraction } = useContext(UserContext);
+  const { user, setUser, setUserInteraction } = useContext(UserContext);
 
   const [target, setTarget] = useState({ name: "", icon: "" });
   const [showLogin, setShowLogin] = useState(false);
@@ -100,12 +101,31 @@ function Header() {
   const [resetPasswordUser, setResetPasswordUser] = useState("");
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
+  const [arrUserCommu, setArrUserCommu] = useState([]);
+  const [Commu, setCommu] = useState([]);
 
   const location = useLocation();
+  const history = useHistory();
+
+  useEffect(() => {
+    axios
+      .get("/feeds/allusers-communitys")
+      .then(res => setArrUserCommu(res.data.alldata))
+      .catch(err => console.dir(err));
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      axios
+        .get("/feeds/usercommunitys")
+        .then(res => setCommu(res.data.communityLists))
+        .catch(err => console.dir(err));
+    }
+  }, [user]);
+
   useEffect(() => {
     console.log(location.state);
     setShowLogin(location.state);
-    // console.log(location);
   }, [location.state]);
 
   const handleSelectTarget = (name, icon, url) => {
@@ -118,7 +138,10 @@ function Header() {
     setUser(null);
   };
 
-  console.log(Commu);
+  const handleClicktoHome = () => {
+    history.push("/");
+    setTarget({ name: "", icon: "" });
+  };
 
   return (
     <div>
@@ -126,9 +149,9 @@ function Header() {
         <div className="max-w-none w-full px-2">
           <div className="flex items-center justify-between h-11">
             <div className=" flex items-center">
-              <Link className="flex-shrink-0" to="/">
+              <div className="cursor-pointer flex-shrink-0" onClick={handleClicktoHome}>
                 <div>LOGO</div>
-              </Link>
+              </div>
             </div>
 
             <div className="max-w-7xl w-full  items-center hidden md:flex  ">
@@ -187,15 +210,19 @@ function Header() {
                           </div>
                         </Link>
                         {/* Community Dropdown Menu */}
-                        {Commu.filter(item => {
-                          if (filter === "") {
-                            return item;
-                          } else if (item.Community.name.toLowerCase().includes(filter.toLowerCase())) {
-                            return item;
-                          }
-                        }).map((item, index) => (
-                          <DropdownMenuComu key={index} item={item} handleSelectTarget={handleSelectTarget} />
-                        ))}
+                        {user ? (
+                          Commu.filter(item => {
+                            if (filter === "") {
+                              return item;
+                            } else if (item.Community.name.toLowerCase().includes(filter.toLowerCase())) {
+                              return item;
+                            }
+                          }).map((item, index) => (
+                            <DropdownMenuComu key={index} item={item} handleSelectTarget={handleSelectTarget} />
+                          ))
+                        ) : (
+                          <></>
+                        )}
                       </div>
                       <div className="flex justify-between  items-center mt-2 ml-5">
                         <div className="text-xs font-bold text-gray-500">Feeds</div>
