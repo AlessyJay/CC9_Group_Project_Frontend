@@ -1,12 +1,9 @@
 import axios from "../../config/axios";
 import React, { useContext, useState } from "react";
-import {
-  HiSave,
-  HiOutlineTrash,
-  HiOutlinePencilAlt,
-  HiOutlineUserCircle,
-} from "react-icons/hi";
+import { HiSave, HiOutlineTrash, HiOutlinePencilAlt, HiOutlineUserCircle } from "react-icons/hi";
 import { UserContext } from "../../context/userContext";
+import { timeDiff } from "../../services/timeDifferent";
+import { Toast2 } from "../../services/alert";
 
 function UserComment({ item, handleUpdateComment, deleteComemnt }) {
   const { user } = useContext(UserContext);
@@ -14,10 +11,10 @@ function UserComment({ item, handleUpdateComment, deleteComemnt }) {
 
   const [newComment, setNewComment] = useState(item.commentDetails);
 
-  const handleChangenewComment = (e) => {
+  const handleChangenewComment = e => {
     setNewComment(e.target.value);
   };
-  const handleClickUpdate = async (e) => {
+  const handleClickUpdate = async e => {
     e.preventDefault();
     try {
       if (newComment !== "") {
@@ -27,17 +24,23 @@ function UserComment({ item, handleUpdateComment, deleteComemnt }) {
         const res = await axios.put(`/comments/${item.id}`, {
           commentDetails: newComment,
         });
-        alert(res.data.message);
+        Toast2.fire({
+          icon: "success",
+          title: `${res.data.message}`,
+        });
       }
     } catch (err) {
       console.dir(err);
     }
   };
-  const handleDeleteComment = async (e) => {
+  const handleDeleteComment = async e => {
     try {
       deleteComemnt(item.id);
       await axios.delete(`/comments/${item.id}`);
-      alert("deleted");
+      Toast2.fire({
+        icon: "info",
+        title: "Delete",
+      });
     } catch (err) {
       console.dir(err);
     }
@@ -46,18 +49,14 @@ function UserComment({ item, handleUpdateComment, deleteComemnt }) {
     <div className="mb-2">
       <div className="flex p-2">
         {item.User.profileUrl ? (
-          <img
-            className="rounded-full h-6 w-6"
-            alt="A"
-            src={item.User.profileUrl}
-          />
+          <img className="rounded-full h-6 w-6" alt="A" src={item.User.profileUrl} />
         ) : (
           <HiOutlineUserCircle className="rounded-full h-6 w-6" />
         )}
         <span className="ml-2 flex text-xs w-full items-center">
           <span className="font-semibold mr-2">{item.User.username}</span>
           <div className="overflow-ellipsis text-xs font-light flex flex-wrap">
-            15 hours ago
+            {item?.createdAt ? timeDiff(item?.createdAt) : null} ago
           </div>
         </span>
       </div>
@@ -79,27 +78,16 @@ function UserComment({ item, handleUpdateComment, deleteComemnt }) {
           user.id === item.userId ? (
             <>
               {isEditting && (
-                <button
-                  className="flex items-center mx-2"
-                  onClick={handleClickUpdate}
-                >
+                <button className="flex items-center mx-2" onClick={handleClickUpdate}>
                   <HiSave />
-                  <span className="text-sm ml-1 font-light">
-                    Update comment
-                  </span>
+                  <span className="text-sm ml-1 font-light">Update comment</span>
                 </button>
               )}
-              <button
-                className="flex items-center mx-2"
-                onClick={() => setIsEditting((cur) => !cur)}
-              >
+              <button className="flex items-center mx-2" onClick={() => setIsEditting(cur => !cur)}>
                 <HiOutlinePencilAlt />
                 <span className="text-sm ml-1 font-light">edit</span>
               </button>
-              <button
-                className="flex items-center mx-2"
-                onClick={handleDeleteComment}
-              >
+              <button className="flex items-center mx-2" onClick={handleDeleteComment}>
                 <HiOutlineTrash />
                 <span className="text-sm ml-1 font-light">delete</span>
               </button>

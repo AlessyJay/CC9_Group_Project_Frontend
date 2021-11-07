@@ -25,7 +25,7 @@ function PostPage() {
       }
     };
     run();
-  }, []);
+  }, [id]);
 
   // const handleUpdataPost = newPost => {
   //   setPost(cur => ({ ...cur, descriptions: newPost }));

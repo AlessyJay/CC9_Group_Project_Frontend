@@ -12,6 +12,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { UserContext } from "../../context/userContext";
 import axios from "../../config/axios";
 import { useHistory } from "react-router-dom";
+import { Toast } from "../../services/alert";
 function PostImg() {
   const { user } = useContext(UserContext);
   const [ToggleModel, setToggleModel] = useState(false);
@@ -47,26 +48,26 @@ function PostImg() {
     fetch();
   }, []);
 
-  const handleChangePostContent = (e) => {
+  const handleChangePostContent = e => {
     if (e.target.name === "title") {
       setTitleLength(e.target.value.length);
-      setPostContent((cur) => ({ ...cur, title: e.target.value }));
+      setPostContent(cur => ({ ...cur, title: e.target.value }));
     } else if (e.target.name === "notification") {
-      setPostContent((cur) => ({
+      setPostContent(cur => ({
         ...cur,
         notification: !postContent.notification,
       }));
     } else {
-      setPostContent((cur) => ({ ...cur, [e.target.name]: e.target.value }));
+      setPostContent(cur => ({ ...cur, [e.target.name]: e.target.value }));
     }
   };
 
   // อันนี้คือของ quill
-  const hanldeChangeContent = (value) => {
+  const hanldeChangeContent = value => {
     setPostContent({ ...postContent, descriptions: value });
   };
 
-  const handleSubmitPostContent = async (e) => {
+  const handleSubmitPostContent = async e => {
     try {
       console.log("inSubmut", postContent);
       console.log(url1);
@@ -92,12 +93,8 @@ function PostImg() {
         const res = await axios.post("/posts/createpost", formData);
         console.log(res.data.post);
         if (res.data.post.communityId !== null) {
-          const res2 = await axios.get(
-            `/communities/${postContent.communityId}`
-          );
-          history.push(
-            `/posts/${res2.data.community.userId}/${res.data.post.id}`
-          );
+          const res2 = await axios.get(`/communities/${postContent.communityId}`);
+          history.push(`/posts/${res2.data.community.userId}/${res.data.post.id}`);
         } else {
           history.push(`/posts/${res.data.post.userId}/${res.data.post.id}`);
         }
@@ -105,17 +102,16 @@ function PostImg() {
         const res = await axios.post("/posts/createpost", formData);
         await axios.delete(`/posts/drafts/${postDraft.draftId}`);
         if (res.data.post.communityId !== null) {
-          const res2 = await axios.get(
-            `/communities/${postContent.communityId}`
-          );
-          history.push(
-            `/posts/${res2.data.community.userId}/${res.data.post.id}`
-          );
+          const res2 = await axios.get(`/communities/${postContent.communityId}`);
+          history.push(`/posts/${res2.data.community.userId}/${res.data.post.id}`);
         } else {
           history.push(`/posts/${res.data.post.userId}/${res.data.post.id}`);
         }
       }
-      alert("success");
+      Toast.fire({
+        icon: "success",
+        title: "Post created!!",
+      });
     } catch (err) {
       console.dir(err);
     }
@@ -148,7 +144,7 @@ function PostImg() {
       const newDraft = [...draftLists];
       newDraft.push(res.data.post);
       setDraftLists(newDraft);
-      setPostContent((cur) => ({
+      setPostContent(cur => ({
         ...cur,
         title: "",
         descriptions: "",
@@ -167,7 +163,7 @@ function PostImg() {
 
   const handleEditPost = (id, obj) => {
     console.log("objjjj", obj);
-    setPostContent((cur) => ({
+    setPostContent(cur => ({
       ...cur,
       title: obj.title,
       descriptions: obj.descriptions,
@@ -181,16 +177,16 @@ function PostImg() {
     setEditPostId(id);
     setTitleLength(obj.title.length);
     if (obj.communityId === null) {
-      setPostTarget((cur) => ({
+      setPostTarget(cur => ({
         ...cur,
         img: user.profileUrl,
         name: user.username,
       }));
     } else {
-      setPostTarget((cur) => ({
+      setPostTarget(cur => ({
         ...cur,
-        img: obj.Community.profileUrl,
-        name: obj.Community.name,
+        img: obj.Community?.profileUrl,
+        name: obj.Community?.name,
       }));
     }
     setToggleModel(false);
@@ -221,9 +217,7 @@ function PostImg() {
       }
       const res = await axios.put(`/posts/drafts/${editPostId}`, formData);
       alert(res.data.messasge);
-      const newEdit = draftLists.map((item) =>
-        item.id === editPostId ? { ...item, ...postContent } : item
-      );
+      const newEdit = draftLists.map(item => (item.id === editPostId ? { ...item, ...postContent } : item));
       setDraftLists(newEdit);
       setToggleSaveDraft(false);
       setPostContent({
@@ -241,10 +235,10 @@ function PostImg() {
     }
   };
 
-  const handleRemoveDraft = async (id) => {
+  const handleRemoveDraft = async id => {
     try {
       await axios.delete(`/posts/drafts/${id}`);
-      const idx = draftLists.findIndex((item) => item.id === id);
+      const idx = draftLists.findIndex(item => item.id === id);
       const newArr = [...draftLists];
       newArr.splice(idx, 1);
       setDraftLists(newArr);
@@ -253,18 +247,16 @@ function PostImg() {
     }
   };
 
-  const handleFiles = (e) => {
+  const handleFiles = e => {
     if (e.target.files) {
-      const filesArray = Array.from(e.target.files).map((file) =>
-        URL.createObjectURL(file)
-      );
-      setSelectFiles((cur) => cur.concat(filesArray));
-      Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
+      const filesArray = Array.from(e.target.files).map(file => URL.createObjectURL(file));
+      setSelectFiles(cur => cur.concat(filesArray));
+      Array.from(e.target.files).map(file => URL.revokeObjectURL(file));
     }
-    setUrl1((cur) => [...cur, ...e.target.files]);
+    setUrl1(cur => [...cur, ...e.target.files]);
   };
 
-  const handleRemoveFiles = (e) => {
+  const handleRemoveFiles = e => {
     console.log(e.target.id);
     const arrFile = [...selectFiles];
     arrFile.splice(e.target.id, 1);
@@ -279,9 +271,7 @@ function PostImg() {
       <div className="w-full">
         {/* Header Create */}
         <div className=" max-w-3xl flex items-center justify-between  border-b-2 border-gray-300 pb-2 ">
-          <h1 className="text-xl font-bold text-gray-700 md:text-2xl">
-            Create Post
-          </h1>
+          <h1 className="text-xl font-bold text-gray-700 md:text-2xl">Create Post</h1>
 
           <div
             className=" rounded-full px-3 py-1 hover:bg-gray-200 hover:border-gray-300 border"
@@ -296,11 +286,7 @@ function PostImg() {
           </div>
         </div>
         {/* Dropdown on click */}
-        <Dropdown
-          setPostContent={setPostContent}
-          postTarget={postTarget}
-          setPostTarget={setPostTarget}
-        />
+        <Dropdown setPostContent={setPostContent} postTarget={postTarget} setPostTarget={setPostTarget} />
         {ToggleModel && (
           <DraftModel
             setToggleModel={setToggleModel}
@@ -315,49 +301,27 @@ function PostImg() {
           <div class="grid grid-cols-2 ">
             <label
               className={`group relative ${
-                postContent.type === "MAIN"
-                  ? "border-b-2 border-blue-600 "
-                  : "border-r border-b"
+                postContent.type === "MAIN" ? "border-b-2 border-blue-600 " : "border-r border-b"
               }  rounded-tl-lg py-3 px-4 flex items-center justify-center text-sm font-medium  hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer`}
             >
-              <input
-                type="radio"
-                name="type"
-                value="MAIN"
-                className="sr-only"
-                onChange={handleChangePostContent}
-              />
+              <input type="radio" name="type" value="MAIN" className="sr-only" onChange={handleChangePostContent} />
               <FaFileAlt className="text-blue-600 mr-2" />
               <p id="post">Post</p>
 
-              <div
-                class="absolute -inset-px  pointer-events-none"
-                aria-hidden="true"
-              ></div>
+              <div class="absolute -inset-px  pointer-events-none" aria-hidden="true"></div>
             </label>
 
             <label
               className={`group relative ${
-                postContent.type === "IMG"
-                  ? "border-b-2 border-blue-600"
-                  : "border-l border-b"
+                postContent.type === "IMG" ? "border-b-2 border-blue-600" : "border-l border-b"
               }  rounded-tr-lg py-3 px-4 flex items-center justify-center text-sm font-medium  hover:bg-gray-50 focus:outline-none sm:flex-1 bg-white shadow-sm text-gray-900 cursor-pointer`}
             >
-              <input
-                type="radio"
-                name="type"
-                value="IMG"
-                className="sr-only"
-                onChange={handleChangePostContent}
-              />
+              <input type="radio" name="type" value="IMG" className="sr-only" onChange={handleChangePostContent} />
 
               <ImImages className="text-blue-600 mr-2 text-base" />
               <p id="image-video">Image &amp; Video</p>
 
-              <div
-                class="absolute -inset-px rounded-md pointer-events-none"
-                aria-hidden="true"
-              ></div>
+              <div class="absolute -inset-px rounded-md pointer-events-none" aria-hidden="true"></div>
             </label>
           </div>
 
@@ -372,9 +336,7 @@ function PostImg() {
               maxLength="100"
             />
             <div
-              className={`absolute right-0 mr-10 text-xs top-4 pt-0.5  ${
-                titleLength === 100 ? "text-red-600" : ""
-              }`}
+              className={`absolute right-0 mr-10 text-xs top-4 pt-0.5  ${titleLength === 100 ? "text-red-600" : ""}`}
             >{`${titleLength} / 100 `}</div>
           </div>
 
@@ -410,19 +372,13 @@ function PostImg() {
                 ) : (
                   <Button variant="contained" component="label">
                     Upload File
-                    <input
-                      type="file"
-                      hidden
-                      multiple
-                      onChange={handleFiles}
-                      accept="video/mp4 image/*"
-                    />
+                    <input type="file" hidden multiple onChange={handleFiles} accept="video/mp4 image/*" />
                   </Button>
                 )}
               </div>
               <div className=" w-11/12 mx-auto bg-gray-50  shadow mt-1 flex  items-center overflow-x-scroll">
                 {url1[0]?.type === "video/mp4"
-                  ? selectFiles.map((item) => (
+                  ? selectFiles.map(item => (
                       <video key={item} className="w-11/12 mx-auto" controls>
                         <source src={item} />
                       </video>
@@ -450,9 +406,7 @@ function PostImg() {
                   onChange={handleChangePostContent}
                   checked={postContent.notification}
                 />
-                <label className="text-xs font-medium">
-                  Send me post reply notifications
-                </label>
+                <label className="text-xs font-medium">Send me post reply notifications</label>
               </div>
               <div>
                 {ToggleSaveDraft ? (
@@ -478,11 +432,7 @@ function PostImg() {
                       ? "bg-blue-500 text-white"
                       : "bg-gray-200 cursor-not-allowed"
                   }  rounded-full font-semibold my-5  px-4 py-1 transition duration-300 ease-in-out`}
-                  disabled={
-                    postContent.postTarget && postContent.title !== ""
-                      ? false
-                      : true
-                  }
+                  disabled={postContent.postTarget && postContent.title !== "" ? false : true}
                 >
                   Post
                 </button>

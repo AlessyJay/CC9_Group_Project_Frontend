@@ -171,7 +171,7 @@ function Header() {
                       <input
                         placeholder="Home"
                         value={target.name}
-                        className="text-sm px-2 w-full bg-gray-50 appearance-none outline-none"
+                        className=" truncate text-sm px-2 w-full bg-gray-50 appearance-none outline-none"
                         disabled
                       />
                       <div class="bg-gray-50 text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200">
